@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="Meowies/App.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/MainWindow.axaml" value="Meowies/Meowies.csproj" />
       </map>
     </option>

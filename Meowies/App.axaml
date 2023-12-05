@@ -12,4 +12,8 @@
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+             
+     <Application.Resources>
+         <FontFamily x:Key="Actor">avares://Meowies/Assets/Fonts#Actor-Regular</FontFamily>
+     </Application.Resources>
 </Application>
