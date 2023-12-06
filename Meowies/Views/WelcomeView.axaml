@@ -1,0 +1,42 @@
+<UserControl x:Class="Meowies.Views.WelcomeView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Meowies.ViewModels"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:CompileBindings="True"
+             x:DataType="vm:WelcomeViewModel"
+             mc:Ignorable="d">
+    <Design.DataContext>
+        <vm:WelcomeViewModel/>
+    </Design.DataContext>
+    
+
+        <Grid Background="White" Width="700" Height="750" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="220"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="400"/>
+            </Grid.RowDefinitions>
+                
+            <StackPanel Grid.Row="0">
+                <TextBlock FontSize="55" FontFamily="Actor" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 30 0 20">
+                    <Run Text="Welcome to" Foreground="#B57CFF"/>
+                    <Run Text="Meowies!" Foreground="#742BEB"/>
+                </TextBlock>
+                <TextBlock FontSize="30" HorizontalAlignment="Center" Margin="10">
+                    <Run Text="The best platform" Foreground="#B57CFF"/>
+                    <Run Text="ever" Foreground="#742BEB"/>
+                    <Run Text="for saving" Foreground="#B57CFF"/>
+                </TextBlock>
+                <TextBlock FontSize="30" HorizontalAlignment="Center">
+                    <Run Text="every movie you’d like to watch!" Foreground="#B57CFF"></Run>
+                </TextBlock>
+            </StackPanel>
+            
+            <Image Grid.Row="2" Source="../Assets/cats.png" Width="550" Height="550"></Image>
+        </Grid>
+    
+</UserControl>

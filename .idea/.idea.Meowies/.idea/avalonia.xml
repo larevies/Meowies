@@ -5,6 +5,12 @@
       <map>
         <entry key="Meowies/App.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/MainWindow.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/SignInView.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/SignInWindow.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/SignUpView.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/SignUpWindow.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/WelcomeView.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/WelcomeWindow.axaml" value="Meowies/Meowies.csproj" />
       </map>
     </option>
   </component>

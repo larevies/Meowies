@@ -8,6 +8,8 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/Icons/paw.png"
         Title="Meowies"
+        SystemDecorations="Full"
+        WindowState="Maximized"
         >
 
     <Design.DataContext>
@@ -15,6 +17,7 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+    
     <Border>
         <Border.Background>
             <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
@@ -22,46 +25,30 @@
                 <GradientStop Offset="1" Color="#F2E8FF" />
             </LinearGradientBrush>
         </Border.Background>
-        <Grid Background="White" Width="700" Height="850" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="220"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="400"/>
-        </Grid.RowDefinitions>
-        <StackPanel>
-            <TextBlock FontSize="55" FontFamily="Actor" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 30 0 20">
-                <Run Text="Welcome to" Foreground="#B57CFF"/>
-                <Run Text="Meowies!" Foreground="#742BEB"/>
-            </TextBlock>
-            <TextBlock FontSize="30" HorizontalAlignment="Center" Margin="10">
-                <Run Text="The best platform" Foreground="#B57CFF"/>
-                <Run Text="ever" Foreground="#742BEB"/>
-                <Run Text="for saving" Foreground="#B57CFF"/>
-            </TextBlock>
-            <TextBlock FontSize="30" HorizontalAlignment="Center">
-                <Run Text="every movie you’d like to watch!" Foreground="#B57CFF"></Run>
-            </TextBlock>
-        </StackPanel>
-        <Border Grid.Row="1" BoxShadow="0 0 25 10 #F2E8FF" HorizontalAlignment="Left" Margin="180 0 0 0" 
-                Height="45" Width="140" CornerRadius="23">
-            <Button Background="Transparent" Foreground="#C69AFF" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"
-            >Sign in</Button>
-        </Border>
-        <Border Grid.Row="1" BoxShadow="0 0 25 10 #F2E8FF" HorizontalAlignment="Right" Margin="0 0 180 0" 
-                Height="45" Width="140" CornerRadius="23" Background="#C69AFF">
-            <Button Background="Transparent" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"
-            >Sign up
-            </Button>
-        </Border>
-        <Image Grid.Row="2" Source="../Assets/cats.png" Width="550" Height="550"></Image>
-        
-    </Grid>
+        <Grid RowDefinitions="*,Auto" Margin="10" Background="White" Width="850">
+            <TransitioningContentControl Content="{Binding CurrentPage}" />
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5" Margin="25"
+                        HorizontalAlignment="Center">
+                <Border BoxShadow="0 0 25 10 #F2E8FF" HorizontalAlignment="Left" Margin="0 0 30 0" 
+                        Height="45" Width="140" CornerRadius="23">
+                    <Button Background="Transparent" Foreground="#C69AFF" HorizontalAlignment="Center" VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"
+                            Height="45" Width="140" CornerRadius="23"
+                            Command="{Binding NavigatePreviousCommand}"
+                            Content="{Binding Previous}"
+                    ></Button>
+                </Border>
+                <Border BoxShadow="0 0 25 10 #F2E8FF" HorizontalAlignment="Right" Margin="30 0 0 0" 
+                        Height="45" Width="140" CornerRadius="23" Background="#C69AFF">
+                    <Button Background="Transparent" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"
+                            Height="45" Width="140" CornerRadius="23"
+                            Command="{Binding NavigateNextCommand}" 
+                            Content="{Binding Next}"
+                    ></Button>
+                </Border>
+            </StackPanel>
+        </Grid>
     </Border>
-    
-    
-    
-    
     
 </Window>

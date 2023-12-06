@@ -1,0 +1,59 @@
+<UserControl x:Class="Meowies.Views.SignInView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Meowies.ViewModels"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:CompileBindings="True"
+             x:DataType="vm:SignInViewModel"
+             mc:Ignorable="d">
+    <Design.DataContext>
+        <vm:SignInViewModel />
+    </Design.DataContext>
+
+    <Grid  Width="450" RowDefinitions="220,80,100,100">
+        <StackPanel Grid.Row="0">
+            <TextBlock FontSize="65" Foreground="#C69AFF" HorizontalAlignment="Center"
+                       Margin=" 0 30 0 10">
+                <Run Text="Happy to see" Foreground="#B57CFF"/>
+            </TextBlock>
+            <TextBlock FontSize="65" Foreground="#C69AFF" HorizontalAlignment="Center"
+                       Margin=" 0 0 0 0">
+                <Run Text="you again!" Foreground="#B57CFF"/>
+            </TextBlock>
+        </StackPanel>
+        <TextBlock Grid.Row="1" FontSize="25"
+                   FontWeight="SemiBold"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"
+                   Margin="0 15">
+            <Run Text="Please," Foreground="#742BEB"></Run>
+            <Run Text="fill in the following gaps" Foreground="#C69AFF"></Run>
+        </TextBlock>
+        
+        <StackPanel Grid.Row="2">
+            <TextBlock HorizontalAlignment="Left" Margin="10 0 0 0" Text="E-mail" Foreground="#C69AFF" 
+                       FontSize="20"/>
+            <TextBox FontSize="20"
+                     VerticalContentAlignment="Center"
+                     Text="{Binding MailAddress}"
+                     Watermark="Type here"
+                     CornerRadius="20" 
+                     Foreground="#742BEB"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="3">
+            <TextBlock HorizontalAlignment="Left" Margin="10 0 0 0" Text="Password" Foreground="#C69AFF" 
+                       FontSize="20"/>
+            <TextBox FontSize="20"
+                     PasswordChar="*"
+                     Text="{Binding Password}"
+                     Watermark="Type here"
+                     CornerRadius="20"
+                     Foreground="#742BEB"/>
+        </StackPanel>
+        
+    </Grid>
+</UserControl>
