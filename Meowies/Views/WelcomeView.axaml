@@ -14,18 +14,16 @@
     </Design.DataContext>
     
 
-        <Grid Background="White" Width="700" Height="750" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="220"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="400"/>
-            </Grid.RowDefinitions>
-                
+        <Grid Background="White" Width="700" Height="750" HorizontalAlignment="Center" VerticalAlignment="Center"
+              RowDefinitions="120,100,400">
+
             <StackPanel Grid.Row="0">
                 <TextBlock FontSize="55" FontFamily="Actor" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 30 0 20">
                     <Run Text="Welcome to" Foreground="#B57CFF"/>
                     <Run Text="Meowies!" Foreground="#742BEB"/>
                 </TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
                 <TextBlock FontSize="30" HorizontalAlignment="Center" Margin="10">
                     <Run Text="The best platform" Foreground="#B57CFF"/>
                     <Run Text="ever" Foreground="#742BEB"/>
@@ -36,7 +34,7 @@
                 </TextBlock>
             </StackPanel>
             
-            <Image Grid.Row="2" Source="../Assets/cats.png" Width="550" Height="550"></Image>
+            <Image Grid.Row="2" Source="../Assets/cats.png" Width="550" Height="550" VerticalAlignment="Top"></Image>
         </Grid>
     
 </UserControl>

@@ -1,5 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using DynamicData;
+using Meowies.Views;
 using ReactiveUI;
 
 namespace Meowies.ViewModels;
@@ -13,9 +15,19 @@ public class MainWindowViewModel : ViewModelBase
 
         var canNavNext = this.WhenAnyValue(x => x.CurrentPage.CanNavigateNext);
         var canNavPrev = this.WhenAnyValue(x => x.CurrentPage.CanNavigatePrevious);
+        var canCat = this.WhenAnyValue(x => x.CurrentPage.CanCat);
+        var canSearch = this.WhenAnyValue(x => x.CurrentPage.CanSearch);
+        var canRandom = this.WhenAnyValue(x => x.CurrentPage.CanRandom);
+        var canFavourites = this.WhenAnyValue(x => x.CurrentPage.CanFavourites);
+        var canTrending = this.WhenAnyValue(x => x.CurrentPage.CanTrending);
 
         NavigateNextCommand = ReactiveCommand.Create(NavigateNext, canNavNext);
         NavigatePreviousCommand = ReactiveCommand.Create(NavigatePrevious, canNavPrev);
+        CatCommand = ReactiveCommand.Create(Cat, canCat);
+        SearchCommand = ReactiveCommand.Create(Search, canSearch);
+        RandomCommand = ReactiveCommand.Create(Random, canRandom);
+        FavouritesCommand = ReactiveCommand.Create(Favourites, canFavourites);
+        TrendingCommand = ReactiveCommand.Create(Trending, canTrending);
     }
     
     private string _next = "Sign up";
@@ -35,7 +47,11 @@ public class MainWindowViewModel : ViewModelBase
     { 
         new WelcomeViewModel(),
         new SignUpViewModel(),
-        new SignInViewModel()
+        new SignInViewModel(),
+        new ProfileViewModel(),
+        new FavouritesViewModel(),
+        new MovieViewModel(),
+        new TrendingViewModel()
     };
     
     private PageViewModelBase _currentPage;
@@ -67,6 +83,7 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
     public ICommand NavigatePreviousCommand { get; }
+
     private void NavigatePrevious()
     {
         int index;
@@ -78,6 +95,7 @@ public class MainWindowViewModel : ViewModelBase
         {
             index = 0;
         }
+
         CurrentPage = _pages[index];
         if (CurrentPage == _pages[2])
         {
@@ -95,4 +113,19 @@ public class MainWindowViewModel : ViewModelBase
             Previous = "Go Back";
         }
     }
+
+    public ICommand CatCommand { get; }
+    private void Cat() { CurrentPage = _pages[3]; }
+    
+    public ICommand SearchCommand { get; }
+    private void Search() { CurrentPage = _pages[5]; }
+    
+    public ICommand RandomCommand { get; }
+    private void Random() { CurrentPage = _pages[5]; }
+    
+    public ICommand FavouritesCommand { get; }
+    private void Favourites() { CurrentPage = _pages[4]; }
+    
+    public ICommand TrendingCommand { get; }
+    private void Trending() { CurrentPage = _pages[6]; }
 }

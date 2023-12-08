@@ -10,12 +10,12 @@
              x:DataType="vm:SignUpViewModel"
              mc:Ignorable="d">
     <Design.DataContext>
-        <vm:SignUpViewModel />
+        <vm:SignUpViewModel/>
     </Design.DataContext>
 
-    <Grid  Width="450" RowDefinitions="250,80,100,100,100,100">
-        <TextBlock Grid.Row="0" FontSize="75" Foreground="#C69AFF" HorizontalAlignment="Center"
-                   Margin=" 0 30 0 20">
+    <Grid  Width="450" RowDefinitions="260,80,100,100,100,100">
+        <TextBlock Grid.Row="0" FontSize="70" Foreground="#C69AFF" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                   Margin=" 0 30 0 15">
             Happy to<LineBreak/>meet you!
         </TextBlock>
         <TextBlock Grid.Row="1" FontSize="25"

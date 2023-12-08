@@ -12,7 +12,6 @@ public class SignInViewModel : PageViewModelBase
             .Subscribe(_ => UpdateCanNavigateNext());
     }
 
-
     private string? _mailAddress;
     [Required]
     [EmailAddress]
@@ -22,7 +21,6 @@ public class SignInViewModel : PageViewModelBase
         set { this.RaiseAndSetIfChanged(ref _mailAddress, value); }
     }
 
-
     private string? _password;
     [Required]
     public string? Password
@@ -30,19 +28,7 @@ public class SignInViewModel : PageViewModelBase
         get { return _password; }
         set { this.RaiseAndSetIfChanged(ref _password, value); }
     }
-
-
-    private bool _canNavigateNext;
-    public override bool CanNavigateNext
-    {
-        get => _canNavigateNext;
-        protected set => this.RaiseAndSetIfChanged(ref _canNavigateNext, value);
-    }
-    public override bool CanNavigatePrevious
-    {
-        get => true;
-        protected set => throw new NotSupportedException();
-    }
+    
     private void UpdateCanNavigateNext()
     {
         CanNavigateNext = 
@@ -50,4 +36,16 @@ public class SignInViewModel : PageViewModelBase
             && _mailAddress.Contains("@")
             && !string.IsNullOrEmpty(_password);
     }
+    private bool _canNavigateNext;
+    public override bool CanNavigateNext
+    {
+        get => _canNavigateNext;
+        protected set => this.RaiseAndSetIfChanged(ref _canNavigateNext, value);
+    }
+    public override bool CanNavigatePrevious => true;
+    public override bool CanCat => true;
+    public override bool CanSearch => true;
+    public override bool CanRandom => true;
+    public override bool CanFavourites => true;
+    public override bool CanTrending => true;
 }

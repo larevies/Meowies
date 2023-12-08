@@ -20,13 +20,25 @@ build_property.EnableGeneratedComInterfaceComImportInterop =
 [C:/Users/admin/RiderProjects/Meowies/Meowies/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/admin/RiderProjects/Meowies/Meowies/Views/FavouritesView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/admin/RiderProjects/Meowies/Meowies/Views/MainWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/admin/RiderProjects/Meowies/Meowies/Views/MovieView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/admin/RiderProjects/Meowies/Meowies/Views/ProfileView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/admin/RiderProjects/Meowies/Meowies/Views/SignInView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/admin/RiderProjects/Meowies/Meowies/Views/SignUpView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/admin/RiderProjects/Meowies/Meowies/Views/TrendingView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/admin/RiderProjects/Meowies/Meowies/Views/WelcomeView.axaml]

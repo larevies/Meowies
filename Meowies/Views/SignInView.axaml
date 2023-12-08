@@ -10,18 +10,18 @@
              x:DataType="vm:SignInViewModel"
              mc:Ignorable="d">
     <Design.DataContext>
-        <vm:SignInViewModel />
+        <vm:SignInViewModel/>
     </Design.DataContext>
 
-    <Grid  Width="450" RowDefinitions="220,80,100,100">
-        <StackPanel Grid.Row="0">
-            <TextBlock FontSize="65" Foreground="#C69AFF" HorizontalAlignment="Center"
+    <Grid  Width="450" RowDefinitions="280,80,100,100">
+        <StackPanel Grid.Row="0" VerticalAlignment="Bottom">
+            <TextBlock FontSize="70" Foreground="#C69AFF" HorizontalAlignment="Center"
                        Margin=" 0 30 0 10">
-                <Run Text="Happy to see" Foreground="#B57CFF"/>
+                <Run Text="Happy to see"/>
             </TextBlock>
             <TextBlock FontSize="65" Foreground="#C69AFF" HorizontalAlignment="Center"
-                       Margin=" 0 0 0 0">
-                <Run Text="you again!" Foreground="#B57CFF"/>
+                       Margin=" 0 0 0 15">
+                <Run Text="you again!"/>
             </TextBlock>
         </StackPanel>
         <TextBlock Grid.Row="1" FontSize="25"
@@ -54,6 +54,5 @@
                      CornerRadius="20"
                      Foreground="#742BEB"/>
         </StackPanel>
-        
     </Grid>
 </UserControl>

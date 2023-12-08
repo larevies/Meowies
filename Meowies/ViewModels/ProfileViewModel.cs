@@ -2,7 +2,7 @@ using System;
 
 namespace Meowies.ViewModels;
 
-public class WelcomeViewModel : PageViewModelBase
+public partial class ProfileViewModel : PageViewModelBase
 {
     public override bool CanNavigateNext
     {

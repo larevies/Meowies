@@ -4,11 +4,16 @@
     <option name="projectPerEditor">
       <map>
         <entry key="Meowies/App.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/FavouritesView.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/MainWindow.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/MovieView.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/ProfileView.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/SearchView.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/SignInView.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/SignInWindow.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/SignUpView.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/SignUpWindow.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/TrendingView.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/WelcomeView.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/WelcomeWindow.axaml" value="Meowies/Meowies.csproj" />
       </map>

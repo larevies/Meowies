@@ -39,21 +39,6 @@ public class SignUpViewModel : PageViewModelBase
         set => this.RaiseAndSetIfChanged(ref _name, value);
     }
     
-
-    private bool _canNavigateNext;
-    public override bool CanNavigateNext
-    {
-        get => _canNavigateNext;
-        protected set => this.RaiseAndSetIfChanged(ref _canNavigateNext, value);
-    }
-
-
-    public override bool CanNavigatePrevious
-    {
-        get => true;
-        protected set => throw new NotSupportedException();
-    }
-    
     private void UpdateCanNavigateNext()
     {
         CanNavigateNext = 
@@ -62,4 +47,17 @@ public class SignUpViewModel : PageViewModelBase
             && !string.IsNullOrEmpty(_password)
             && !string.IsNullOrEmpty(_name);
     }
+    
+    private bool _canNavigateNext;
+    public override bool CanNavigateNext
+    {
+        get => _canNavigateNext;
+        protected set => this.RaiseAndSetIfChanged(ref _canNavigateNext, value);
+    }
+    public override bool CanNavigatePrevious => true;
+    public override bool CanCat => true;
+    public override bool CanSearch => true;
+    public override bool CanRandom => true;
+    public override bool CanFavourites => true;
+    public override bool CanTrending => true;
 }
