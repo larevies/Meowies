@@ -12,5 +12,17 @@
     <Design.DataContext>
         <vm:FavouritesViewModel/>
     </Design.DataContext>
-    <TextBlock>Favourites</TextBlock>
+    <Grid>
+        <TextBlock>Bookmarks!</TextBlock>
+        <!--<ItemsControl ItemsSource="{Binding Bookmarks}">
+            <ItemsPanelTemplate>
+                <WrapPanel/>
+            </ItemsPanelTemplate>
+        </ItemsControl>-->
+        
+        
+        
+        
+        
+    </Grid>
 </UserControl>

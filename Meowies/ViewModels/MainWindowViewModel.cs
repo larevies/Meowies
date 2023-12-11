@@ -128,4 +128,10 @@ public class MainWindowViewModel : ViewModelBase
     
     public ICommand TrendingCommand { get; }
     private void Trending() { CurrentPage = _pages[6]; }
+    
+    // TODO next prev btn shouldn't be on every page
+    // TODO user to app connection
+    // TODO user to database connection
+    // TODO GET from API
+    // TODO design for things from API?
 }

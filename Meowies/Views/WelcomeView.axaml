@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Meowies.ViewModels"
-             d:DesignHeight="450"
+             d:DesignHeight="1200"
              d:DesignWidth="800"
              x:CompileBindings="True"
              x:DataType="vm:WelcomeViewModel"
@@ -35,6 +35,7 @@
             </StackPanel>
             
             <Image Grid.Row="2" Source="../Assets/cats.png" Width="550" Height="550" VerticalAlignment="Top"></Image>
+            
         </Grid>
     
 </UserControl>

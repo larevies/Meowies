@@ -17,16 +17,16 @@ public class SignInViewModel : PageViewModelBase
     [EmailAddress]
     public string? MailAddress
     {
-        get { return _mailAddress; }
-        set { this.RaiseAndSetIfChanged(ref _mailAddress, value); }
+        get => _mailAddress;
+        set => this.RaiseAndSetIfChanged(ref _mailAddress, value);
     }
 
     private string? _password;
     [Required]
     public string? Password
     {
-        get { return _password; }
-        set { this.RaiseAndSetIfChanged(ref _password, value); }
+        get => _password;
+        set => this.RaiseAndSetIfChanged(ref _password, value);
     }
     
     private void UpdateCanNavigateNext()

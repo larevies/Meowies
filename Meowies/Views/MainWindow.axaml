@@ -3,7 +3,7 @@
         xmlns:vm="using:Meowies.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="450"
         x:Class="Meowies.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/Icons/paw.png"
@@ -27,53 +27,64 @@
         </Border.Background>
         <Grid Margin="10" Background="White" Width="850">
             <TransitioningContentControl Content="{Binding CurrentPage}" />
-
-            <StackPanel VerticalAlignment="Top" Height="60" Orientation="Horizontal" Width="850" HorizontalAlignment="Center">
-                <Button Content="Meowies" FontSize="40" Foreground="#C69AFF" Background="Transparent" 
-                        VerticalAlignment="Center" Margin="20 0 30 0" 
-                        Command="{Binding TrendingCommand}"/>
-                <TextBox Width="320" Watermark="Search" CornerRadius="15" VerticalAlignment="Center"
-                         Foreground="#742BEB" BorderThickness="2" BorderBrush="#DBBFFF" Margin="23 0"/>
-                <Button HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Center" Margin="13 0"
-                        Background="Transparent" Command="{Binding SearchCommand}">
-                    <Image Source="../Assets/Icons/search.png" Width="30" Height="30"/>
-                </Button>
-                <Button HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="13 0"
-                        Background="Transparent" Command="{Binding RandomCommand}">
-                    <Image Source="../Assets/Icons/dices.png" Width="40" Height="40"/>
-                </Button>
-                <Button HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Center" Margin="13 0"
-                        Background="Transparent" Command="{Binding FavouritesCommand}">
-                    <Image Source="../Assets/Icons/heart.png" Width="30" Height="30"/>
-                </Button>
-                <Button HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="13 0"
-                        Background="Transparent" Command="{Binding CatCommand}">
-                    <Image Source="../Assets/Icons/cat.png" Width="40" Height="40"/>
-                </Button>
+            <StackPanel Background="White" VerticalAlignment="Top" Height="60" Width="850" Orientation="Horizontal" 
+                        HorizontalAlignment="Center">
+                <Grid ColumnDefinitions="Auto, *, Auto, Auto, Auto, Auto">
+                    <Grid.Styles>
+                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="RenderTransform" Value="scale(1.06)"/>
+                            <Setter Property="Foreground" Value="#C69AFF"></Setter>
+                        </Style>
+                    </Grid.Styles>
+                    <Button Grid.Column="0" Content="Meowies" FontSize="40" Foreground="#C69AFF" Background="Transparent" 
+                            VerticalAlignment="Center" Margin="20 0 30 0"
+                            Command="{Binding TrendingCommand}"/>
+                    <TextBox Grid.Column="1" Width="320" Watermark="Search" CornerRadius="15" VerticalAlignment="Center"
+                             Foreground="#742BEB" BorderThickness="2" BorderBrush="#DBBFFF" Margin="10 0"/>
+                    <Button Grid.Column="2" HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="11 0"
+                            Background="Transparent" Command="{Binding SearchCommand}">
+                        <Image Source="../Assets/Icons/search.png" Width="30" Height="30"/>
+                    </Button>
+                    <Button Grid.Column="3" HorizontalAlignment="Right" Width="45" Height="45" VerticalAlignment="Center" Margin="11 0"
+                            Background="Transparent" Command="{Binding RandomCommand}">
+                        <Image Source="../Assets/Icons/dices.png" Width="40" Height="40"/>
+                    </Button>
+                    <Button Grid.Column="4" HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="11 0"
+                            Background="Transparent" Command="{Binding FavouritesCommand}">
+                        <Image Source="../Assets/Icons/heart.png" Width="30" Height="30"/>
+                    </Button>
+                    <Button Grid.Column="5" HorizontalAlignment="Right" Width="45" Height="45" VerticalAlignment="Center" Margin="11 0"
+                            Background="Transparent" Command="{Binding CatCommand}">
+                        <Image Source="../Assets/Icons/cat.png" Width="40" Height="40"/>
+                    </Button>
+                </Grid>
             </StackPanel>
             
             <Line StartPoint="0,60" EndPoint="1000,60" Stroke="#DBBFFF" StrokeThickness="4"/>
             
             <StackPanel Orientation="Horizontal" Spacing="5" Margin="25" VerticalAlignment="Bottom"
                         HorizontalAlignment="Center">
-                <Border BoxShadow="0 0 25 10 #F2E8FF" HorizontalAlignment="Left" Margin="0 0 30 0" 
-                        Height="45" Width="140" CornerRadius="23">
-                    <Button Background="Transparent" Foreground="#C69AFF" HorizontalAlignment="Center" VerticalAlignment="Center"
-                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"
-                            Height="45" Width="140" CornerRadius="23"
-                            Command="{Binding NavigatePreviousCommand}"
-                            Content="{Binding Previous}"
-                    ></Button>
-                </Border>
-                <Border BoxShadow="0 0 25 10 #F2E8FF" HorizontalAlignment="Right" Margin="30 0 0 0" 
-                        Height="45" Width="140" CornerRadius="23" Background="#C69AFF">
-                    <Button Background="Transparent" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"
-                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"
-                            Height="45" Width="140" CornerRadius="23"
-                            Command="{Binding NavigateNextCommand}" 
-                            Content="{Binding Next}"
-                    ></Button>
-                </Border>
+                <Grid ColumnDefinitions="*, *">
+                    <Border Grid.Column="0" BoxShadow="0 0 25 10 #F2E8FF" HorizontalAlignment="Left" Margin="0 0 30 0" 
+                            Height="45" Width="140" CornerRadius="23">
+                        <Button Background="Transparent" Foreground="#C69AFF" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"
+                                Height="45" Width="140" CornerRadius="23"
+                                Command="{Binding NavigatePreviousCommand}"
+                                Content="{Binding Previous}"
+                        ></Button>
+                    </Border>
+                    <Border Grid.Column="1" BoxShadow="0 0 25 10 #F2E8FF" HorizontalAlignment="Right" Margin="30 0 0 0" 
+                            Height="45" Width="140" CornerRadius="23" Background="#C69AFF">
+                        <Button Background="Transparent" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"
+                                Height="45" Width="140" CornerRadius="23"
+                                Command="{Binding NavigateNextCommand}" 
+                                Content="{Binding Next}"
+                        ></Button>
+                    </Border>
+                </Grid>
             </StackPanel>
         </Grid>
     </Border>

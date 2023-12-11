@@ -12,5 +12,10 @@
     <Design.DataContext>
         <vm:TrendingViewModel/>
     </Design.DataContext>
-    <TextBlock>Trending!</TextBlock>
+    <Border Background="Aqua" Height="750" VerticalAlignment="Center">
+        <Grid Background="Transparent" Width="850" HorizontalAlignment="Center" VerticalAlignment="Center"
+              RowDefinitions="100, 150, 200, 250" ShowGridLines="True">
+            <TextBlock Grid.Row="0" FontSize="35" HorizontalAlignment="Center" Foreground="#C69AFF">Trending!</TextBlock>
+        </Grid>
+    </Border>
 </UserControl>
