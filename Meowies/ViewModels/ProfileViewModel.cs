@@ -1,6 +1,9 @@
 using System;
+using System.Linq;
 using System.Windows.Input;
 using DynamicData;
+using Meowies;
+using Meowies.Models;
 using ReactiveUI;
 
 namespace Meowies.ViewModels;
@@ -9,6 +12,7 @@ public partial class ProfileViewModel : PageViewModelBase
 {
     public ProfileViewModel()
     {
+        
         CurrentProfile = _profilePages[0];
         
         var canNavNext = this.WhenAnyValue(x => x.CurrentProfile.CanNavigateNext);
@@ -37,7 +41,7 @@ public partial class ProfileViewModel : PageViewModelBase
         new SignInViewModel(),
         new ChangeProfileViewModel()
     };
-    private ProfileViewModelBase _currentProfile = null!;
+    private ProfileViewModelBase _currentProfile;
     public ProfileViewModelBase CurrentProfile
     {
         get => _currentProfile;
@@ -53,6 +57,9 @@ public partial class ProfileViewModel : PageViewModelBase
         {
             Next = "Sign in";
             Previous = "Go back";
+            using var context = new MeowiesContext();
+            context.Users.Add(SignUpViewModel.NewUser);
+            context.SaveChanges();
         }
         else if (CurrentProfile == _profilePages[0])
         {
@@ -64,6 +71,24 @@ public partial class ProfileViewModel : PageViewModelBase
             Next = "Sign up";
             Previous = "Go Back";
         } 
+        else if (CurrentProfile == _profilePages[3])
+        {
+            using var context = new MeowiesContext();
+            var queryable = context.Users
+                .FirstOrDefault(x => x.Email == SignInViewModel.MailAddress && x.Password == SignInViewModel.Password);
+            //Console.Write(queryable.Name + "\n");
+            try
+            {
+                if (queryable.Name == null || queryable.Name == "") return;
+                Console.Write("success");
+                CurrentProfile = _profilePages[3];
+            }
+            catch (Exception e)
+            {
+                Console.Write("fail");
+                CurrentProfile = _profilePages[2];
+            }
+        }
     }
     public ICommand NavigatePreviousCommand { get; }
 

@@ -47,8 +47,8 @@
         <StackPanel Grid.Row="4">
             <TextBlock HorizontalAlignment="Left" Margin="10 0 0 0" Text="Birthday" Foreground="#C69AFF" 
                                FontSize="20"/>
-            <DatePicker FontSize="20" CornerRadius="20" Foreground="#C69AFF" Width="450" 
-                        SelectedDate="{Binding Birthday}" />
+            <CalendarDatePicker FontSize="25" CornerRadius="20" Foreground="#742BEB" Width="450" Padding="15 0" 
+                        SelectedDate="{Binding Birthday}"/>
         </StackPanel>
         
         <StackPanel Grid.Row="5">
@@ -61,6 +61,5 @@
                      CornerRadius="20"
                      Foreground="#742BEB"/>
         </StackPanel>
-        
     </Grid>
 </UserControl>

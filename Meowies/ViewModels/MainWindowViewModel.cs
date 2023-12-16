@@ -14,7 +14,8 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         
-        //using var context = new MeowiesContext();
+        var context = new MeowiesContext();
+        context.Database.EnsureCreated();
         
         _currentPage = _pages[0];
         

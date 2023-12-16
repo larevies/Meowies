@@ -1,66 +1,62 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using Meowies.Models;
 using ReactiveUI;
 
 namespace Meowies.ViewModels;
 
 public class SignUpViewModel : ProfileViewModelBase
 {
-    public SignUpViewModel()
+    /*public SignUpViewModel()
     {
         this.WhenAnyValue(x => x.MailAddress, x => x.Password)
             .Subscribe(_ => UpdateCanNavigateNext());
-    }
+    }*/
 
+    /*public SignUpViewModel()
+    {
+        var user = new User() { Name = Name, Email = MailAddress, Birthday = Birthday, Password = Password};
+    }*/
 
-    private string? _mailAddress;
     [Required]
     [EmailAddress]
-    public string? MailAddress
-    {
-        get => _mailAddress;
-        set => this.RaiseAndSetIfChanged(ref _mailAddress, value);
-    }
+    public static string MailAddress { get; set; } = "";
 
-
-    private string? _password;
     [Required]
-    public string? Password
-    {
-        get => _password;
-        set => this.RaiseAndSetIfChanged(ref _password, value);
-    }
+    public static string Password { get; set; } = "";
 
-    private string? _name;
     [Required]
-    public string? Name
-    {
-        get => _name;
-        set => this.RaiseAndSetIfChanged(ref _name, value);
-    }
+    public static string Name { get; set; } = "";
 
-    private DateTime? _birthday;
-    [Required]
-    public DateTime? Birthday
-    {
-        get => _birthday;
-        set => this.RaiseAndSetIfChanged(ref _birthday, value);
-    }
+    //[Required]
+    public static DateTime Birthday { get; set; } = DateTime.Today;
 
     private void UpdateCanNavigateNext()
     {
-        CanNavigateNext = 
-            !string.IsNullOrEmpty(_mailAddress) 
-            && _mailAddress.Contains("@")
-            && !string.IsNullOrEmpty(_password)
-            && !string.IsNullOrEmpty(_name);
+        if (!string.IsNullOrEmpty(MailAddress) 
+            && MailAddress.Contains("@")
+            && !string.IsNullOrEmpty(Password)
+            && !string.IsNullOrEmpty(Name))
+        {
+            CanNavigateNext = true;
+        }
     }
     
     private bool _canNavigateNext;
     public override bool CanNavigateNext
     {
-        get => _canNavigateNext;
+        get => true;
         protected set => this.RaiseAndSetIfChanged(ref _canNavigateNext, value);
     }
     public override bool CanNavigatePrevious => true;
+
+    public static User NewUser =>
+        new()
+        {
+            Name = Name,
+            Birthday = Birthday.ToString(CultureInfo.CurrentCulture),
+            Password = Password,
+            Email = MailAddress
+        };
 }

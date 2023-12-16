@@ -12,27 +12,28 @@ public class SignInViewModel : ProfileViewModelBase
     public SignInViewModel()
     {
         using var context = new MeowiesContext();
-        var matchingUser = context.Users.FirstOrDefault(x => x.Email == MailAddress);
-        this.WhenAnyValue(x => x.MailAddress, x => x.Password)
-            .Subscribe(_ => UpdateCanNavigateNext());
+        //var matchingUser = context.Users.FirstOrDefault(x => x.Email == MailAddress);
+        
+        /*this.WhenAnyValue(x => x.MailAddress, x => x.Password)
+            .Subscribe(_ => UpdateCanNavigateNext());*/
         
     }
 
-    private string? _mailAddress;
+    private static string _mailAddress = "";
     [Required]
     [EmailAddress]
-    public string? MailAddress
+    public static string MailAddress
     {
         get => _mailAddress;
-        set => this.RaiseAndSetIfChanged(ref _mailAddress, value);
+        set => _mailAddress = value;
     }
 
-    private string? _password;
+    private static string _password = null!;
     [Required]
-    public string? Password
+    public static string Password
     {
         get => _password;
-        set => this.RaiseAndSetIfChanged(ref _password, value);
+        set => _password = value;
     }
     
     private void UpdateCanNavigateNext()
@@ -45,7 +46,7 @@ public class SignInViewModel : ProfileViewModelBase
     private bool _canNavigateNext;
     public override bool CanNavigateNext
     {
-        get => _canNavigateNext;
+        get => true;
         protected set => this.RaiseAndSetIfChanged(ref _canNavigateNext, value);
     }
     public override bool CanNavigatePrevious => true;

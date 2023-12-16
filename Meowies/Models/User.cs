@@ -1,3 +1,5 @@
+using System;
+
 namespace Meowies.Models;
 
 public class User
