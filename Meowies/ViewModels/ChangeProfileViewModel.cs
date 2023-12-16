@@ -1,12 +1,13 @@
 using System;
+using ReactiveUI;
 
 namespace Meowies.ViewModels;
 
-public class WelcomeViewModel : ProfileViewModelBase
+public class ChangeProfileViewModel : ProfileViewModelBase
 {
     public override bool CanNavigateNext
     {
-        get => true;
+        get => false;
         protected set => throw new NotSupportedException();
     }
     public override bool CanNavigatePrevious => true;

@@ -1,15 +1,21 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Meowies.Models;
+using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
 
 namespace Meowies.ViewModels;
 
-public class SignInViewModel : PageViewModelBase
+public class SignInViewModel : ProfileViewModelBase
 {
     public SignInViewModel()
     {
+        using var context = new MeowiesContext();
+        var matchingUser = context.Users.FirstOrDefault(x => x.Email == MailAddress);
         this.WhenAnyValue(x => x.MailAddress, x => x.Password)
             .Subscribe(_ => UpdateCanNavigateNext());
+        
     }
 
     private string? _mailAddress;
@@ -43,9 +49,4 @@ public class SignInViewModel : PageViewModelBase
         protected set => this.RaiseAndSetIfChanged(ref _canNavigateNext, value);
     }
     public override bool CanNavigatePrevious => true;
-    public override bool CanCat => true;
-    public override bool CanSearch => true;
-    public override bool CanRandom => true;
-    public override bool CanFavourites => true;
-    public override bool CanTrending => true;
 }

@@ -9,20 +9,8 @@
              x:CompileBindings="True"
              x:DataType="vm:FavouritesViewModel"
              mc:Ignorable="d">
-    <Design.DataContext>
-        <vm:FavouritesViewModel/>
-    </Design.DataContext>
+    
     <Grid>
         <TextBlock>Bookmarks!</TextBlock>
-        <!--<ItemsControl ItemsSource="{Binding Bookmarks}">
-            <ItemsPanelTemplate>
-                <WrapPanel/>
-            </ItemsPanelTemplate>
-        </ItemsControl>-->
-        
-        
-        
-        
-        
     </Grid>
 </UserControl>

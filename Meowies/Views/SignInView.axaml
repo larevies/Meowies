@@ -9,9 +9,6 @@
              x:CompileBindings="True"
              x:DataType="vm:SignInViewModel"
              mc:Ignorable="d">
-    <Design.DataContext>
-        <vm:SignInViewModel/>
-    </Design.DataContext>
 
     <Grid  Width="450" RowDefinitions="280,80,100,100">
         <StackPanel Grid.Row="0" VerticalAlignment="Bottom">

@@ -9,9 +9,6 @@
              x:CompileBindings="True"
              x:DataType="vm:SignUpViewModel"
              mc:Ignorable="d">
-    <Design.DataContext>
-        <vm:SignUpViewModel/>
-    </Design.DataContext>
 
     <Grid  Width="450" RowDefinitions="260,80,100,100,100,100">
         <TextBlock Grid.Row="0" FontSize="70" Foreground="#C69AFF" HorizontalAlignment="Center" VerticalAlignment="Bottom"
@@ -50,7 +47,8 @@
         <StackPanel Grid.Row="4">
             <TextBlock HorizontalAlignment="Left" Margin="10 0 0 0" Text="Birthday" Foreground="#C69AFF" 
                                FontSize="20"/>
-            <DatePicker FontSize="20" CornerRadius="20" Foreground="#C69AFF" Width="450"/>
+            <DatePicker FontSize="20" CornerRadius="20" Foreground="#C69AFF" Width="450" 
+                        SelectedDate="{Binding Birthday}" />
         </StackPanel>
         
         <StackPanel Grid.Row="5">

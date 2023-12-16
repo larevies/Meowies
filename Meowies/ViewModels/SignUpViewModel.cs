@@ -4,7 +4,7 @@ using ReactiveUI;
 
 namespace Meowies.ViewModels;
 
-public class SignUpViewModel : PageViewModelBase
+public class SignUpViewModel : ProfileViewModelBase
 {
     public SignUpViewModel()
     {
@@ -38,7 +38,15 @@ public class SignUpViewModel : PageViewModelBase
         get => _name;
         set => this.RaiseAndSetIfChanged(ref _name, value);
     }
-    
+
+    private DateTime? _birthday;
+    [Required]
+    public DateTime? Birthday
+    {
+        get => _birthday;
+        set => this.RaiseAndSetIfChanged(ref _birthday, value);
+    }
+
     private void UpdateCanNavigateNext()
     {
         CanNavigateNext = 
@@ -55,9 +63,4 @@ public class SignUpViewModel : PageViewModelBase
         protected set => this.RaiseAndSetIfChanged(ref _canNavigateNext, value);
     }
     public override bool CanNavigatePrevious => true;
-    public override bool CanCat => true;
-    public override bool CanSearch => true;
-    public override bool CanRandom => true;
-    public override bool CanFavourites => true;
-    public override bool CanTrending => true;
 }

@@ -20,6 +20,9 @@ build_property.EnableGeneratedComInterfaceComImportInterop =
 [C:/Users/admin/RiderProjects/Meowies/Meowies/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/admin/RiderProjects/Meowies/Meowies/Views/ChangeProfileView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/admin/RiderProjects/Meowies/Meowies/Views/FavouritesView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
