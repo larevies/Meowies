@@ -10,7 +10,7 @@
              x:DataType="vm:SignUpViewModel"
              mc:Ignorable="d">
 
-    <Grid  Width="450" RowDefinitions="260,80,100,100,100,100">
+    <Grid  Width="450" RowDefinitions="260,80,100,100,100,100,50">
         <TextBlock Grid.Row="0" FontSize="70" Foreground="#C69AFF" HorizontalAlignment="Center" VerticalAlignment="Bottom"
                    Margin=" 0 30 0 15">
             Happy to<LineBreak/>meet you!
@@ -61,5 +61,10 @@
                      CornerRadius="20"
                      Foreground="#742BEB"/>
         </StackPanel>
+        <TextBlock Grid.Row="6" 
+                   FontSize="20"
+                   Text="{Binding Message}" 
+                   Foreground="#AD1D13" 
+                   HorizontalAlignment="Center"/>
     </Grid>
 </UserControl>

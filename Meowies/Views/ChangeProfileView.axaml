@@ -12,8 +12,8 @@
     
     <Grid RowDefinitions="100, 45, 80, 80, 80, 80, 220" Height="700" VerticalAlignment="Center" Width="600">
         <TextBlock Grid.Row="0" FontSize="50" HorizontalAlignment="Center">
-            <Run Text="Hi," Foreground="#B57CFF"></Run>
-            <Run Text="Username" Foreground="#742BEB"></Run>
+            <Run Text="Hi," Foreground="#B57CFF"/>
+            <Run Text="{Binding UserName}" Foreground="#742BEB"/> 
         </TextBlock>
         <TextBlock Grid.Row="1" FontSize="25" Text="Wanted to change something?" Foreground="#B57CFF" 
                    HorizontalAlignment="Center"/>

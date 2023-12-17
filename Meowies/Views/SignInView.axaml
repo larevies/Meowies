@@ -10,7 +10,7 @@
              x:DataType="vm:SignInViewModel"
              mc:Ignorable="d">
 
-    <Grid  Width="450" RowDefinitions="280,80,100,100">
+    <Grid  Width="450" RowDefinitions="280,80,100,100,50">
         <StackPanel Grid.Row="0" VerticalAlignment="Bottom">
             <TextBlock FontSize="70" Foreground="#C69AFF" HorizontalAlignment="Center"
                        Margin=" 0 30 0 10">
@@ -51,5 +51,11 @@
                      CornerRadius="20"
                      Foreground="#742BEB"/>
         </StackPanel>
+        
+        <TextBlock Grid.Row="4" 
+                   FontSize="20"
+                   Text="{Binding Message}" 
+                   Foreground="#AD1D13" 
+                   HorizontalAlignment="Center"/>
     </Grid>
 </UserControl>

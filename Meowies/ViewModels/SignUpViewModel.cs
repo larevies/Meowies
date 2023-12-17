@@ -18,7 +18,8 @@ public class SignUpViewModel : ProfileViewModelBase
     {
         var user = new User() { Name = Name, Email = MailAddress, Birthday = Birthday, Password = Password};
     }*/
-
+    public static string Message { get; set; } = "";
+    
     [Required]
     [EmailAddress]
     public static string MailAddress { get; set; } = "";
