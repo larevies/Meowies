@@ -18,7 +18,10 @@
                 <GradientStop Offset="1" Color="#F2E8FF" />
             </LinearGradientBrush>
         </Border.Background>
-        <Grid Margin="10" Background="White" Width="850">
+        <Grid>
+            <Image Source="../Assets/paws.png" Height="500" Width="500" Margin="0 400 1100 0"/>
+            <Image Source="../Assets/paws.png" Height="500" Width="500" Margin="1300 0 0 200"/>
+            <Grid Margin="10" Background="White" Width="850">
             <StackPanel Background="White" VerticalAlignment="Top" Height="60" Width="850" Orientation="Horizontal" 
                         HorizontalAlignment="Center">
                 <Grid ColumnDefinitions="Auto, *, Auto, Auto, Auto, Auto">
@@ -63,6 +66,8 @@
             <Line StartPoint="0,60" EndPoint="1000,60" Stroke="#DBBFFF" StrokeThickness="4"/>
             <TransitioningContentControl Content="{Binding CurrentPage}" />
         </Grid>
+        </Grid>
+        
     </Border>
     
 </Window>

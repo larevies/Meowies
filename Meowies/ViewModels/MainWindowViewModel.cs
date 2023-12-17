@@ -107,7 +107,22 @@ public class MainWindowViewModel : ViewModelBase
     private void Favourites() { CurrentPage = _pages[1]; }
     
     public ICommand TrendingCommand { get; }
-    private void Trending() { CurrentPage = _pages[3]; }
+
+    private async void Trending()
+    {
+        try
+        {
+            var id = 1071383;
+            var task = GetBmListAsync(MovieUrl(id.ToString()));
+            var item = await task;
+            TrendingViewModel.Bookmark = item;
+            CurrentPage = _pages[3];
+        }
+        catch (Exception)
+        {
+            CurrentPage = _pages[3];
+        }
+    }
     
     private static async Task<BookmarkItem?>? GetBmListAsync(string apiUrl)
     {

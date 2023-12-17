@@ -4,18 +4,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Meowies.ViewModels"
-             d:DesignHeight="450"
+             d:DesignHeight="800"
              d:DesignWidth="800"
              x:CompileBindings="True"
              x:DataType="vm:TrendingViewModel"
              mc:Ignorable="d">
-    <Design.DataContext>
-        <vm:TrendingViewModel/>
-    </Design.DataContext>
-    <Border Background="Aqua" Height="750" VerticalAlignment="Center">
-        <Grid Background="Transparent" Width="850" HorizontalAlignment="Center" VerticalAlignment="Center"
-              RowDefinitions="100, 150, 200, 250" ShowGridLines="True">
-            <TextBlock Grid.Row="0" FontSize="35" HorizontalAlignment="Center" Foreground="#C69AFF">Trending!</TextBlock>
-        </Grid>
-    </Border>
+    
+    <Grid Background="Transparent" Width="850" HorizontalAlignment="Center" VerticalAlignment="Center"
+          RowDefinitions="380, 70, 70, 180, 30, 35">
+        <Image Grid.Row="0" Source="../Assets/boy and a bird.jpg" Width="850" Stretch="UniformToFill"/>
+        <TextBlock Grid.Row="1" FontSize="40" Text="Смотрите в кинотеатрах:" Foreground="#B57CFF"
+                   HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Bottom"/>
+        <TextBlock Grid.Row="2" Text="{Binding Bookmark.docs[0].alternativeName}" 
+                   Foreground="#742BEB" FontSize="40" TextAlignment="Center" HorizontalAlignment="Center"
+                   VerticalAlignment="Top"/>
+        <TextBlock Grid.Row="3" FontSize="30" Text="{Binding Bookmark.docs[0].description}"
+                   Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="4" Text="{Binding Bookmark.docs[0].rating.kp}" FontSize="30"
+                   HorizontalAlignment="Center" Foreground="#B57CFF"/>
+        <Canvas Grid.Row="5" HorizontalAlignment="Center" Margin="0 0 250 0" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <Path Height="40" Width="40" Stretch="Uniform" Fill="#B57CFF" Margin="5" Data="M 3.9687501,0 5.1351364,2.3633569 7.7432556,2.7423389 5.8560028,4.5819556 6.3015226,7.1795363 3.96875,5.953125 1.6359772,7.1795361 2.0814972,4.5819556 0.19424448,2.7423387 2.8023636,2.3633569 Z"/>
+                <Path Height="40" Width="40" Stretch="Uniform" Fill="#B57CFF" Margin="5" Data="M 3.9687501,0 5.1351364,2.3633569 7.7432556,2.7423389 5.8560028,4.5819556 6.3015226,7.1795363 3.96875,5.953125 1.6359772,7.1795361 2.0814972,4.5819556 0.19424448,2.7423387 2.8023636,2.3633569 Z"/>
+                <Path Height="40" Width="40" Stretch="Uniform" Fill="#B57CFF" Margin="5" Data="M 3.9687501,0 5.1351364,2.3633569 7.7432556,2.7423389 5.8560028,4.5819556 6.3015226,7.1795363 3.96875,5.953125 1.6359772,7.1795361 2.0814972,4.5819556 0.19424448,2.7423387 2.8023636,2.3633569 Z"/>
+                <Path Height="40" Width="40" Stretch="Uniform" Fill="#B57CFF" Margin="5" Data="M 3.9687501,0 5.1351364,2.3633569 7.7432556,2.7423389 5.8560028,4.5819556 6.3015226,7.1795363 3.96875,5.953125 1.6359772,7.1795361 2.0814972,4.5819556 0.19424448,2.7423387 2.8023636,2.3633569 Z"/>
+                <Path Height="40" Width="40" Stretch="Uniform" Fill="Lavender" Margin="5" Data="M 3.9687501,0 5.1351364,2.3633569 7.7432556,2.7423389 5.8560028,4.5819556 6.3015226,7.1795363 3.96875,5.953125 1.6359772,7.1795361 2.0814972,4.5819556 0.19424448,2.7423387 2.8023636,2.3633569 Z"/>
+
+            </StackPanel>
+            
+        </Canvas>
+    </Grid>
 </UserControl>

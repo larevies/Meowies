@@ -12,5 +12,5 @@ public class ChangeProfileViewModel : ProfileViewModelBase
         get => false;
         protected set => throw new NotSupportedException();
     }
-    public override bool CanNavigatePrevious => true;
+    public override bool CanNavigatePrevious => false;
 }
