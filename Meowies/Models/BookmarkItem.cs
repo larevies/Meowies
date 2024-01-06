@@ -7,7 +7,7 @@ public class Country
     public string name { get; set; }
 }
 
-public class Doc
+public class BookmarkDoc
 {
     public Rating rating { get; set; }
     public Votes votes { get; set; }
@@ -56,7 +56,7 @@ public class Rating
 
 public class BookmarkItem
 {
-    public List<Doc> docs { get; set; }
+    public List<BookmarkDoc> docs { get; set; }
     public int total { get; set; }
     public int limit { get; set; }
     public int page { get; set; }

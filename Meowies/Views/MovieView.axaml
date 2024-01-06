@@ -23,6 +23,8 @@
                            Text="{Binding Bookmark.docs[0].rating.kp}"/>
                 <TextBlock Foreground="#B57CFF" FontSize="25" HorizontalAlignment="Center" Margin="5"
                            Text="{Binding Bookmark.docs[0].votes.kp}"/>
+                <Button Content="{Binding Bookmarked}" CornerRadius="5" Background="Transparent" BorderBrush="#B57CFF"
+                        BorderThickness="2" Command="{Binding AddToBookmarksCommand}"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
@@ -39,8 +41,6 @@
                 <TextBlock HorizontalAlignment="Center" FontSize="20">
                     <Run Text="countries:" Foreground="#742BEB"/>
                     <Run Text="{Binding Bookmark.docs[0].countries[0].name}" Foreground="#B57CFF"/>
-                    <Run Text="," Foreground="#B57CFF"/>
-                    <Run Text="{Binding Bookmark.docs[0].countries[1].name}" Foreground="#B57CFF"/>
                 </TextBlock>
                 <TextBlock HorizontalAlignment="Center" FontSize="20">
                     <Run Text="length:" Foreground="#742BEB"/>

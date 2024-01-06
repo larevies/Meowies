@@ -48,7 +48,7 @@ public partial class ProfileViewModel : PageViewModelBase
     }
     public ICommand NavigateNextCommand { get; }
 
-    private void NavigateNext()
+    private async void NavigateNext()
     {
         var index = _profilePages.IndexOf(CurrentProfile) + 1;
         CurrentProfile = _profilePages[index];
@@ -88,6 +88,18 @@ public partial class ProfileViewModel : PageViewModelBase
             try
             {
                 SignInViewModel.CurrentUser = queryable ?? throw new InvalidOperationException();
+                var queryableTwo = context.Bookmarks
+                    .Where(o => o.User == SignInViewModel.CurrentUser)
+                    .Select(o => o.MovieId);
+                
+                foreach (var movieId in queryableTwo)
+                {
+                    var task = MainWindowViewModel.GetBmAsync(
+                        MainWindowViewModel.MovieUrl(
+                            movieId.ToString()));
+                    var item = await task;
+                    FavouritesViewModel.Bookmarks.Add(item);
+                }
                 UserName = queryable.Name;
                 CurrentProfile = _profilePages[3];
             }
