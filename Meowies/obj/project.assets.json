@@ -370,6 +370,35 @@
           }
         }
       },
+      "Flurl/4.0.0-pre4": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Flurl.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Flurl.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Flurl.Http/4.0.0-pre6": {
+        "type": "package",
+        "dependencies": {
+          "Flurl": "4.0.0-pre4"
+        },
+        "compile": {
+          "lib/net6.0/Flurl.Http.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Flurl.Http.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "HarfBuzzSharp/2.8.2.3": {
         "type": "package",
         "dependencies": {
@@ -1085,6 +1114,19 @@
           "runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll": {
             "assetType": "runtime",
             "rid": "win"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
           }
         }
       },
@@ -2402,6 +2444,42 @@
         "logo.png"
       ]
     },
+    "Flurl/4.0.0-pre4": {
+      "sha512": "gm3Hl5+qrz4QsZTzF1xd6IjnbwIzrzS1ArS1XqHPYmK00bepXm9YYUazbt7HSRuj2eN21E5eErIJYIXvTckmhw==",
+      "type": "package",
+      "path": "flurl/4.0.0-pre4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "flurl.4.0.0-pre4.nupkg.sha512",
+        "flurl.nuspec",
+        "icon.png",
+        "lib/net461/Flurl.dll",
+        "lib/net461/Flurl.xml",
+        "lib/net472/Flurl.dll",
+        "lib/net472/Flurl.xml",
+        "lib/netstandard2.0/Flurl.dll",
+        "lib/netstandard2.0/Flurl.xml"
+      ]
+    },
+    "Flurl.Http/4.0.0-pre6": {
+      "sha512": "YwWbb/egekWqLmoYZLY2PTzwmN4l6/C4iQKuUsWuNrjxYQ84Oa+OBfQzPYx+04lpOAhhjoBeXFB8y7C+F0CpJA==",
+      "type": "package",
+      "path": "flurl.http/4.0.0-pre6",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "flurl.http.4.0.0-pre6.nupkg.sha512",
+        "flurl.http.nuspec",
+        "icon.png",
+        "lib/net461/Flurl.Http.dll",
+        "lib/net461/Flurl.Http.xml",
+        "lib/net6.0/Flurl.Http.dll",
+        "lib/net6.0/Flurl.Http.xml",
+        "lib/netstandard2.0/Flurl.Http.dll",
+        "lib/netstandard2.0/Flurl.Http.xml"
+      ]
+    },
     "HarfBuzzSharp/2.8.2.3": {
       "sha512": "8MwXm9J4dXHuTdzPo29nHgDbt4+6P+RrPrH/qrxcERf29cpLlFbjvP3eFPwHmdUrl4KL2SHEZi2ZuQ5ndeIL1w==",
       "type": "package",
@@ -3402,6 +3480,36 @@
         "runtimes/win/lib/netcoreapp3.1/Microsoft.Win32.SystemEvents.dll",
         "runtimes/win/lib/netcoreapp3.1/Microsoft.Win32.SystemEvents.xml",
         "useSharedDesignerContext.txt"
+      ]
+    },
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/net6.0/Newtonsoft.Json.dll",
+        "lib/net6.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
       ]
     },
     "ReactiveUI/18.3.1": {
@@ -5785,7 +5893,9 @@
       "Avalonia.Fonts.Inter >= 11.0.5",
       "Avalonia.ReactiveUI >= 11.0.5",
       "Avalonia.Themes.Fluent >= 11.0.5",
-      "Microsoft.EntityFrameworkCore.Sqlite >= 7.0.0"
+      "Flurl.Http >= 4.0.0-pre6",
+      "Microsoft.EntityFrameworkCore.Sqlite >= 7.0.0",
+      "Newtonsoft.Json >= 13.0.3"
     ]
   },
   "packageFolders": {
@@ -5849,9 +5959,17 @@
             "target": "Package",
             "version": "[11.0.5, )"
           },
+          "Flurl.Http": {
+            "target": "Package",
+            "version": "[4.0.0-pre6, )"
+          },
           "Microsoft.EntityFrameworkCore.Sqlite": {
             "target": "Package",
             "version": "[7.0.0, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "imports": [

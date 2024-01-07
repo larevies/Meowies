@@ -62,9 +62,17 @@
               "target": "Package",
               "version": "[11.0.5, )"
             },
+            "Flurl.Http": {
+              "target": "Package",
+              "version": "[4.0.0-pre6, )"
+            },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [

@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Windows.Input;
+using Meowies.ViewModels;
 using Newtonsoft.Json;
+using ReactiveUI;
 
 namespace Meowies.Models;
 
@@ -79,6 +82,15 @@ public class BookmarkList
     public int limit { get; set; }
     public int page { get; set; }
     public int pages { get; set; }
+    
+    private string SwitchToMovie = "doesnt work";
+    //public ICommand SwitchCommand { get; }
+    /*public void Switch(Doc a)
+    {
+        MovieViewModel.MovieDoc = a;
+        MainWindowViewModel.MovieFunc();
+        // MainWindowViewModel.CurrentPage =
+    }*/
 }
 
 public class Set
@@ -86,4 +98,5 @@ public class Set
     public string language { get; set; }
     public string type { get; set; }
 }
+
 

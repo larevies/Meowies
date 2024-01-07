@@ -66,7 +66,7 @@ public class MovieViewModel : PageViewModelBase
         catch (Exception) { Poster = null!; }
     }
     public static BookmarkItem Bookmark { get; set; } = null!;
-
+    public static Doc MovieDoc { get; set; } = null!;
     public override bool CanCat => true;
     public override bool CanSearch => true;
     public override bool CanRandom => true;

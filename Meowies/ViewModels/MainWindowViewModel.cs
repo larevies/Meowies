@@ -8,7 +8,6 @@ using Meowies.Models;
 using Newtonsoft.Json;
 using ReactiveUI;
 
-
 namespace Meowies.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
@@ -49,7 +48,7 @@ public class MainWindowViewModel : ViewModelBase
     // private string _randomUrl = "https://api.kinopoisk.dev/v1.4/movie/random?page=1&limit=10&selectFields=id&selectFields=enName&selectFields=description&selectFields=type&selectFields=year&selectFields=rating&selectFields=ageRating&selectFields=votes&selectFields=movieLength&selectFields=genres&selectFields=countries&selectFields=poster&selectFields=alternativeName&selectFields=persons&token=41PANE7-0A44MD7-NRYZ232-8016VQY";
     public string SearchName { get; set; } = null!;
 
-    private readonly PageViewModelBase[] _pages = 
+    public readonly PageViewModelBase[] _pages = 
     { 
         new ProfileViewModel(),
         new FavouritesViewModel(),
@@ -62,7 +61,7 @@ public class MainWindowViewModel : ViewModelBase
     public PageViewModelBase CurrentPage
     {
         get => _currentPage;
-        private set => this.RaiseAndSetIfChanged(ref _currentPage, value);
+        set => this.RaiseAndSetIfChanged(ref _currentPage, value);
     }
 
     public ICommand CatCommand { get; }
@@ -122,6 +121,9 @@ public class MainWindowViewModel : ViewModelBase
             MovieViewModel.Message = "";*/
             
             CurrentPage = _pages[4];
+
+
+            //SearchViewModel.CurrentPage = _pages[0];
         }
         catch (Exception)
         {
@@ -223,7 +225,9 @@ public class MainWindowViewModel : ViewModelBase
         throw new Exception($"HTTP request failed with status code {response.StatusCode}");
     }
     
-    // TODO how to do design for things from API (for example, we have different bookmarks for every user)?
-    // TODO request datetime
-    
+    public void Switch(Doc a)
+    {
+        MovieViewModel.MovieDoc = a;
+        CurrentPage = _pages[2];
+    }
 }
