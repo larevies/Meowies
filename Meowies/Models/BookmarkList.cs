@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Input;
 using Meowies.ViewModels;
 using Newtonsoft.Json;
@@ -12,7 +13,7 @@ public class Backdrop
     public string previewUrl { get; set; }
 }
 
-public class Doc
+public class BookmarkDoc
 {
     public int id { get; set; }
     public string name { get; set; }
@@ -77,13 +78,12 @@ public class ReleaseYear
 
 public class BookmarkList
 {
-    public List<Doc> docs { get; set; }
+    public List<BookmarkDoc> docs { get; set; }
     public int total { get; set; }
     public int limit { get; set; }
     public int page { get; set; }
     public int pages { get; set; }
     
-    private string SwitchToMovie = "doesnt work";
     //public ICommand SwitchCommand { get; }
     /*public void Switch(Doc a)
     {

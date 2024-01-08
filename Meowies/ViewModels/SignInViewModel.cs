@@ -24,12 +24,18 @@ public class SignInViewModel : ProfileViewModelBase
             && MailAddress.Contains("@")
             && !string.IsNullOrEmpty(Password);
     }
-    private bool _canNavigateNext;
+
+    private bool _canNavigateNext = true;
     public override bool CanNavigateNext
     {
-        get => true;
-        protected set => this.RaiseAndSetIfChanged(ref _canNavigateNext, value);
+        get => _canNavigateNext;
+        protected set
+        {
+            _canNavigateNext = value;
+            OnPropertyChanged(nameof(CanNavigateNext));
+        }
     }
+
     public override bool CanNavigatePrevious => true;
     public static User CurrentUser { get; set; } = null!;
 }

@@ -1,61 +1,156 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Windows.Input;
 using Meowies.Models;
 using ReactiveUI;
-using static Meowies.ViewModels.MainWindowViewModel;
 
 namespace Meowies.ViewModels;
 
-public class SearchViewModel : PageViewModelBase
+public class SearchViewModel : ViewModelBase
 {
-    /*public SearchViewModel() {
-        SwitchCommand = ReactiveCommand.Create(Switch);
-    }
-    private string _switchToMovie = "doesnt work";
-    public string SwitchToMovie
+    public SearchViewModel()
     {
-        get => _switchToMovie;
-        set => this.RaiseAndSetIfChanged(ref _switchToMovie, value);
+        AddToBookmarksCommand = ReactiveCommand.Create(AddToBookmarks);
     }
-    public ICommand SwitchCommand { get; }
-    void Switch()
-    {
-        //MovieViewModel.Bookmark = SearchViewModel.Bookmarks[0];
-        SwitchToMovie = "worked";
-    }*/
 
-    /*public SearchViewModel()
+    private BookmarkDoc _bookmarkDocA = new();
+    public BookmarkDoc BookmarkDocA
     {
-        CurrentPage = _pages[0];
+        get => _bookmarkDocA;
+        set
+        {
+            _bookmarkDocA = value;
+            OnPropertyChanged(nameof(BookmarkDocA));
+        }
     }
-    private readonly PageViewModelBase[] _pages = 
-    { 
-        new SearchViewModel(),
-        new MovieViewModel()
-    };
-    
-    private PageViewModelBase _currentPage;
-    public PageViewModelBase CurrentPage
+    public static List<BookmarkDoc> Bookmarks { get; set; } = new();
+    public static List<ActorDoc> Actors { get; set; } = new();
+    private bool _isSearchVisible = true;
+    public bool IsSearchVisible
     {
-        get => _currentPage;
-        private set => this.RaiseAndSetIfChanged(ref _currentPage, value);
-    }*/
+        get => _isSearchVisible;
+        set
+        {
+            _isSearchVisible = value;
+            OnPropertyChanged(nameof(IsSearchVisible));
+        }
+    }
+
+    private bool _isMovieVisible;
+    public bool IsMovieVisible { 
+        get => _isMovieVisible;
+        set
+        {
+            _isMovieVisible = value;
+            OnPropertyChanged(nameof(IsMovieVisible));
+        }
+    } 
+    private bool _isActorVisible;
+    public bool IsActorVisible { 
+        get => _isActorVisible;
+        set
+        {
+            _isActorVisible = value;
+            OnPropertyChanged(nameof(IsActorVisible));
+        }
+    } 
     
-    
-    
-    //private MainWindowViewModel m = new MainWindowViewModel();
-    public static List<BookmarkList> Bookmarks { get; set; } = new() { };
-    public static List<ActorList> Actors { get; set; } = new() { };
-    public override bool CanCat => true;
-    public override bool CanSearch => true;
-    public override bool CanRandom => true;
-    public override bool CanFavourites => true;
-    public override bool CanTrending => true;
-    private readonly MainWindowViewModel _window = null!;
-    public void SearchSwitch(Doc a)
+    public void BookmarkSearchSwitch(BookmarkDoc a)
     {
-        MovieViewModel.MovieDoc = a;
-        _window.Switch(a);
+        IsSearchVisible = false;
+        IsMovieVisible = true;
+        BookmarkDocA = a;
+        DownloadImage(BookmarkDocA.poster.url);
+        MovieViewModel.MovieBookmarkDoc = a;
+        Console.Write("bkmk");
+
+    } 
+    public void ActorSearchSwitch(BookmarkDoc a)
+    {
+        IsSearchVisible = false;
+        IsActorVisible = true;
+        MovieViewModel.MovieBookmarkDoc = a;
+        Console.Write("act");
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    private string _bookmarked = "Bookmark me";
+    public string Bookmarked
+    {
+        get => _bookmarked;
+        set
+        {
+            _bookmarked = value;
+            OnPropertyChanged(nameof(Bookmarked));
+        }
+    }
+
+    public ICommand AddToBookmarksCommand { get; }
+    public void AddToBookmarks()
+    {
+        try
+        {
+            using var context = new MeowiesContext();
+            context.Attach(SignInViewModel.CurrentUser);
+            var newBookmark = new Bookmark()
+            {
+                User = SignInViewModel.CurrentUser,
+                MovieId = BookmarkDocA.id
+            };
+            context.Bookmarks.Add(newBookmark);
+            context.SaveChanges();
+            Bookmarked = "Bookmarked";
+        }
+        catch(Exception)
+        {
+            Console.Write("аэыаээыэ. u are not logged in");
+        }
+    }
+    public static string Message { get; set; } = "";
+    
+    private Avalonia.Media.Imaging.Bitmap _poster;
+    public Avalonia.Media.Imaging.Bitmap Poster
+    {
+        get => _poster;
+        set
+        {
+            _poster = value;
+            OnPropertyChanged(nameof(Poster));
+        }
+    }
+    public void DownloadImage(string url)
+    {
+        using WebClient client = new WebClient();
+        client.DownloadDataAsync(new Uri(url));
+        client.DownloadDataCompleted += DownloadComplete;
+    }
+
+    private void DownloadComplete(object sender, DownloadDataCompletedEventArgs e)
+    {
+        try
+        {
+            byte[] bytes = e.Result;
+            Stream stream = new MemoryStream(bytes);
+            var image = new Avalonia.Media.Imaging.Bitmap(stream);
+            Poster = image;
+        }
+        catch (Exception) { Poster = null!; }
     }
 }

@@ -49,11 +49,11 @@
         </DataTemplate>
     </UserControl.DataTemplates>
 
-    <Grid Background="Transparent" Height="500" Width="800" RowDefinitions="75, *, Auto">
-        <StackPanel Grid.Row="0" Orientation="Vertical">
-            <TextBlock Text="Bookmarks!" Foreground="#B57CFF" FontSize="35" Margin="15" HorizontalAlignment="Center"/>
-        </StackPanel>
-        <ListBox Grid.Row="1" ItemsSource="{Binding Bookmarks}" Width="550" Background="White"/>
+    <Grid Height="750" RowDefinitions="90, *, 200">
+        <TextBlock Text="Bookmarks!" Foreground="#B57CFF" FontSize="35" Margin="15" HorizontalAlignment="Center"/>
+        <Grid Grid.Row="1" Height="525">
+            <ListBox ItemsSource="{Binding Bookmarks}" Background="White"/>
+        </Grid>
         <Image Grid.Row="2" Source="../Assets/Icons/toyger-cat.png" Height="100" Width="100" Stretch="Uniform" Margin="0 200 600 0 "/>
         <Image Grid.Row="2" Source="../Assets/Icons/butterfly.png" Height="40" Width="40" Stretch="Uniform" Margin="0 100 550 0"/>
     </Grid>
