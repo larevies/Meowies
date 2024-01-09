@@ -64,7 +64,7 @@ public class SearchViewModel : ViewModelBase
         BookmarkDocA = a;
         DownloadImage(BookmarkDocA.poster.url);
         MovieViewModel.MovieBookmarkDoc = a;
-        Console.Write("bkmk");
+        Console.Write("bkmk\n");
 
     } 
     public void ActorSearchSwitch(BookmarkDoc a)
@@ -74,22 +74,6 @@ public class SearchViewModel : ViewModelBase
         MovieViewModel.MovieBookmarkDoc = a;
         Console.Write("act");
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     private string _bookmarked = "Bookmark me";
     public string Bookmarked
@@ -105,8 +89,10 @@ public class SearchViewModel : ViewModelBase
     public ICommand AddToBookmarksCommand { get; }
     public void AddToBookmarks()
     {
+        // User user = SignInViewModel.CurrentUser;
         try
         {
+            // BookmarksUpdater.Add(user, BookmarkDocA.id);
             using var context = new MeowiesContext();
             context.Attach(SignInViewModel.CurrentUser);
             var newBookmark = new Bookmark()
@@ -118,9 +104,10 @@ public class SearchViewModel : ViewModelBase
             context.SaveChanges();
             Bookmarked = "Bookmarked";
         }
-        catch(Exception)
+        catch (Exception)
         {
             Console.Write("аэыаээыэ. u are not logged in");
+            
         }
     }
     public static string Message { get; set; } = "";

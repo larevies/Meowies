@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using DynamicData;
 using Meowies.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReactiveUI;
 
 namespace Meowies.ViewModels;
@@ -60,6 +62,19 @@ public class ProfileViewModel : ViewModelBase
     }
     public ICommand NavigateNextCommand { get; }
 
+    private string _username = "useR";
+
+    public string UserName
+    {
+        get => _username;
+        set
+        {
+            _username = value;
+            OnPropertyChanged(nameof(UserName));
+        }
+    }
+    
+
     private async void NavigateNext()
     {
         var index = _profilePages.IndexOf(CurrentProfile) + 1;
@@ -70,8 +85,7 @@ public class ProfileViewModel : ViewModelBase
             Previous = "Go back";
             using var context = new MeowiesContext();
             var queryable = context.Users.FirstOrDefault(x => x.Email == SignUpViewModel.MailAddress);
-            
-            if (queryable.Name != null)
+            if (queryable != null)
             {
                 SignUpViewModel.Message = "This email is taken";
                 CurrentProfile = _profilePages[1];
@@ -100,6 +114,7 @@ public class ProfileViewModel : ViewModelBase
             try
             {
                 SignInViewModel.CurrentUser = queryable ?? throw new InvalidOperationException();
+
                 var queryableTwo = context.Bookmarks
                     .Where(o => o.User == SignInViewModel.CurrentUser)
                     .Select(o => o.MovieId);
@@ -107,10 +122,10 @@ public class ProfileViewModel : ViewModelBase
                 foreach (var movieId in queryableTwo)
                 {
                     var task = MainWindowViewModel.GetBmAsync(
-                        MainWindowViewModel.MovieUrl(
+                        MainWindowViewModel.GetMovieUrlByName(
                             movieId.ToString()));
                     var item = await task!;
-                    FavouritesViewModel.Bookmarks.Add(item!);
+                    BookmarksViewModel.Bookmarks.Add(item!);
                 }
                 UserName = queryable.Name;
                 CurrentProfile = _profilePages[3];
@@ -122,8 +137,6 @@ public class ProfileViewModel : ViewModelBase
             }
         }
     }
-
-    public static string UserName { get; private set; } = "User";
     public ICommand NavigatePreviousCommand { get; }
 
     private void NavigatePrevious()

@@ -3,7 +3,7 @@ using Meowies.Models;
 
 namespace Meowies.ViewModels;
 
-public class FavouritesViewModel : ViewModelBase
+public class BookmarksViewModel : ViewModelBase
 {
     public static List<BookmarkItem> Bookmarks { get; set; } = new();
 }

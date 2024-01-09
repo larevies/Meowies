@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Input;
+using Meowies.Commands;
 using Meowies.Models;
 using Newtonsoft.Json;
 using ReactiveUI;
@@ -12,6 +13,7 @@ namespace Meowies.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
+    public ICommand UpdateViewCommand { get; set; }
 
     public MainWindowViewModel()
     {
@@ -20,6 +22,8 @@ public class MainWindowViewModel : ViewModelBase
         context.Database.EnsureCreated();
         
         _currentPage = _pages[0];
+
+        UpdateViewCommand = new UpdateViewCommand(this);
         
         CatCommand = ReactiveCommand.Create(Cat);
         SearchCommand = ReactiveCommand.Create(Search);
@@ -28,19 +32,30 @@ public class MainWindowViewModel : ViewModelBase
         TrendingCommand = ReactiveCommand.Create(Trending);
     }
 
-    public static string IdMovieUrl(string id)
+    private ViewModelBase _selectedViewModel = new MainWindowViewModel();
+
+    public ViewModelBase SelectedViewModel
     {
-        return $"https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&selectFields=id&selectFields=enName&selectFields=description&selectFields=type&selectFields=year&selectFields=rating&selectFields=ageRating&selectFields=votes&selectFields=movieLength&selectFields=genres&selectFields=countries&selectFields=poster&selectFields=alternativeName&selectFields=persons&id={id}&token=41PANE7-0A44MD7-NRYZ232-8016VQY";
+        get => _selectedViewModel;
+        set => _selectedViewModel = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    public static string MovieUrl(string name)
+    public static string GetMovieUrlById(string id)
     {
-        return $"https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=10&query={name}&token=41PANE7-0A44MD7-NRYZ232-8016VQY";
+        MovieUrlByIdGetter getter = new MovieUrlByIdGetter();
+        return getter.Get(id);
     }
 
-    private static string ActorUrl(string name)
+    public static string GetMovieUrlByName(string name)
     {
-        return $"https://api.kinopoisk.dev/v1.4/person/search?page=1&limit=10&query={name}&token=41PANE7-0A44MD7-NRYZ232-8016VQY";
+        MovieUrlByNameGetter getter = new MovieUrlByNameGetter();
+        return getter.Get(name);
+    }
+
+    private static string GetActorUrlByName(string name)
+    {
+        ActorUrlByNameGetter getter = new ActorUrlByNameGetter();
+        return getter.Get(name);
     }
     private string RandomUrl = "https://api.kinopoisk.dev/v1.4/movie/random?page=1&limit=10&selectFields=id&selectFields=enName&selectFields=description&selectFields=type&selectFields=year&selectFields=rating&selectFields=ageRating&selectFields=votes&selectFields=movieLength&selectFields=genres&selectFields=countries&selectFields=poster&selectFields=alternativeName&selectFields=persons&token=41PANE7-0A44MD7-NRYZ232-8016VQY";
     public string SearchName { get; set; } = null!;
@@ -48,7 +63,7 @@ public class MainWindowViewModel : ViewModelBase
     private readonly ViewModelBase[] _pages = 
     { 
         new ProfileViewModel(),
-        new FavouritesViewModel(),
+        new BookmarksViewModel(),
         new MovieViewModel(),
         new TrendingViewModel(), 
         new SearchViewModel()
@@ -80,13 +95,13 @@ public class MainWindowViewModel : ViewModelBase
             
             var name = HttpUtility.UrlEncode(SearchName);
             
-            var task = GetBmListAsync(MovieUrl(name));
+            var task = GetBmListAsync(GetMovieUrlByName(name));
             var item = await task!;
             foreach (var doc in item!.docs)
             { SearchViewModel.Bookmarks.Add(doc); }
             
             
-            var taskActor = GetAcListAsync(ActorUrl(name));
+            var taskActor = GetAcListAsync(GetActorUrlByName(name));
             var itemActor = await taskActor!;
             foreach (var doc in itemActor!.docs)
             { SearchViewModel.Actors.Add(doc); }
@@ -122,7 +137,7 @@ public class MainWindowViewModel : ViewModelBase
             int[] ids = {939785, 86621, 683999, 571892, 1211076}; 
             var index  = rnd.Next(0, 5);
             int id = ids[index];
-            var task = GetBmAsync(MovieUrl(id.ToString()));
+            var task = GetBmAsync(GetMovieUrlByName(id.ToString()));
             var item = await task;
             MovieViewModel.Bookmark = item;
             //MovieViewModel.PosterUrl = item.docs[0].poster.previewUrl;
@@ -147,7 +162,7 @@ public class MainWindowViewModel : ViewModelBase
         try
         {
             var id = 1071383;
-            var task = GetBmAsync(MovieUrl(id.ToString()));
+            var task = GetBmAsync(GetMovieUrlByName(id.ToString()));
             var item = await task;
             TrendingViewModel.Bookmark = item;
             CurrentPage = _pages[3];

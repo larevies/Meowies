@@ -5899,19 +5899,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\admin\\.nuget\\packages\\": {}
+    "C:\\Users\\kill_\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\admin\\RiderProjects\\Meowies\\Meowies\\Meowies.csproj",
+      "projectUniqueName": "C:\\Users\\kill_\\RiderProjects\\Meowies\\Meowies\\Meowies.csproj",
       "projectName": "Meowies",
-      "projectPath": "C:\\Users\\admin\\RiderProjects\\Meowies\\Meowies\\Meowies.csproj",
-      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\admin\\RiderProjects\\Meowies\\Meowies\\obj\\",
+      "projectPath": "C:\\Users\\kill_\\RiderProjects\\Meowies\\Meowies\\Meowies.csproj",
+      "packagesPath": "C:\\Users\\kill_\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kill_\\RiderProjects\\Meowies\\Meowies\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\kill_\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
