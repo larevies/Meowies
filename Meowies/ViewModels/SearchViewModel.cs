@@ -28,36 +28,38 @@ public class SearchViewModel : ViewModelBase
             
             var task = JSONDeserializers.GetBmListAsync(ApiQueries.MovieUrl(name));
             var item = await task!;
-            foreach (var doc in item!.docs)
-            { Bookmarks.Add(doc); }
+            foreach (var doc in item!.docs!)
+            { Movies.Add(doc); }
             
             
             var taskActor = JSONDeserializers.GetAcListAsync(ApiQueries.ActorUrl(name));
             var itemActor = await taskActor!;
-            foreach (var doc in itemActor!.docs)
+            foreach (var doc in itemActor!.docs!)
             { Actors.Add(doc); }
             
             IsSearchVisible = true;
+            IsStartVisible = false;
             IsResultVisible = true;
             IsMovieVisible = false;
             IsActorVisible = false;
-            
+            IsGoBackVisible = false;
+            Message = "";
+
         }
         catch (Exception e)
         {
-            Console.WriteLine("Wrong");
             Console.WriteLine(e.Message);
         }
     }
     public string SearchName { get; set; } = null!;
-    private List<MovieListDoc> _bookmarks = new(10);
-    public List<MovieListDoc> Bookmarks
+    private List<MovieListDoc> _movies = new(10);
+    public List<MovieListDoc> Movies
     {
-        get => _bookmarks;
+        get => _movies;
         set
         {
-            _bookmarks = value;
-            OnPropertyChanged(nameof(Bookmarks));
+            _movies = value;
+            OnPropertyChanged(nameof(Movies));
         }
     }
     private List<ActorListDoc> _actors = new(10);
@@ -128,6 +130,15 @@ public class SearchViewModel : ViewModelBase
             OnPropertyChanged(nameof(IsResultVisible));
         }
     }
+    private bool _isStartVisible = true;
+    public bool IsStartVisible { 
+        get => _isStartVisible;
+        set
+        {
+            _isStartVisible = value;
+            OnPropertyChanged(nameof(IsStartVisible));
+        }
+    }
     private bool _isGoBackVisible;
     public bool IsGoBackVisible { 
         get => _isGoBackVisible;
@@ -138,60 +149,73 @@ public class SearchViewModel : ViewModelBase
         }
     }
     
-    public async void BookmarkSearchSwitch(int id)
+    public async void MovieSearchSwitch(int id)
     {
-        IsSearchVisible = false;
-        IsResultVisible = false;
-        IsActorVisible = false;
-        IsMovieVisible = true;
-        IsGoBackVisible = true;
-        var task = JSONDeserializers.GetBmAsync(ApiQueries.IdMovieUrl(id.ToString()));
-        var item = await task!;
-        Item = item!.docs[0];
-        DownloadImage(Item.poster.url);
-
+        try
+        {
+            IsSearchVisible = false;
+            IsStartVisible = false;
+            IsResultVisible = false;
+            IsActorVisible = false;
+            IsMovieVisible = true;
+            IsGoBackVisible = true;
+            Message = "";
+            var task = JSONDeserializers.GetBmAsync(ApiQueries.IdMovieUrl(id.ToString()));
+            var item = await task!;
+            Item = item!.docs[0];
+            DownloadImage(Item.poster.url);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Can't go there.");
+            Console.WriteLine(e.Message);
+        }
     } 
     public async void ActorSearchSwitch(int id)
     {
-        IsSearchVisible = false;
-        IsResultVisible = false;
-        IsMovieVisible = false;
-        IsActorVisible = true;
-        IsGoBackVisible = true;
-        var task = JSONDeserializers.GetAcAsync(ApiQueries.IdActorUrl(id.ToString()));
-        var item = await task!;
-        ActorItem = item!.docs[0];
-        DownloadImage(ActorItem.photo);
+        try {
+            IsSearchVisible = false;
+            IsStartVisible = false;
+            IsResultVisible = false;
+            IsMovieVisible = false;
+            IsActorVisible = true;
+            IsGoBackVisible = true;
+            Message = "";
+            var task = JSONDeserializers.GetAcAsync(ApiQueries.IdActorUrl(id.ToString()));
+            var item = await task!;
+            ActorItem = item!.docs![0];
+            DownloadImage(ActorItem.photo!);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Can't go there.");
+            Console.WriteLine(e.Message);
+        }
     }
     
     public ICommand GoBackCommand { get; }
-    public void GoBack()
+    private void GoBack()
     {
-        IsSearchVisible = true;
-        IsActorVisible = false;
-        IsMovieVisible = false;
-        IsGoBackVisible = false;
-        IsResultVisible = false;
-        Bookmarks.Clear();
-        Actors.Clear();
-        Item = new MovieItemDoc();
-        ActorItem = new ActorItemDoc();
-        Poster = null;
+        try {
+            IsSearchVisible = true;
+            IsStartVisible = true;
+            IsActorVisible = false;
+            IsMovieVisible = false;
+            IsGoBackVisible = false;
+            IsResultVisible = false;
+            Message = "";
+            Movies = new();
+            Actors = new();
+            Item = new();
+            ActorItem = new();
+            Poster = null!;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Can't go there.");
+            Console.WriteLine(e.Message);
+        }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     private string _bookmarked = "Bookmark me";
     public string Bookmarked
@@ -205,7 +229,7 @@ public class SearchViewModel : ViewModelBase
     }
 
     public ICommand AddToBookmarksCommand { get; }
-    public void AddToBookmarks()
+    private void AddToBookmarks()
     {
         try
         {
@@ -236,7 +260,7 @@ public class SearchViewModel : ViewModelBase
         }
     }
     
-    private Avalonia.Media.Imaging.Bitmap _poster;
+    private Avalonia.Media.Imaging.Bitmap _poster = null!;
     public Avalonia.Media.Imaging.Bitmap Poster
     {
         get => _poster;
@@ -246,7 +270,7 @@ public class SearchViewModel : ViewModelBase
             OnPropertyChanged(nameof(Poster));
         }
     }
-    public void DownloadImage(string url)
+    private void DownloadImage(string url)
     {
         using WebClient client = new WebClient();
         client.DownloadDataAsync(new Uri(url));

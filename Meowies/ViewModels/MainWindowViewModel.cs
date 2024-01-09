@@ -23,7 +23,6 @@ public class MainWindowViewModel : ViewModelBase
         FavouritesCommand = ReactiveCommand.Create(Favourites);
         TrendingCommand = ReactiveCommand.Create(Trending);
     }
-    public string SearchName { get; set; } = null!;
 
     private readonly ViewModelBase[] _pages = 
     { 
