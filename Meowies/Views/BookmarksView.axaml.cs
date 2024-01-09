@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Meowies.Views;
 
-public partial class FavouritesView : UserControl
+public partial class BookmarksView : UserControl
 {
-    public FavouritesView()
+    public BookmarksView()
     {
         InitializeComponent();
     }

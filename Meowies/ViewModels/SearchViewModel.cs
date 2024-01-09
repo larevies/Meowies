@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Web;
 using System.Windows.Input;
 using Meowies.Models;
 using ReactiveUI;
@@ -14,82 +13,20 @@ public class SearchViewModel : ViewModelBase
     public SearchViewModel()
     {
         AddToBookmarksCommand = ReactiveCommand.Create(AddToBookmarks);
-        SearchCommandA = ReactiveCommand.Create(SearchA);
-        GoBackCommand = ReactiveCommand.Create(GoBack);
     }
 
-    public string SearchResults { get; set; } = "Search results!";
-    public ICommand SearchCommandA { get; }
-    private async void SearchA()
+    private BookmarkDoc _bookmarkDocA = new();
+    public BookmarkDoc BookmarkDocA
     {
-        try
-        {
-            var name = HttpUtility.UrlEncode(SearchName);
-            
-            var task = JSONDeserializers.GetBmListAsync(ApiQueries.MovieUrl(name));
-            var item = await task!;
-            foreach (var doc in item!.docs)
-            { Bookmarks.Add(doc); }
-            
-            
-            var taskActor = JSONDeserializers.GetAcListAsync(ApiQueries.ActorUrl(name));
-            var itemActor = await taskActor!;
-            foreach (var doc in itemActor!.docs)
-            { Actors.Add(doc); }
-            
-            IsSearchVisible = true;
-            IsResultVisible = true;
-            IsMovieVisible = false;
-            IsActorVisible = false;
-            
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Wrong");
-            Console.WriteLine(e.Message);
-        }
-    }
-    public string SearchName { get; set; } = null!;
-    private List<MovieListDoc> _bookmarks = new(10);
-    public List<MovieListDoc> Bookmarks
-    {
-        get => _bookmarks;
+        get => _bookmarkDocA;
         set
         {
-            _bookmarks = value;
-            OnPropertyChanged(nameof(Bookmarks));
+            _bookmarkDocA = value;
+            OnPropertyChanged(nameof(BookmarkDocA));
         }
     }
-    private List<ActorListDoc> _actors = new(10);
-    public List<ActorListDoc> Actors
-    {
-        get => _actors;
-        set
-        {
-            _actors = value;
-            OnPropertyChanged(nameof(Actors));
-        }
-    }
-    private MovieItemDoc _item = new();
-    public MovieItemDoc Item
-    {
-        get => _item;
-        set
-        {
-            _item = value;
-            OnPropertyChanged(nameof(Item));
-        }
-    }
-    private ActorItemDoc _actorItem = new();
-    public ActorItemDoc ActorItem
-    {
-        get => _actorItem;
-        set
-        {
-            _actorItem = value;
-            OnPropertyChanged(nameof(ActorItem));
-        }
-    }
+    public static List<BookmarkDoc> Bookmarks { get; set; } = new();
+    public static List<ActorDoc> Actors { get; set; } = new();
     private bool _isSearchVisible = true;
     public bool IsSearchVisible
     {
@@ -119,79 +56,24 @@ public class SearchViewModel : ViewModelBase
             OnPropertyChanged(nameof(IsActorVisible));
         }
     } 
-    private bool _isResultVisible;
-    public bool IsResultVisible { 
-        get => _isResultVisible;
-        set
-        {
-            _isResultVisible = value;
-            OnPropertyChanged(nameof(IsResultVisible));
-        }
-    }
-    private bool _isGoBackVisible;
-    public bool IsGoBackVisible { 
-        get => _isGoBackVisible;
-        set
-        {
-            _isGoBackVisible = value;
-            OnPropertyChanged(nameof(IsGoBackVisible));
-        }
-    }
     
-    public async void BookmarkSearchSwitch(int id)
+    public void BookmarkSearchSwitch(BookmarkDoc a)
     {
         IsSearchVisible = false;
-        IsResultVisible = false;
-        IsActorVisible = false;
         IsMovieVisible = true;
-        IsGoBackVisible = true;
-        var task = JSONDeserializers.GetBmAsync(ApiQueries.IdMovieUrl(id.ToString()));
-        var item = await task!;
-        Item = item!.docs[0];
-        DownloadImage(Item.poster.url);
+        BookmarkDocA = a;
+        DownloadImage(BookmarkDocA.poster.url);
+        MovieViewModel.MovieBookmarkDoc = a;
+        Console.Write("bkmk\n");
 
     } 
-    public async void ActorSearchSwitch(int id)
+    public void ActorSearchSwitch(BookmarkDoc a)
     {
         IsSearchVisible = false;
-        IsResultVisible = false;
-        IsMovieVisible = false;
         IsActorVisible = true;
-        IsGoBackVisible = true;
-        var task = JSONDeserializers.GetAcAsync(ApiQueries.IdActorUrl(id.ToString()));
-        var item = await task!;
-        ActorItem = item!.docs[0];
-        DownloadImage(ActorItem.photo);
+        MovieViewModel.MovieBookmarkDoc = a;
+        Console.Write("act");
     }
-    
-    public ICommand GoBackCommand { get; }
-    public void GoBack()
-    {
-        IsSearchVisible = true;
-        IsActorVisible = false;
-        IsMovieVisible = false;
-        IsGoBackVisible = false;
-        IsResultVisible = false;
-        Bookmarks.Clear();
-        Actors.Clear();
-        Item = new MovieItemDoc();
-        ActorItem = new ActorItemDoc();
-        Poster = null;
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     private string _bookmarked = "Bookmark me";
     public string Bookmarked
@@ -207,34 +89,28 @@ public class SearchViewModel : ViewModelBase
     public ICommand AddToBookmarksCommand { get; }
     public void AddToBookmarks()
     {
+        // User user = SignInViewModel.CurrentUser;
         try
         {
+            // BookmarksUpdater.Add(user, BookmarkDocA.id);
             using var context = new MeowiesContext();
             context.Attach(SignInViewModel.CurrentUser);
             var newBookmark = new Bookmark()
             {
                 User = SignInViewModel.CurrentUser,
-                MovieId = Item.id
+                MovieId = BookmarkDocA.id
             };
             context.Bookmarks.Add(newBookmark);
             context.SaveChanges();
             Bookmarked = "Bookmarked";
         }
-        catch(Exception)
+        catch (Exception)
         {
-            Message = "you are not logged in.\nlog in to save movies!";
+            Console.Write("аэыаээыэ. u are not logged in");
+            
         }
     }
-    private string _message = "";
-    public string Message
-    {
-        get => _message;
-        set
-        {
-            _message = value;
-            OnPropertyChanged(nameof(Message));
-        }
-    }
+    public static string Message { get; set; } = "";
     
     private Avalonia.Media.Imaging.Bitmap _poster;
     public Avalonia.Media.Imaging.Bitmap Poster

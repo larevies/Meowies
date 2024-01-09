@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using DynamicData;
 using Meowies.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReactiveUI;
 
 namespace Meowies.ViewModels;
@@ -11,7 +13,7 @@ public class ProfileViewModel : ViewModelBase
 {
     public ProfileViewModel()
     {
-        CurrentProfile = Welcome;
+        CurrentProfile = _profilePages[0];
         
         var canNavNext = this.WhenAnyValue(x => x.CurrentProfile.CanNavigateNext);
         var canNavPrev = this.WhenAnyValue(x => x.CurrentProfile.CanNavigatePrevious);
@@ -41,24 +43,13 @@ public class ProfileViewModel : ViewModelBase
             OnPropertyChanged(nameof(Previous));
         } 
     }
-
-    #region Profile ViewModels
-    
-    private static readonly ProfileViewModelBase Welcome = new WelcomeViewModel();
-    private static readonly ProfileViewModelBase SignUp = new SignUpViewModel();
-    private static readonly ProfileViewModelBase SignIn = new SignInViewModel();
-    private static readonly ProfileViewModelBase ChangeProfile = new ChangeProfileViewModel();
-    
     private readonly ProfileViewModelBase[] _profilePages = 
     { 
-        Welcome,
-        SignUp,
-        SignIn,
-        ChangeProfile
+        new WelcomeViewModel(),
+        new SignUpViewModel(),
+        new SignInViewModel(),
+        new ChangeProfileViewModel()
     };
-    
-    #endregion
-    
     private ProfileViewModelBase _currentProfile = null!;
     public ProfileViewModelBase CurrentProfile
     {
@@ -71,21 +62,33 @@ public class ProfileViewModel : ViewModelBase
     }
     public ICommand NavigateNextCommand { get; }
 
+    private string _username = "useR";
+
+    public string UserName
+    {
+        get => _username;
+        set
+        {
+            _username = value;
+            OnPropertyChanged(nameof(UserName));
+        }
+    }
+    
+
     private async void NavigateNext()
     {
         var index = _profilePages.IndexOf(CurrentProfile) + 1;
         CurrentProfile = _profilePages[index];
-        if (CurrentProfile == SignIn)
+        if (CurrentProfile == _profilePages[2])
         {
             Next = "Sign in";
             Previous = "Go back";
             using var context = new MeowiesContext();
             var queryable = context.Users.FirstOrDefault(x => x.Email == SignUpViewModel.MailAddress);
-            
             if (queryable != null)
             {
                 SignUpViewModel.Message = "This email is taken";
-                CurrentProfile = SignUp;
+                CurrentProfile = _profilePages[1];
             }
             else
             {
@@ -93,54 +96,53 @@ public class ProfileViewModel : ViewModelBase
                 await context.SaveChangesAsync();
             }
         }
-        else if (CurrentProfile == Welcome)
+        else if (CurrentProfile == _profilePages[0])
         {
             Next = "Sign up";
             Previous = "Sign in";
         }
-        else if (CurrentProfile == SignUp)
+        else if (CurrentProfile == _profilePages[1])
         {
             Next = "Sign up";
             Previous = "Go Back";
         } 
-        else if (CurrentProfile == ChangeProfile)
+        else if (CurrentProfile == _profilePages[3])
         {
             using var context = new MeowiesContext();
             var queryable = context.Users
                 .FirstOrDefault(x => x.Email == SignInViewModel.MailAddress && x.Password == SignInViewModel.Password);
             try
             {
-                ChangeProfileViewModel.CurrentUser = queryable ?? throw new InvalidOperationException();
+                SignInViewModel.CurrentUser = queryable ?? throw new InvalidOperationException();
+
                 var queryableTwo = context.Bookmarks
-                    .Where(o => o.User == ChangeProfileViewModel.CurrentUser)
+                    .Where(o => o.User == SignInViewModel.CurrentUser)
                     .Select(o => o.MovieId);
                 
                 foreach (var movieId in queryableTwo)
                 {
-                    var task = JSONDeserializers.GetBmAsync(
-                        ApiQueries.MovieUrl(
+                    var task = MainWindowViewModel.GetBmAsync(
+                        MainWindowViewModel.GetMovieUrlByName(
                             movieId.ToString()));
                     var item = await task!;
-                    FavouritesViewModel.Bookmarks.Add(item!);
+                    BookmarksViewModel.Bookmarks.Add(item!);
                 }
                 UserName = queryable.Name;
-                CurrentProfile = ChangeProfile;
+                CurrentProfile = _profilePages[3];
             }
             catch (Exception)
             {
                 SignInViewModel.Message = "E-mail address or password do not match.\nTry again";
-                CurrentProfile = SignIn;
+                CurrentProfile = _profilePages[2];
             }
         }
     }
-
-    public static string UserName { get; private set; } = "User";
     public ICommand NavigatePreviousCommand { get; }
 
     private void NavigatePrevious()
     {
         int index;
-        if (CurrentProfile == Welcome)
+        if (CurrentProfile == _profilePages[0])
         {
             index = _profilePages.IndexOf(CurrentProfile) + 2;
         }
@@ -150,17 +152,17 @@ public class ProfileViewModel : ViewModelBase
         }
 
         CurrentProfile = _profilePages[index];
-        if (CurrentProfile == SignIn)
+        if (CurrentProfile == _profilePages[2])
         {
             Next = "Sign in";
             Previous = "Go back";
         }
-        else if (CurrentProfile == Welcome)
+        else if (CurrentProfile == _profilePages[0])
         {
             Next = "Sign up";
             Previous = "Sign in";
         }
-        else if (CurrentProfile == SignUp)
+        else if (CurrentProfile == _profilePages[1])
         {
             Next = "Sign up";
             Previous = "Go Back";

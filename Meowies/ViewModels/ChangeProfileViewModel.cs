@@ -1,10 +1,16 @@
 using System;
+using Meowies.Models;
 
 namespace Meowies.ViewModels;
 
 public class ChangeProfileViewModel : ProfileViewModelBase
 {
-    public static string UserName => ProfileViewModel.UserName;
+    private string _userName = "usEr";
+    public string UserName 
+    { 
+        get => _userName;
+        set => OnPropertyChanged(nameof(UserName));
+    }
     public override bool CanNavigateNext
     {
         get => false;
