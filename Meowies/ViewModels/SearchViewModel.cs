@@ -138,25 +138,27 @@ public class SearchViewModel : ViewModelBase
         }
     }
     
-    public async void BookmarkSearchSwitch(MovieListDoc a)
+    public async void BookmarkSearchSwitch(int id)
     {
         IsSearchVisible = false;
         IsResultVisible = false;
+        IsActorVisible = false;
         IsMovieVisible = true;
         IsGoBackVisible = true;
-        var task = JSONDeserializers.GetBmAsync(ApiQueries.IdMovieUrl(a.id.ToString()));
+        var task = JSONDeserializers.GetBmAsync(ApiQueries.IdMovieUrl(id.ToString()));
         var item = await task!;
         Item = item!.docs[0];
         DownloadImage(Item.poster.url);
 
     } 
-    public async void ActorSearchSwitch(ActorListDoc a)
+    public async void ActorSearchSwitch(int id)
     {
         IsSearchVisible = false;
         IsResultVisible = false;
+        IsMovieVisible = false;
         IsActorVisible = true;
         IsGoBackVisible = true;
-        var task = JSONDeserializers.GetAcAsync(ApiQueries.IdActorUrl(a.id.ToString()));
+        var task = JSONDeserializers.GetAcAsync(ApiQueries.IdActorUrl(id.ToString()));
         var item = await task!;
         ActorItem = item!.docs[0];
         DownloadImage(ActorItem.photo);

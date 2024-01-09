@@ -19,7 +19,7 @@ public class MovieItemDoc
     public int id { get; set; }
     public string type { get; set; }
     public string description { get; set; }
-    public int year { get; set; }
+    public int? year { get; set; }
     public Poster poster { get; set; }
     public List<Genre> genres { get; set; }
     public List<Country> countries { get; set; }

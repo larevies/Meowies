@@ -23,7 +23,7 @@
                             Content="{Binding name}" 
                             Foreground="#5822B1" Height="35"
                             Command = "{Binding $parent[ListBox].((vm:SearchViewModel)DataContext).BookmarkSearchSwitch}"
-                            CommandParameter="{Binding }"
+                            CommandParameter="{Binding id}"
                             Width="270" VerticalAlignment="Center" FontSize="20"
                             HorizontalContentAlignment="Center" BorderThickness="0"/>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -51,7 +51,7 @@
                             Content="{Binding name}" 
                             Foreground="#5822B1" Height="35"
                             Command = "{Binding $parent[ListBox].((vm:SearchViewModel)DataContext).ActorSearchSwitch}"
-                            CommandParameter="{Binding }"
+                            CommandParameter="{Binding id}"
                             Width="270" VerticalAlignment="Center" FontSize="20"
                             HorizontalContentAlignment="Center" BorderThickness="0"/>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -261,13 +261,13 @@
                 <ScrollViewer VerticalScrollBarVisibility="Hidden" Height="450" Margin="15" VerticalAlignment="Center"
                               HorizontalAlignment="Center" >
                     <StackPanel>
-                        <TextBlock Text="{Binding ActorItem.facts[0]}" FontSize="20"
+                        <TextBlock Text="{Binding ActorItem.facts[0].value}" FontSize="20"
                                    Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"
                                    Margin="7"/>
-                        <TextBlock Text="{Binding ActorItem.facts[0]}" FontSize="20"
+                        <TextBlock Text="{Binding ActorItem.facts[0].value}" FontSize="20"
                                    Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"
                                    Margin="7"/>
-                        <TextBlock Text="{Binding ActorItem.facts[0]}" FontSize="20"
+                        <TextBlock Text="{Binding ActorItem.facts[0].value}" FontSize="20"
                                    Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"
                                    Margin="7"/>
                     </StackPanel>
@@ -278,6 +278,10 @@
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Movies" HorizontalAlignment="Center" FontSize="20" Margin="13"
                                Foreground="#742BEB" TextAlignment="Center"/>
+                    <!--<Button Content="{Binding ActorItem.movies[0].name}" Foreground="#B57CFF"
+                            FontSize="20" Margin="6" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                            Command="{Binding BookmarkSearchSwitch}" 
+                            CommandParameter="{Binding ActorItem.movies[0].id}"/>-->
                     <TextBlock Text="{Binding ActorItem.movies[0].name}" Foreground="#B57CFF"
                                FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
                     <TextBlock Text="{Binding ActorItem.movies[1].name}" Foreground="#B57CFF"
