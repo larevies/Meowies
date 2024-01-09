@@ -82,7 +82,7 @@ public class ProfileViewModel : ViewModelBase
             using var context = new MeowiesContext();
             var queryable = context.Users.FirstOrDefault(x => x.Email == SignUpViewModel.MailAddress);
             
-            if (queryable.Name != null)
+            if (queryable != null)
             {
                 SignUpViewModel.Message = "This email is taken";
                 CurrentProfile = SignUp;
@@ -110,9 +110,9 @@ public class ProfileViewModel : ViewModelBase
                 .FirstOrDefault(x => x.Email == SignInViewModel.MailAddress && x.Password == SignInViewModel.Password);
             try
             {
-                SignInViewModel.CurrentUser = queryable ?? throw new InvalidOperationException();
+                ChangeProfileViewModel.CurrentUser = queryable ?? throw new InvalidOperationException();
                 var queryableTwo = context.Bookmarks
-                    .Where(o => o.User == SignInViewModel.CurrentUser)
+                    .Where(o => o.User == ChangeProfileViewModel.CurrentUser)
                     .Select(o => o.MovieId);
                 
                 foreach (var movieId in queryableTwo)
