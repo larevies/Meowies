@@ -106,8 +106,8 @@ public class ProfileViewModel : ViewModelBase
                 
                 foreach (var movieId in queryableTwo)
                 {
-                    var task = MainWindowViewModel.GetBmAsync(
-                        MainWindowViewModel.MovieUrl(
+                    var task = JSONDeserializers.GetBmAsync(
+                        ApiQueries.MovieUrl(
                             movieId.ToString()));
                     var item = await task!;
                     FavouritesViewModel.Bookmarks.Add(item!);

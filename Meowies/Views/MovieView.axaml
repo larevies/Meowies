@@ -12,7 +12,6 @@
     
     <Grid Width="850" Height="800" HorizontalAlignment="Center" VerticalAlignment="Center"
           ColumnDefinitions="2*, 3*, 2*" Background="Transparent" Margin="10">
-        <TextBlock Text="{Binding Message}"/>
         <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Border BorderBrush="#B57CFF" BorderThickness="2" CornerRadius="5">
                 <Image Source="{Binding Poster}" Margin="10" Stretch="UniformToFill"
@@ -20,62 +19,68 @@
             </Border>
             <StackPanel Margin="0 15">
                 <TextBlock Foreground="#5822B1" FontSize="35" HorizontalAlignment="Center" Margin="5"
-                           Text="{Binding Bookmark.docs[0].rating.kp}"/>
+                           Text="{Binding MovieBookmarkDoc.rating.kp}"/>
                 <TextBlock Foreground="#B57CFF" FontSize="25" HorizontalAlignment="Center" Margin="5"
-                           Text="{Binding Bookmark.docs[0].votes.kp}"/>
+                           Text="{Binding MovieBookmarkDoc.votes.kp}"/>
                 <Button Content="{Binding Bookmarked}" CornerRadius="5" Background="Transparent" BorderBrush="#B57CFF"
                         BorderThickness="2" Command="{Binding AddToBookmarksCommand}"/>
+                <TextBlock Text="{Binding Message}" Foreground="SlateGray" TextAlignment="Center"
+                           HorizontalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Bookmark.docs[0].alternativeName}" 
-                       VerticalAlignment="Center" Foreground="#4F13B1" HorizontalAlignment="Center" FontSize="50" 
+            <TextBlock Text="{Binding MovieBookmarkDoc.alternativeName}" 
+                       VerticalAlignment="Center" Foreground="#4F13B1" HorizontalAlignment="Center" FontSize="40" 
                        TextWrapping="Wrap" TextAlignment="Center" Margin="17"/>
             <StackPanel Margin="17">
                 <TextBlock HorizontalAlignment="Center" FontSize="20">
                     <Run Text="genres:" Foreground="#742BEB"/>
-                    <Run Text="{Binding Bookmark.docs[0].genres[0].name}" Foreground="#B57CFF"/>
+                    <Run Text="{Binding MovieBookmarkDoc.genres[0].name}" Foreground="#B57CFF"/>
                     <Run Text="," Foreground="#B57CFF"/>
-                    <Run Text="{Binding Bookmark.docs[0].genres[1].name}" Foreground="#B57CFF"/>
+                    <Run Text="{Binding MovieBookmarkDoc.genres[1].name}" Foreground="#B57CFF"/>
                 </TextBlock>
                 <TextBlock HorizontalAlignment="Center" FontSize="20">
                     <Run Text="countries:" Foreground="#742BEB"/>
-                    <Run Text="{Binding Bookmark.docs[0].countries[0].name}" Foreground="#B57CFF"/>
+                    <Run Text="{Binding MovieBookmarkDoc.countries[0].name}" Foreground="#B57CFF"/>
                 </TextBlock>
                 <TextBlock HorizontalAlignment="Center" FontSize="20">
                     <Run Text="length:" Foreground="#742BEB"/>
-                    <Run Text="{Binding Bookmark.docs[0].movieLength}" Foreground="#B57CFF"/>
+                    <Run Text="{Binding MovieBookmarkDoc.movieLength}" Foreground="#B57CFF"/>
                 </TextBlock>
                 <TextBlock HorizontalAlignment="Center" FontSize="20">
                     <Run Text="age:" Foreground="#742BEB"/>
-                    <Run Text="{Binding Bookmark.docs[0].ageRating}" Foreground="#B57CFF"/>
+                    <Run Text="{Binding MovieBookmarkDoc.ageRating}" Foreground="#B57CFF"/>
                     <Run Text="+" Foreground="#B57CFF"/>
                 </TextBlock>
                 <TextBlock HorizontalAlignment="Center" FontSize="20">
                     <Run Text="release year:" Foreground="#742BEB"/>
-                    <Run Text="{Binding Bookmark.docs[0].year}" Foreground="#B57CFF"/>
+                    <Run Text="{Binding MovieBookmarkDoc.year}" Foreground="#B57CFF"/>
                 </TextBlock>
             </StackPanel>
-            <TextBlock Text="{Binding Bookmark.docs[0].description}" FontSize="20"
-                       HorizontalAlignment="Center" Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"
-                       VerticalAlignment="Center" Margin="15"/>
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" Height="450" Margin="15" VerticalAlignment="Center"
+                          HorizontalAlignment="Center" >
+                <TextBlock Text="{Binding MovieBookmarkDoc.description}" FontSize="20"
+                           Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"/>
+            </ScrollViewer>
         </StackPanel>
         <Grid Grid.Column="2" Margin="10" VerticalAlignment="Center">
             <Line StartPoint="0,0" EndPoint="0,260" Stroke="#DBBFFF" StrokeThickness="4"/>
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Cast" HorizontalAlignment="Center" FontSize="20" Margin="13"
                            Foreground="#742BEB" TextAlignment="Center"/>
-                <TextBlock Text="{Binding Bookmark.docs[0].persons[0].enName}" Foreground="#B57CFF"
+                <TextBlock Text="{Binding MovieBookmarkDoc.persons[0].enName}" Foreground="#B57CFF"
                            FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Bookmark.docs[0].persons[1].enName}" Foreground="#B57CFF"
+                <TextBlock Text="{Binding MovieBookmarkDoc.persons[1].enName}" Foreground="#B57CFF"
                            FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Bookmark.docs[0].persons[2].enName}" Foreground="#B57CFF"
+                <TextBlock Text="{Binding MovieBookmarkDoc.persons[2].enName}" Foreground="#B57CFF"
                            FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Bookmark.docs[0].persons[3].enName}" Foreground="#B57CFF"
+                <TextBlock Text="{Binding MovieBookmarkDoc.persons[3].enName}" Foreground="#B57CFF"
                            FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Bookmark.docs[0].persons[4].enName}" Foreground="#B57CFF"
+                <TextBlock Text="{Binding MovieBookmarkDoc.persons[4].enName}" Foreground="#B57CFF"
                            FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Bookmark.docs[0].persons[5].enName}" Foreground="#B57CFF"
+                <TextBlock Text="{Binding MovieBookmarkDoc.persons[5].enName}" Foreground="#B57CFF"
+                           FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding MovieBookmarkDoc.persons[6].enName}" Foreground="#B57CFF"
                            FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
             </StackPanel>
         </Grid>

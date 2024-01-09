@@ -12,7 +12,7 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="My.DataTemplates.BookmarkDoc" DataType="models:BookmarkDoc">
+        <DataTemplate x:Key="My.DataTemplates.BookmarkDoc" DataType="models:MovieListDoc">
             <Grid ColumnDefinitions="55, 270" HorizontalAlignment="Center">
                <Border Grid.Column="0" CornerRadius="5" BorderBrush="#B57CFF" BorderThickness="2"
                         HorizontalAlignment="Left">
@@ -39,7 +39,7 @@
                 </Grid>
         </DataTemplate>
         
-        <DataTemplate x:Key="My.DataTemplates.ActorDoc" DataType="models:ActorDoc">
+        <DataTemplate x:Key="My.DataTemplates.ActorDoc" DataType="models:ActorListDoc">
             <Grid ColumnDefinitions="55, 270" HorizontalAlignment="Center">
                 <Border Grid.Column="0" CornerRadius="5" BorderBrush="#B57CFF" BorderThickness="2"
                         HorizontalAlignment="Left">
@@ -70,106 +70,231 @@
     </UserControl.Resources>
 
     <UserControl.DataTemplates>
-        <DataTemplate DataType="models:BookmarkDoc">
+        <DataTemplate DataType="models:MovieListDoc">
             <StackPanel Height="50" Margin="0 10 0 0 ">
                 <ContentControl Content="{Binding}" ContentTemplate="{DynamicResource My.DataTemplates.BookmarkDoc}" />
             </StackPanel>
         </DataTemplate>
-        <DataTemplate DataType="models:ActorDoc">
+        <DataTemplate DataType="models:ActorListDoc">
             <StackPanel Height="50" Margin="0 10 0 0 ">
                 <ContentControl Content="{Binding}" ContentTemplate="{DynamicResource My.DataTemplates.ActorDoc}" />
             </StackPanel>
         </DataTemplate>
     </UserControl.DataTemplates>
 
-    <Grid Height="750" ClipToBounds="True">
+    <Grid Height="750" ClipToBounds="True" RowDefinitions="50, Auto">
         
-        <Grid IsVisible="{Binding IsSearchVisible}" RowDefinitions="90, *, 200">
-            <TextBlock Grid.Row="0" Text="Search results!" Foreground="#B57CFF" FontSize="35" Margin="15" HorizontalAlignment="Center"/>
-            <Grid Grid.Row="1" ColumnDefinitions="*, *" Height="525">
-                <ListBox Grid.Column="0" ItemsSource="{Binding Bookmarks}" Background="White"/>
-                <ListBox Grid.Column="1" ItemsSource="{Binding Actors}" Background="White"/>
-            </Grid>
-            <Image Grid.Row="2" Source="../Assets/Icons/toyger-cat.png" Height="100" Width="100" Stretch="Uniform" Margin="0 200 600 0"/>
-            <Image Grid.Row="2" Source="../Assets/Icons/butterfly.png" Height="40" Width="40" Stretch="Uniform" Margin="0 100 550 0"/>
+        <Grid Grid.Row="0" IsVisible="{Binding IsSearchVisible}" Height="50"
+              VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <TextBlock FontSize="20" Foreground="#B57CFF"
+                           VerticalAlignment="Center">
+                    <Run Text="Interested in something?" FontWeight="Bold"/>
+                    <Run Text="Type in here:"/>
+                </TextBlock>
+                <TextBox Width="320" Watermark="Search" CornerRadius="15" VerticalAlignment="Center"
+                         Foreground="#742BEB" BorderThickness="2" BorderBrush="#DBBFFF" Margin="10 0"
+                         Text="{Binding SearchName}"/>
+                <Button HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="11 0"
+                        Background="Transparent" Command="{Binding SearchCommandA}">
+                    <Image Source="../Assets/Icons/search.png" Width="30" Height="30"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Height="700" IsVisible="{Binding IsSearchVisible}">
+            <Image Height="300" Width="300" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                   Source="../Assets/Icons/play-with-pet.png" Stretch="Uniform"/>    
         </Grid>
         
         
-        <Grid Width="850" Height="800" HorizontalAlignment="Center" VerticalAlignment="Center"
-          ColumnDefinitions="2*, 3*, 2*" Background="Transparent" Margin="10" 
-          IsVisible="{Binding IsMovieVisible}">
+        
+        <Grid Grid.Row="0" IsVisible="{Binding IsGoBackVisible}" Height="45"
+              VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal">
+                <Button HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="11 0"
+                        Background="Transparent" Command="{Binding GoBackCommand}">
+                    <Image Source="../Assets/Icons/left-arrow.png" Width="40" Height="40" Stretch="Uniform"/>
+                </Button>
+                <TextBlock Text="Want to go back?" FontSize="20" Margin="10" Foreground="#B57CFF"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+        
+        <Grid Grid.Row="1" IsVisible="{Binding IsResultVisible}" RowDefinitions="90, *, 150">
+            <TextBlock Grid.Row="0" Text="{Binding SearchResults}" Foreground="#742BEB" FontSize="35" Margin="15" 
+                       HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            <Grid Grid.Row="1" ColumnDefinitions="*, *" Height="500">
+                <ListBox Grid.Column="0" ItemsSource="{Binding Bookmarks}" Background="White"/>
+                <ListBox Grid.Column="1" ItemsSource="{Binding Actors}" Background="White"/>
+            </Grid>
+            <Image Grid.Row="2" Source="../Assets/Icons/toyger-cat.png" Height="100" Width="100" Stretch="Uniform" Margin="0 -50 600 0"/>
+            <Image Grid.Row="2" Source="../Assets/Icons/butterfly.png" Height="40" Width="40" Stretch="Uniform" Margin="0 -100 450 0"/>
+        </Grid>
             
-            <TextBlock Text="{Binding Message}"/>
-        <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Border BorderBrush="#B57CFF" BorderThickness="2" CornerRadius="5">
-                <Image Source="{Binding Poster}" Margin="10" Stretch="UniformToFill"
-                       Width="200" Height="350"/>
-            </Border>
-            <StackPanel Margin="0 15">
-                <TextBlock Foreground="#5822B1" FontSize="35" HorizontalAlignment="Center" Margin="5"
-                           Text="{Binding BookmarkDocA.rating.kp}"/>
-                <TextBlock Foreground="#B57CFF" FontSize="25" HorizontalAlignment="Center" Margin="5"
-                           Text="{Binding BookmarkDocA.votes.kp}"/>
-                <Button Content="{Binding Bookmarked}" CornerRadius="5" Background="Transparent" BorderBrush="#B57CFF"
-                        BorderThickness="2" Command="{Binding AddToBookmarksCommand}"/>
+        
+        
+        
+        
+        <Grid Grid.Row="1" Width="850" Height="800" HorizontalAlignment="Center" VerticalAlignment="Top"
+          ColumnDefinitions="2*, 3*, 2*" Background="Transparent" Margin="0" 
+          IsVisible="{Binding IsMovieVisible}">
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Border BorderBrush="#B57CFF" BorderThickness="2" CornerRadius="5">
+                    <Image Source="{Binding Poster}" Margin="10" Stretch="UniformToFill"
+                           Width="200" Height="350"/>
+                </Border>
+                <StackPanel Margin="0 15">
+                    <TextBlock Foreground="#5822B1" FontSize="35" HorizontalAlignment="Center" Margin="5"
+                               Text="{Binding Item.rating.kp}"/>
+                    <TextBlock Foreground="#B57CFF" FontSize="25" HorizontalAlignment="Center" Margin="5"
+                               Text="{Binding Item.votes.kp}"/>
+                    <Button Content="{Binding Bookmarked}" CornerRadius="5" Background="Transparent" 
+                            BorderBrush="#B57CFF" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                            BorderThickness="2" Command="{Binding AddToBookmarksCommand}"/>
+                    <TextBlock Text="{Binding Message}" Foreground="SlateGray" TextAlignment="Center"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
-            <TextBlock Text="{Binding BookmarkDocA.name}" 
-                       VerticalAlignment="Center" Foreground="#4F13B1" HorizontalAlignment="Center" FontSize="50" 
-                       TextWrapping="Wrap" TextAlignment="Center" Margin="17"/>
-            <StackPanel Margin="17">
-                <TextBlock HorizontalAlignment="Center" FontSize="20">
-                    <Run Text="genres:" Foreground="#742BEB"/>
-                    <Run Text="{Binding BookmarkDocA.genres[0].name}" Foreground="#B57CFF"/>
-                    <Run Text="," Foreground="#B57CFF"/>
-                    <Run Text="{Binding BookmarkDocA.genres[1].name}" Foreground="#B57CFF"/>
-                </TextBlock>
-                <TextBlock HorizontalAlignment="Center" FontSize="20">
-                    <Run Text="countries:" Foreground="#742BEB"/>
-                    <Run Text="{Binding BookmarkDocA.countries[0].name}" Foreground="#B57CFF"/>
-                </TextBlock>
-                <TextBlock HorizontalAlignment="Center" FontSize="20">
-                    <Run Text="length:" Foreground="#742BEB"/>
-                    <Run Text="{Binding BookmarkDocA.movieLength}" Foreground="#B57CFF"/>
-                </TextBlock>
-                <TextBlock HorizontalAlignment="Center" FontSize="20">
-                    <Run Text="age:" Foreground="#742BEB"/>
-                    <Run Text="{Binding BookmarkDocA.ageRating}" Foreground="#B57CFF"/>
-                    <Run Text="+" Foreground="#B57CFF"/>
-                </TextBlock>
-                <TextBlock HorizontalAlignment="Center" FontSize="20">
-                    <Run Text="release year:" Foreground="#742BEB"/>
-                    <Run Text="{Binding BookmarkDocA.year}" Foreground="#B57CFF"/>
-                </TextBlock>
+            <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Item.alternativeName}" 
+                           VerticalAlignment="Center" Foreground="#4F13B1" HorizontalAlignment="Center" FontSize="40" 
+                           TextWrapping="Wrap" TextAlignment="Center" Margin="17"/>
+                <StackPanel Margin="17">
+                    <TextBlock HorizontalAlignment="Center" FontSize="20">
+                        <Run Text="genres:" Foreground="#742BEB"/>
+                        <Run Text="{Binding Item.genres[0].name}" Foreground="#B57CFF"/>
+                        <Run Text="," Foreground="#B57CFF"/>
+                        <Run Text="{Binding Item.genres[1].name}" Foreground="#B57CFF"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontSize="20">
+                        <Run Text="countries:" Foreground="#742BEB"/>
+                        <Run Text="{Binding Item.countries[0].name}" Foreground="#B57CFF"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontSize="20">
+                        <Run Text="length:" Foreground="#742BEB"/>
+                        <Run Text="{Binding Item.movieLength}" Foreground="#B57CFF"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontSize="20">
+                        <Run Text="age:" Foreground="#742BEB"/>
+                        <Run Text="{Binding Item.ageRating}" Foreground="#B57CFF"/>
+                        <Run Text="+" Foreground="#B57CFF"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontSize="20">
+                        <Run Text="release year:" Foreground="#742BEB"/>
+                        <Run Text="{Binding Item.year}" Foreground="#B57CFF"/>
+                    </TextBlock>
+                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden" Height="450" Margin="15" VerticalAlignment="Center"
+                              HorizontalAlignment="Center" >
+                    <TextBlock Text="{Binding Item.description}" FontSize="20"
+                               Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"/>
+                </ScrollViewer>
             </StackPanel>
-            <TextBlock Text="{Binding BookmarkDocA.description}" FontSize="20"
-                       HorizontalAlignment="Center" Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"
-                       VerticalAlignment="Center" Margin="15"/>
-        </StackPanel>
-        <!--<Grid Grid.Column="2" Margin="10" VerticalAlignment="Center">
-            <Line StartPoint="0,0" EndPoint="0,260" Stroke="#DBBFFF" StrokeThickness="4"/>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Cast" HorizontalAlignment="Center" FontSize="20" Margin="13"
-                           Foreground="#742BEB" TextAlignment="Center"/>
-                <TextBlock Text="{Binding BookmarkDoc.persons[0].enName}" Foreground="#B57CFF"
-                           FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Bookmark.docs[0].persons[1].enName}" Foreground="#B57CFF"
-                           FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Bookmark.docs[0].persons[2].enName}" Foreground="#B57CFF"
-                           FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Bookmark.docs[0].persons[3].enName}" Foreground="#B57CFF"
-                           FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Bookmark.docs[0].persons[4].enName}" Foreground="#B57CFF"
-                           FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Bookmark.docs[0].persons[5].enName}" Foreground="#B57CFF"
-                           FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+            <Grid Grid.Column="2" Margin="10" VerticalAlignment="Center">
+                <Line StartPoint="0,0" EndPoint="0,260" Stroke="#DBBFFF" StrokeThickness="4"/>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Cast" HorizontalAlignment="Center" FontSize="20" Margin="13"
+                               Foreground="#742BEB" TextAlignment="Center"/>
+                    <TextBlock Text="{Binding Item.persons[0].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding Item.persons[1].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding Item.persons[2].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding Item.persons[3].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding Item.persons[4].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding Item.persons[5].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding Item.persons[6].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        
+        
+        
+        <Grid Grid.Row="1" Width="850" Height="800" HorizontalAlignment="Center" VerticalAlignment="Center"
+          ColumnDefinitions="2*, 3*, 2*" Background="Transparent" Margin="10" 
+          IsVisible="{Binding IsActorVisible}">
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Border BorderBrush="#B57CFF" BorderThickness="2" CornerRadius="5">
+                    <Image Source="{Binding Poster}" Margin="10" Stretch="UniformToFill"
+                           Width="200" Height="350"/>
+                </Border>
+                <StackPanel Margin="0 15">
+                    <TextBlock Foreground="#B57CFF" FontSize="25" HorizontalAlignment="Center" Margin="5"
+                               Text="{Binding ActorItem.enName}"/>
+                </StackPanel>
             </StackPanel>
-        </Grid>-->
-    </Grid>
+            <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
+                <TextBlock Text="{Binding ActorItem.name}" 
+                           VerticalAlignment="Center" Foreground="#4F13B1" HorizontalAlignment="Center" FontSize="40" 
+                           TextWrapping="Wrap" TextAlignment="Center" Margin="17"/>
+                <StackPanel Margin="17">
+                    <TextBlock HorizontalAlignment="Center" FontSize="20">
+                        <Run Text="age:" Foreground="#742BEB"/>
+                        <Run Text="{Binding ActorItem.age}" Foreground="#B57CFF"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontSize="20">
+                        <Run Text="birthday:" Foreground="#742BEB"/>
+                        <Run Text="{Binding ActorItem.birthday}" Foreground="#B57CFF"/>
+                    </TextBlock>
+                    <TextBlock  HorizontalAlignment="Center" FontSize="20">
+                        <Run Text="place of birth:" Foreground="#742BEB"/>
+                        <Run Text="{Binding ActorItem.birthPlace}" Foreground="#B57CFF"/>
+                    </TextBlock>
+                    <TextBlock  HorizontalAlignment="Center" FontSize="20">
+                        <Run Text="height (cm):" Foreground="#742BEB"/>
+                        <Run Text="{Binding ActorItem.growth}" Foreground="#B57CFF"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontSize="20">
+                        <Run Text="profession:" Foreground="#742BEB"/>
+                        <Run Text="{Binding ActorItem.profession}" Foreground="#B57CFF"/>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontSize="20">
+                        <Run Text="sex:" Foreground="#742BEB"/>
+                        <Run Text="{Binding ActorItem.sex}" Foreground="#B57CFF"/>
+                    </TextBlock>
+                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden" Height="450" Margin="15" VerticalAlignment="Center"
+                              HorizontalAlignment="Center" >
+                    <StackPanel>
+                        <TextBlock Text="{Binding ActorItem.facts[0]}" FontSize="20"
+                                   Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"
+                                   Margin="7"/>
+                        <TextBlock Text="{Binding ActorItem.facts[0]}" FontSize="20"
+                                   Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"
+                                   Margin="7"/>
+                        <TextBlock Text="{Binding ActorItem.facts[0]}" FontSize="20"
+                                   Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"
+                                   Margin="7"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </StackPanel>
+            <Grid Grid.Column="2" Margin="10" VerticalAlignment="Center">
+                <Line StartPoint="0,0" EndPoint="0,260" Stroke="#DBBFFF" StrokeThickness="4"/>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Movies" HorizontalAlignment="Center" FontSize="20" Margin="13"
+                               Foreground="#742BEB" TextAlignment="Center"/>
+                    <TextBlock Text="{Binding ActorItem.movies[0].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding ActorItem.movies[1].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding ActorItem.movies[2].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding ActorItem.movies[3].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding ActorItem.movies[4].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding ActorItem.movies[5].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding ActorItem.movies[6].name}" Foreground="#B57CFF"
+                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>
-<!--<Button Grid.Column="1" Width="50" Height="50" Background="Transparent">
-                    <Image Source="../Assets/Icons/trash.png"/>
-                </Button>-->
-<!--Command="{Binding $parent[ListBox].((vm:SearchViewModel)DataContext).SwitchCommand}" -->
+

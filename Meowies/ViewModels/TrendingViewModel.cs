@@ -6,5 +6,5 @@ namespace Meowies.ViewModels;
 
 public class TrendingViewModel : ViewModelBase
 {
-    public static BookmarkItem Bookmark { get; set; } = null!;
+    public static MovieItemDoc BookmarkDoc { get; set; } = null!;
 }

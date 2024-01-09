@@ -1,9 +1,5 @@
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Input;
-using Meowies.ViewModels;
 using Newtonsoft.Json;
-using ReactiveUI;
 
 namespace Meowies.Models;
 
@@ -13,7 +9,7 @@ public class Backdrop
     public string previewUrl { get; set; }
 }
 
-public class BookmarkDoc
+public class MovieListDoc
 {
     public int id { get; set; }
     public string name { get; set; }
@@ -76,9 +72,9 @@ public class ReleaseYear
     public int? end { get; set; }
 }
 
-public class BookmarkList
+public class MovieList
 {
-    public List<BookmarkDoc> docs { get; set; }
+    public List<MovieListDoc> docs { get; set; }
     public int total { get; set; }
     public int limit { get; set; }
     public int page { get; set; }

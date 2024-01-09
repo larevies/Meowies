@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Meowies.Models;
 
-public class ActorDoc
+public class ActorListDoc
 {
     public int id { get; set; }
     public string name { get; set; }
@@ -18,7 +18,7 @@ public class ActorDoc
 
 public class ActorList
 {
-    public List<ActorDoc> docs { get; set; }
+    public List<ActorListDoc> docs { get; set; }
     public int total { get; set; }
     public int limit { get; set; }
     public int page { get; set; }

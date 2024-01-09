@@ -5,5 +5,5 @@ namespace Meowies.ViewModels;
 
 public class FavouritesViewModel : ViewModelBase
 {
-    public static List<BookmarkItem> Bookmarks { get; set; } = new();
+    public static List<MovieItem> Bookmarks { get; set; } = new();
 }

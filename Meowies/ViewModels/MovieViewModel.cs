@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Windows.Input;
@@ -12,8 +11,8 @@ public class MovieViewModel : ViewModelBase
 {
     public MovieViewModel()
     {
-        DownloadImage(PosterUrl);
         AddToBookmarksCommand = ReactiveCommand.Create(AddToBookmarks);
+        //DownloadImage(MovieBookmarkDoc.poster.url);
     }
 
     private string _bookmarked = "Bookmark me";
@@ -37,7 +36,7 @@ public class MovieViewModel : ViewModelBase
             var newBookmark = new Bookmark()
             {
                 User = SignInViewModel.CurrentUser,
-                MovieId = Bookmark.docs[0].id
+                MovieId = MovieBookmarkDoc.id
             };
             context.Bookmarks.Add(newBookmark);
             context.SaveChanges();
@@ -45,11 +44,20 @@ public class MovieViewModel : ViewModelBase
         }
         catch(Exception)
         {
-            Console.Write("аэыаээыэ. u are not logged in");
+            Message = "you are not logged in.\nlog in to save movies!";
         }
     }
-    public static string Message { get; set; } = "";
-    public string PosterUrl = "https://ih1.redbubble.net/image.4764410387.7815/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg";
+    private string _message = "";
+    public string Message
+    {
+        get => _message;
+        set
+        {
+            _message = value;
+            OnPropertyChanged(nameof(Message));
+        }
+    }
+    //public string PosterUrl = "https://ih1.redbubble.net/image.4764410387.7815/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg";
 
     private Avalonia.Media.Imaging.Bitmap _poster;
     public Avalonia.Media.Imaging.Bitmap Poster
@@ -79,6 +87,6 @@ public class MovieViewModel : ViewModelBase
         }
         catch (Exception) { Poster = null!; }
     }
-    public static BookmarkItem Bookmark { get; set; } = null!;
-    public static BookmarkDoc MovieBookmarkDoc { get; set; } = null!;
+    //public static BookmarkItem Bookmark { get; set; } = null!;
+    public static MovieItemDoc MovieBookmarkDoc { get; set; } = null!;
 }
