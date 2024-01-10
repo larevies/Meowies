@@ -44,7 +44,7 @@ public class Genre
     public string name { get; set; }
 }
 
-public class Poster : INotifyPropertyChanged
+public class Poster //: INotifyPropertyChanged
 {
     private string _url = "";
     public string url
@@ -59,8 +59,8 @@ public class Poster : INotifyPropertyChanged
     }
     public string previewUrl { get; set; }
     
-    private Avalonia.Media.Imaging.Bitmap _thePoster;
-    public Avalonia.Media.Imaging.Bitmap ThePoster
+   // private Avalonia.Media.Imaging.Bitmap _thePoster;
+    /*public Avalonia.Media.Imaging.Bitmap ThePoster
     {
         get => _thePoster;
         set
@@ -68,8 +68,8 @@ public class Poster : INotifyPropertyChanged
             _thePoster = value;
             OnPropertyChanged(nameof(Poster));
         }
-    }
-    public void DownloadImage(string url)
+    }*/
+    /*public void DownloadImage(string url)
     {
         using WebClient client = new WebClient();
         client.DownloadDataAsync(new Uri(url));
@@ -85,12 +85,12 @@ public class Poster : INotifyPropertyChanged
             ThePoster = image;
         }
         catch (Exception) { ThePoster = null!; }
-    }
-    public event PropertyChangedEventHandler PropertyChanged;
-    public void OnPropertyChanged(string propertyName)
+    }*/
+    //public event PropertyChangedEventHandler PropertyChanged;
+    /*public void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    }*/
 }
 
 public class Rating

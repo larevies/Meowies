@@ -49,7 +49,7 @@ public class MainWindowViewModel : ViewModelBase
     
     public ICommand SearchCommand { get; }
 
-    private async void Search()
+    private void Search()
     {
         try { CurrentPage = _pages[4]; }
         catch (Exception e)
@@ -60,21 +60,12 @@ public class MainWindowViewModel : ViewModelBase
     }
     public ICommand RandomCommand { get; }
 
-    private async void Random()
+    private void Random()
     {
-        try
+        try { CurrentPage = _pages[2]; }
+        catch (Exception e)
         {
-            var rnd = new Random();
-            int[] ids = {939785, 86621, 683999, 571892, 1211076}; 
-            var index  = rnd.Next(0, 5);
-            int id = ids[index];
-            var task = JSONDeserializers.GetBmAsync(ApiQueries.IdMovieUrl(id.ToString()));
-            var item = await task!;
-            MovieViewModel.MovieBookmarkDoc = item!.docs[0];
-            CurrentPage = _pages[2];
-        }
-        catch (Exception)
-        {
+            Console.WriteLine(e.Message);
             CurrentPage = _pages[2];
         }
     }

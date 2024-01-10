@@ -110,7 +110,8 @@ public class ProfileViewModel : ViewModelBase
                         ApiQueries.MovieUrl(
                             movieId.ToString()));
                     var item = await task!;
-                    FavouritesViewModel.Bookmarks.Add(item!);
+                    var doc = item!.docs[0]; 
+                    FavouritesViewModel.Bookmarks.Add(doc);
                 }
                 UserName = queryable.Name;
                 CurrentProfile = _profilePages[3];

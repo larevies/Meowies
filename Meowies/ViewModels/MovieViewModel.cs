@@ -12,8 +12,28 @@ public class MovieViewModel : ViewModelBase
     public MovieViewModel()
     {
         AddToBookmarksCommand = ReactiveCommand.Create(AddToBookmarks);
-        //DownloadImage(MovieBookmarkDoc.poster.url);
+        FindAMovieCommand = ReactiveCommand.Create(FindAMovie);
     }
+    
+    private MovieItemDoc _item = new();
+    public MovieItemDoc Item
+    {
+        get => _item;
+        set
+        {
+            _item = value;
+            OnPropertyChanged(nameof(Item));
+        }
+    }
+    private bool _isMovieVisible;
+    public bool IsMovieVisible { 
+        get => _isMovieVisible;
+        set
+        {
+            _isMovieVisible = value;
+            OnPropertyChanged(nameof(IsMovieVisible));
+        }
+    } 
 
     private string _bookmarked = "Bookmark me";
     public string Bookmarked
@@ -25,7 +45,61 @@ public class MovieViewModel : ViewModelBase
             OnPropertyChanged(nameof(Bookmarked));
         }
     }
-
+    public ICommand FindAMovieCommand { get; }
+    private async void FindAMovie()
+    {
+        try
+        {
+            /***
+             * next movies don't cause troubles
+             */
+            
+            var rnd = new Random();
+            int[] b = {251733, 505898, 401152, 683999, 571892, 939785, 86621, 1143242, 535341, 4646634, 
+                586397, 342, 9691, 819101, 1047883, 2717, 394};
+            var rand = rnd.Next(0, b.Length);
+            var id = b[rand];
+            Message = "";
+            var task = JSONDeserializers.GetBmAsync(ApiQueries.IdMovieUrl(id.ToString()));
+            var item = await task!;
+            Item = item!.docs[0];
+            
+            /****
+             * next code CAUSES problems though should better use it not above
+             */
+            
+            /*var task = JSONDeserializers.GetRndAsync(ApiQueries.RandomUrl);
+            var item = await task!;
+            MovieItemDoc a = new()
+            {
+                rating = item!.rating!,
+                votes = item.votes!,
+                movieLength = item.movieLength,
+                id = item.id,
+                type = item.type!,
+                description = item.description!,
+                year = item.year,
+                poster = item.poster!,
+                genres = item.genres!,
+                countries = item.countries!,
+                persons = item.persons!,
+                alternativeName = item.alternativeName!,
+                enName = item.enName!,
+                ageRating = item.ageRating
+            }; */
+            
+            DownloadImage(Item.poster!.url);
+            
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Can't go there.");
+            Console.WriteLine(e.Message);
+            //FindAMovie();
+            
+        }
+        IsMovieVisible = true;
+    }
     public ICommand AddToBookmarksCommand { get; }
     public void AddToBookmarks()
     {
@@ -33,10 +107,10 @@ public class MovieViewModel : ViewModelBase
         {
             using var context = new MeowiesContext();
             context.Attach(SignInViewModel.CurrentUser);
-            var newBookmark = new Bookmark()
+            var newBookmark = new Bookmark
             {
                 User = SignInViewModel.CurrentUser,
-                MovieId = MovieBookmarkDoc.id
+                MovieId = Item.id
             };
             context.Bookmarks.Add(newBookmark);
             context.SaveChanges();
@@ -57,8 +131,7 @@ public class MovieViewModel : ViewModelBase
             OnPropertyChanged(nameof(Message));
         }
     }
-    //public string PosterUrl = "https://ih1.redbubble.net/image.4764410387.7815/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg";
-
+    
     private Avalonia.Media.Imaging.Bitmap _poster;
     public Avalonia.Media.Imaging.Bitmap Poster
     {
@@ -87,6 +160,4 @@ public class MovieViewModel : ViewModelBase
         }
         catch (Exception) { Poster = null!; }
     }
-    //public static BookmarkItem Bookmark { get; set; } = null!;
-    public static MovieItemDoc MovieBookmarkDoc { get; set; } = null!;
 }

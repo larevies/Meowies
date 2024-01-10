@@ -45,7 +45,6 @@
                 </StackPanel>
                 </Grid>
         </DataTemplate>
-        
         <DataTemplate x:Key="My.DataTemplates.ActorDoc" DataType="models:ActorListDoc">
             <Grid ColumnDefinitions="55, 270" HorizontalAlignment="Center">
                 <Grid.Styles>
@@ -252,7 +251,7 @@
                         <Run Text="{Binding Item.year}" Foreground="#B57CFF"/>
                     </TextBlock>
                 </StackPanel>
-                <ScrollViewer Height="450" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                <ScrollViewer Height="350" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Center" >
                     <TextBlock Text="{Binding Item.description}" FontSize="20"
                                Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"/>
                 </ScrollViewer>

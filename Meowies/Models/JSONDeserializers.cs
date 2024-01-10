@@ -67,4 +67,19 @@ public class JSONDeserializers
 
         throw new Exception($"HTTP request failed with status code {response.StatusCode}");
     }
+    
+    public static async Task<RandomItem?>? GetRndAsync(string apiUrl)
+    {
+        using var client = new HttpClient();
+        var response = await client.GetAsync(apiUrl);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+            var rnd = JsonConvert.DeserializeObject<RandomItem>(json);
+            return rnd;
+        }
+
+        throw new Exception($"HTTP request failed with status code {response.StatusCode}");
+    }
 }
