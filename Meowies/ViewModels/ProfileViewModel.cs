@@ -20,9 +20,7 @@ public class ProfileViewModel : ViewModelBase
         NavigatePreviousCommand = ReactiveCommand.Create(NavigatePrevious, canNavPrev);
     }
     
-    
     private string _next = "Sign up";
-    private string _previous = "Sign in";
     public string Next
     {
         get => _next;
@@ -32,6 +30,8 @@ public class ProfileViewModel : ViewModelBase
             OnPropertyChanged(nameof(Next));
         } 
     }
+    
+    private string _previous = "Sign in";
     public string Previous
     {
         get => _previous;
@@ -41,6 +41,7 @@ public class ProfileViewModel : ViewModelBase
             OnPropertyChanged(nameof(Previous));
         } 
     }
+    
     private readonly ProfileViewModelBase[] _profilePages = 
     { 
         new WelcomeViewModel(),
@@ -106,12 +107,12 @@ public class ProfileViewModel : ViewModelBase
                 
                 foreach (var movieId in queryableTwo)
                 {
-                    var task = JSONDeserializers.GetBmAsync(
-                        ApiQueries.MovieUrl(
+                    var task = JsonDeserializers.GetBmAsync(
+                        Getters.GetMovieUrlById(
                             movieId.ToString()));
                     var item = await task!;
                     var doc = item!.docs[0]; 
-                    FavouritesViewModel.Bookmarks.Add(doc);
+                    BookmarksViewModel.Bookmarks.Add(doc);
                 }
                 UserName = queryable.Name;
                 CurrentProfile = _profilePages[3];

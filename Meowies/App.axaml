@@ -2,8 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="Meowies.App"
              xmlns:local="using:Meowies"
-             xmlns:views="using:Meowies.Views"
-             xmlns:viewmodels="using:Meowies.ViewModels"
              RequestedThemeVariant="Light">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -11,7 +9,7 @@
         <local:ViewLocator/>
     </Application.DataTemplates>
     
-    <Application.Resources>
+    <!--<Application.Resources>
         <DataTemplate DataType="{x:Type viewmodels:SearchViewModel}">
             <views:SearchView />
         </DataTemplate>
@@ -21,7 +19,7 @@
         <DataTemplate DataType="{x:Type viewmodels:ChangeProfileViewModel}">
             <views:ChangeProfileView />
         </DataTemplate>
-    </Application.Resources>
+    </Application.Resources>-->
   
     <Application.Styles>
         <FluentTheme />

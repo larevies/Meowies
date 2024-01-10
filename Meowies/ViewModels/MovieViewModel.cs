@@ -60,12 +60,13 @@ public class MovieViewModel : ViewModelBase
             var rand = rnd.Next(0, b.Length);
             var id = b[rand];
             Message = "";
-            var task = JSONDeserializers.GetBmAsync(ApiQueries.IdMovieUrl(id.ToString()));
+            var task = JsonDeserializers.GetBmAsync
+                (Getters.GetMovieUrlById(id.ToString()));
             var item = await task!;
             Item = item!.docs[0];
             
             /****
-             * next code CAUSES problems though should better use it not above
+             * next code CAUSES problems KILLS our api tokens
              */
             
             /*var task = JSONDeserializers.GetRndAsync(ApiQueries.RandomUrl);
@@ -88,7 +89,7 @@ public class MovieViewModel : ViewModelBase
                 ageRating = item.ageRating
             }; */
             
-            DownloadImage(Item.poster!.url);
+            DownloadImage(Item.poster.url);
             
         }
         catch (Exception e)
@@ -101,7 +102,8 @@ public class MovieViewModel : ViewModelBase
         IsMovieVisible = true;
     }
     public ICommand AddToBookmarksCommand { get; }
-    public void AddToBookmarks()
+
+    private void AddToBookmarks()
     {
         try
         {
@@ -142,7 +144,8 @@ public class MovieViewModel : ViewModelBase
             OnPropertyChanged(nameof(Poster));
         }
     }
-    public void DownloadImage(string url)
+
+    private void DownloadImage(string url)
     {
         using WebClient client = new WebClient();
         client.DownloadDataAsync(new Uri(url));

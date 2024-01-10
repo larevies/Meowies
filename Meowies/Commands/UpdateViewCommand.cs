@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Meowies.Commands;
 
+/*
 public class UpdateViewCommand : ICommand
 {
     private MainWindowViewModel _viewModel;
@@ -33,4 +34,4 @@ public class UpdateViewCommand : ICommand
     }
 
     public event EventHandler? CanExecuteChanged;
-}
+}*/

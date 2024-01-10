@@ -43,7 +43,6 @@
                             Background="Transparent" Command="{Binding SearchCommand}"
                             Content="Search for a movie" Margin="5 0"/>
                     
-
                     
                     <Button Grid.Column="2" HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="11 0"
                             Background="Transparent" Command="{Binding SearchCommand}">
@@ -56,7 +55,7 @@
                     </Button>
                     
                     <Button Grid.Column="4" HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="11 0"
-                            Background="Transparent" Command="{Binding FavouritesCommand}">
+                            Background="Transparent" Command="{Binding BookmarksCommand}">
                         <Image Source="../Assets/Icons/heart.png" Width="30" Height="30"/>
                     </Button>
                     

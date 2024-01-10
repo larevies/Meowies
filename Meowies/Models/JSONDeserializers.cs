@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Meowies.Models;
 
-public class JSONDeserializers
+public class JsonDeserializers
 {
     public static async Task<MovieItem?>? GetBmAsync(string apiUrl)
     {

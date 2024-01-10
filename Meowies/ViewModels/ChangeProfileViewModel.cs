@@ -5,11 +5,15 @@ namespace Meowies.ViewModels;
 
 public class ChangeProfileViewModel : ProfileViewModelBase
 {
-    private string _userName = "usEr";
+    private string _userName = "User";
     public string UserName 
     { 
         get => _userName;
-        set => OnPropertyChanged(nameof(UserName));
+        set
+        {
+            _userName = value;
+            OnPropertyChanged(nameof(UserName));
+        }
     }
     public override bool CanNavigateNext
     {

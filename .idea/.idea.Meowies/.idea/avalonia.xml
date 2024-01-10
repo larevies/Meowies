@@ -4,6 +4,7 @@
     <option name="projectPerEditor">
       <map>
         <entry key="Meowies/App.axaml" value="Meowies/Meowies.csproj" />
+        <entry key="Meowies/Views/BookmarksView.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/ChangeProfileView.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/FavouritesView.axaml" value="Meowies/Meowies.csproj" />
         <entry key="Meowies/Views/MainWindow.axaml" value="Meowies/Meowies.csproj" />

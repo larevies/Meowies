@@ -26,13 +26,15 @@ public class SearchViewModel : ViewModelBase
         {
             var name = HttpUtility.UrlEncode(SearchName);
             
-            var task = JSONDeserializers.GetBmListAsync(ApiQueries.MovieUrl(name));
+            var task = JsonDeserializers.GetBmListAsync(
+                Getters.GetMovieUrlByName(name));
             var item = await task!;
             foreach (var doc in item!.docs!)
             { Movies.Add(doc); }
             
             
-            var taskActor = JSONDeserializers.GetAcListAsync(ApiQueries.ActorUrl(name));
+            var taskActor = JsonDeserializers.GetAcListAsync(
+                Getters.GetActorUrlByName(name));
             var itemActor = await taskActor!;
             foreach (var doc in itemActor!.docs!)
             { Actors.Add(doc); }
@@ -160,7 +162,8 @@ public class SearchViewModel : ViewModelBase
             IsMovieVisible = true;
             IsGoBackVisible = true;
             Message = "";
-            var task = JSONDeserializers.GetBmAsync(ApiQueries.IdMovieUrl(id.ToString()));
+            var task = JsonDeserializers.GetBmAsync(
+                Getters.GetMovieUrlById(id.ToString()));
             var item = await task!;
             Item = item!.docs[0];
             DownloadImage(Item.poster.url);
@@ -181,7 +184,8 @@ public class SearchViewModel : ViewModelBase
             IsActorVisible = true;
             IsGoBackVisible = true;
             Message = "";
-            var task = JSONDeserializers.GetAcAsync(ApiQueries.IdActorUrl(id.ToString()));
+            var task = JsonDeserializers.GetAcAsync(
+                Getters.GetActorUrlById(id.ToString()));
             var item = await task!;
             ActorItem = item!.docs![0];
             DownloadImage(ActorItem.photo!);
