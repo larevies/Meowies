@@ -9,41 +9,136 @@
              x:CompileBindings="True"
              x:DataType="vm:ChangeProfileViewModel"
              mc:Ignorable="d">
-    
-    <Grid RowDefinitions="100, 45, 80, 80, 80, 80, 220" Height="700" VerticalAlignment="Center" Width="600">
-        <TextBlock Grid.Row="0" FontSize="50" HorizontalAlignment="Center">
-            <Run Text="Hi," Foreground="#B57CFF"/>
-            <Run Text="{Binding Path=UserName}" Foreground="#742BEB"/> 
-        </TextBlock>
-        <TextBlock Grid.Row="1" FontSize="25" Text="Wanted to change something?" Foreground="#B57CFF" 
-                   HorizontalAlignment="Center"/>
-        <Border Grid.Row="2" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
-                Width="400" Height="45" HorizontalAlignment="Center" >
-            <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
-                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Change name"
-                    CornerRadius="25" Background="Transparent"/>
-        </Border>
-        <Border Grid.Row="3" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
-                Width="400" Height="45" HorizontalAlignment="Center">
-            <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
-                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Change email"
-                    CornerRadius="25" Background="Transparent"/>
-        </Border>
-        <Border Grid.Row="4" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
-                Width="400" Height="45" HorizontalAlignment="Center">
-            <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
-                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Change password"
-                    CornerRadius="25" Background="Transparent"/>
-        </Border>
-        <Border Grid.Row="5" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
-                Width="400" Height="45" HorizontalAlignment="Center">
-            <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
-                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Change birthday"
-                    CornerRadius="25" Background="Transparent"/>
-        </Border>
-        
-        <Image Grid.Row="6" Source="../Assets/Icons/playing cat.png" Width="200" Height="200" HorizontalAlignment="Left"
-               VerticalAlignment="Bottom"/>
-        
+    <Grid>
+        <Grid IsVisible="{Binding !Entered}">
+            <Grid.Styles>
+                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="RenderTransform" Value="scale(1.06)"/>
+                    <Setter Property="Foreground" Value="#742BEB"></Setter>
+                </Style>
+            </Grid.Styles>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Welcome back!" Foreground="#742BEB" Margin="15" FontSize="60"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding Welcome}" Foreground="#B57CFF" FontSize="30"
+                           LineHeight="50"
+                           Margin="15" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <Button Content="Look into my profile" Command="{Binding EnterCommand}"
+                        Background="Transparent" Foreground="#9A66F0" FontSize="40" Margin="15"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                        HorizontalAlignment="Center"/>
+                <Image Source="../Assets/Icons/sitting-cat.png" Width="110"/>
+            </StackPanel>
+        </Grid>
+        <Grid RowDefinitions="45, 100, 45, 80, 80, 80, 80, 220" Height="700" VerticalAlignment="Center" Width="600"
+              IsVisible="{Binding Entered}">
+            <Grid.Styles>
+                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="RenderTransform" Value="scale(1.06)"/>
+                    <Setter Property="Foreground" Value="#742BEB"></Setter>
+                </Style>
+            </Grid.Styles>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button HorizontalAlignment="Left" Width="40" Height="40" VerticalAlignment="Center" Margin="10 0"
+                        Background="Transparent" Command="{Binding GoBackCommand}">
+                    <Image Source="../Assets/Icons/left-arrow.png" Width="40" Height="40" Stretch="Uniform"/>
+                </Button>
+                <Button Height="45" VerticalContentAlignment="Center"  VerticalAlignment="Center" Margin="10 0"
+                        Background="Transparent" Command="{Binding GoBackCommand}"
+                        FontSize="20" Content="Return" Foreground="#B57CFF"/>
+            </StackPanel>
+                
+            <TextBlock Grid.Row="1" FontSize="50" HorizontalAlignment="Center">
+                <Run Text="Hi," Foreground="#B57CFF"/>
+                <Run Text="{Binding Path=CurrentUser.Name}" Foreground="#742BEB"/> 
+            </TextBlock>
+            
+            
+            <TextBlock Grid.Row="2" FontSize="25" Text="Wanted to change something?" Foreground="#B57CFF" 
+                       HorizontalAlignment="Center"/>
+            
+            
+            
+            <Border Grid.Row="3" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
+                    Width="400" Height="45" HorizontalAlignment="Center" IsVisible="{Binding !ChangingName}">
+                <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Change name"
+                        CornerRadius="25" Background="Transparent" Command="{Binding ChangeNameCommand}"
+                        />
+            </Border>
+            <Border Grid.Row="3" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
+                    IsVisible="{Binding ChangingName}"
+                    Width="400" Height="45" HorizontalAlignment="Center" >
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="New name"
+                             CornerRadius="25" Background="Transparent" Text="{Binding NewName}"/>
+                    <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="18" Height="45" Margin="5"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Apply"
+                            CornerRadius="25" Background="Transparent" Command="{Binding ChangedNameCommand}"/>
+                </StackPanel>
+            </Border>
+            
+            
+            
+            <Border Grid.Row="4" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
+                    Width="400" Height="45" HorizontalAlignment="Center" IsVisible="{Binding !ChangingEmail}">
+                <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Change email"
+                        CornerRadius="25" Background="Transparent" Command="{Binding ChangeEmailCommand}"
+                        />
+            </Border>
+            <Border Grid.Row="4" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
+                    IsVisible="{Binding ChangingEmail}"
+                    Width="400" Height="45" HorizontalAlignment="Center" >
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Height="45" Width="400"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="New email"
+                             CornerRadius="25" Background="Transparent" Text="{Binding NewEmail}"/>
+                    <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="18" Height="45" Margin="5"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Apply"
+                            CornerRadius="25" Background="Transparent" Command="{Binding ChangedEmailCommand}"/>
+                </StackPanel>
+            </Border>
+            
+            
+            
+            <Border Grid.Row="5" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
+                    Width="400" Height="45" HorizontalAlignment="Center"
+                    IsVisible="{Binding !ChangingPassword}">
+                <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Change password"
+                        CornerRadius="25" Background="Transparent" Command="{Binding ChangePasswordCommand}"
+                        />
+            </Border>
+            <Border Grid.Row="5" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
+                    IsVisible="{Binding ChangingPassword}"
+                    Width="400" Height="45" HorizontalAlignment="Center" >
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="New password"
+                             CornerRadius="25" Background="Transparent" Text="{Binding NewPassword}"/>
+                    <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="18" Height="45" Margin="5"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Apply"
+                            CornerRadius="25" Background="Transparent" Command="{Binding ChangedPasswordCommand}"/>
+                </StackPanel>
+            </Border>
+            
+            
+            
+            <Border Grid.Row="6" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
+                    Width="400" Height="45" HorizontalAlignment="Center">
+                <TextBlock Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
+                        TextAlignment="Center" Background="Transparent" VerticalAlignment="Center" Margin="5"
+                        Text="Can't change birthday">
+                    
+                </TextBlock>
+            </Border>
+            
+            <Image Grid.Row="7" Source="../Assets/Icons/playing cat.png" Width="200" Height="200" HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"/>
+        </Grid>
     </Grid>
 </UserControl>

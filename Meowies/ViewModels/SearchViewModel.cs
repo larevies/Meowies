@@ -16,8 +16,11 @@ public class SearchViewModel : ViewModelBase
         AddToBookmarksCommand = ReactiveCommand.Create(AddToBookmarks);
         SearchCommandA = ReactiveCommand.Create(SearchA);
         GoBackCommand = ReactiveCommand.Create(GoBack);
-    }
+        
+        var UserBookmarks = SearchResults;
 
+    }
+    
     public string SearchResults { get; set; } = "Search results!";
     public ICommand SearchCommandA { get; }
     private async void SearchA()
@@ -208,6 +211,7 @@ public class SearchViewModel : ViewModelBase
             IsGoBackVisible = false;
             IsResultVisible = false;
             Message = "";
+            Bookmarked = "Bookmark me";
             Movies = new();
             Actors = new();
             Item = new();
@@ -246,6 +250,7 @@ public class SearchViewModel : ViewModelBase
             };
             context.Bookmarks.Add(newBookmark);
             context.SaveChanges();
+            BookmarksViewModel.Bookmarks.Add(Item);
             Bookmarked = "Bookmarked";
         }
         catch(Exception)

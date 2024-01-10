@@ -30,7 +30,7 @@ public class MainWindowViewModel : ViewModelBase
         TrendingCommand = ReactiveCommand.Create(Trending);
     }
     
-    public ICommand UpdateViewCommand { get; set; }
+    //public ICommand UpdateViewCommand { get; set; }
 
     /*private ViewModelBase _selectedViewModel = new MainWindowViewModel();
 
@@ -75,8 +75,8 @@ public class MainWindowViewModel : ViewModelBase
     
     public ICommand BookmarksCommand { get; }
     private void Bookmarks() { CurrentPage = _pages[3]; }
-    
-    
+
+
     public ICommand TrendingCommand { get; }
     private async void Trending()
     {
@@ -86,6 +86,7 @@ public class MainWindowViewModel : ViewModelBase
             var task = JsonDeserializers.GetBmAsync
                 (Getters.GetMovieUrlById(id.ToString()));
             var item = await task;
+
             TrendingViewModel.Bookmark = item.docs[0];
             CurrentPage = _pages[4];
         }

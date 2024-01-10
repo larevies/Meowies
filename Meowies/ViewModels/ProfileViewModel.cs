@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using DynamicData;
@@ -41,7 +42,19 @@ public class ProfileViewModel : ViewModelBase
             OnPropertyChanged(nameof(Previous));
         } 
     }
-    
+
+    private bool _areButtonsVisible = true;
+
+    public bool AreButtonsVisible
+    {
+        get => _areButtonsVisible;
+        set
+        {
+            _areButtonsVisible = value;
+            OnPropertyChanged(nameof(AreButtonsVisible));
+        }
+    }
+
     private readonly ProfileViewModelBase[] _profilePages = 
     { 
         new WelcomeViewModel(),
@@ -97,13 +110,18 @@ public class ProfileViewModel : ViewModelBase
         {
             using var context = new MeowiesContext();
             var queryable = context.Users
-                .FirstOrDefault(x => x.Email == SignInViewModel.MailAddress && x.Password == SignInViewModel.Password);
+                .FirstOrDefault(x => x.Email == SignInViewModel
+                    .MailAddress && x.Password == SignInViewModel.Password);
             try
             {
+                AreButtonsVisible = false;
                 SignInViewModel.CurrentUser = queryable ?? throw new InvalidOperationException();
                 var queryableTwo = context.Bookmarks
                     .Where(o => o.User == SignInViewModel.CurrentUser)
-                    .Select(o => o.MovieId);
+                    .Select(o => o.MovieId)
+                    .ToList();
+                
+                List<MovieItemDoc> userBookmarks = new(queryableTwo.Count);
                 
                 foreach (var movieId in queryableTwo)
                 {
@@ -112,20 +130,36 @@ public class ProfileViewModel : ViewModelBase
                             movieId.ToString()));
                     var item = await task!;
                     var doc = item!.docs[0]; 
-                    BookmarksViewModel.Bookmarks.Add(doc);
+                    userBookmarks.Add(doc);
                 }
+                
                 UserName = queryable.Name;
+                ChangeProfileViewModel.UserName = UserName;
+                ChangeProfileViewModel.CurrentUser = queryable;
+                BookmarksViewModel.Bookmarks = userBookmarks;
+
                 CurrentProfile = _profilePages[3];
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                AreButtonsVisible = true;
+                Console.WriteLine(e.Message);
                 SignInViewModel.Message = "E-mail address or password do not match.\nTry again";
                 CurrentProfile = _profilePages[2];
             }
         }
     }
 
-    public static string UserName { get; private set; } = "User";
+    private string _userName = "User";
+    public string UserName
+    {
+        get => _userName;
+        set
+        {
+            _userName = value;
+            OnPropertyChanged(nameof(UserName));
+        }
+    }
     public ICommand NavigatePreviousCommand { get; }
 
     private void NavigatePrevious()

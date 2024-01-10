@@ -14,15 +14,15 @@
         <ContentControl Content="{Binding CurrentProfile}"/>
         <StackPanel Orientation="Horizontal" Spacing="5" Margin="25" VerticalAlignment="Bottom"
                     HorizontalAlignment="Center">
-            <Grid ColumnDefinitions="*, *">
+            <Grid ColumnDefinitions="*, *" IsVisible="{Binding AreButtonsVisible}">
                 <Border Grid.Column="0" BoxShadow="0 0 25 10 #F2E8FF" HorizontalAlignment="Left" Margin="0 0 30 0" 
                         Height="45" Width="140" CornerRadius="23">
                     <Button Background="Transparent" Foreground="#C69AFF" HorizontalAlignment="Center" VerticalAlignment="Center"
                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"
                             Height="45" Width="140" CornerRadius="23"
                             Command="{Binding NavigatePreviousCommand}"
-                            Content="{Binding Previous}"
-                    ></Button>
+                            Content="{Binding Previous}" 
+                    />
                 </Border>
                 <Border Grid.Column="1" BoxShadow="0 0 25 10 #F2E8FF" HorizontalAlignment="Right" Margin="30 0 0 0" 
                         Height="45" Width="140" CornerRadius="23" Background="#C69AFF">
@@ -31,7 +31,7 @@
                             Height="45" Width="140" CornerRadius="23"
                             Command="{Binding NavigateNextCommand}" 
                             Content="{Binding Next}"
-                    ></Button>
+                    />
                 </Border>
             </Grid>
         </StackPanel>

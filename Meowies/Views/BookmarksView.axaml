@@ -15,12 +15,21 @@
     <UserControl.Resources>
         <DataTemplate x:Key="My.DataTemplates.MovieItemDoc" DataType="models:MovieItemDoc">
             <Grid Height="100" Width="500" ColumnDefinitions="Auto, *, Auto" HorizontalAlignment="Center">
+                <Grid.Styles>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="RenderTransform" Value="scale(1.06)"/>
+                        <Setter Property="Foreground" Value="#C69AFF"></Setter>
+                    </Style>
+                </Grid.Styles>
                 <Border Grid.Column="0" CornerRadius="5" BorderBrush="#B57CFF" BorderThickness="2">
                     <Image Source="../Assets/Icons/cat.png" Height="100" Width="100" Stretch="UniformToFill"/>
                 </Border>
                 <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding alternativeName}" Foreground="#A57CFF"
+                               FontSize="15" VerticalAlignment="Center" Margin="9 9 9 5"/>
                     <TextBlock Text="{Binding alternativeName}" Foreground="#5822B1"
-                               FontSize="20" VerticalAlignment="Center" Margin="9"/>
+                               FontSize="20" VerticalAlignment="Center" Margin="9 9 9 5"/>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock Foreground="#B57CFF" Margin="9" FontSize="20">
                             <Run Text="{Binding genres[0].name}"/>
@@ -33,8 +42,10 @@
                                    Margin="9" FontSize="20"/>
                     </StackPanel>
                 </StackPanel>
-                
-                <Button Grid.Column="2" Width="50" Height="50" Background="Transparent">
+                <Button Grid.Column="2" Width="50" Height="50" Background="Transparent" 
+                        Command="{Binding $parent[ListBox].((vm:BookmarksViewModel)DataContext).Delete}" 
+                        IsVisible="{Binding IsButtonVisible}"
+                        CommandParameter="{Binding}">
                     <Image Source="../Assets/Icons/trash.png"/>
                 </Button>
             </Grid>
@@ -49,12 +60,26 @@
         </DataTemplate>
     </UserControl.DataTemplates>
 
-    <Grid Height="750" RowDefinitions="90, *, 200">
-        <TextBlock Text="Bookmarks!" Foreground="#B57CFF" FontSize="35" Margin="15" HorizontalAlignment="Center"/>
-        <Grid Grid.Row="1" Height="525">
-            <ListBox ItemsSource="{Binding Bookmarks}" Background="White"/>
-        </Grid>
-        <Image Grid.Row="2" Source="../Assets/Icons/toyger-cat.png" Height="100" Width="100" Stretch="Uniform" Margin="0 200 600 0 "/>
-        <Image Grid.Row="2" Source="../Assets/Icons/butterfly.png" Height="40" Width="40" Stretch="Uniform" Margin="0 100 550 0"/>
+    <Grid Height="750" RowDefinitions="50, 50, 500, 150">
+        <Grid.Styles>
+            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="RenderTransform" Value="scale(1.06)"/>
+                <Setter Property="Foreground" Value="#C69AFF"/>
+            </Style>
+        </Grid.Styles>
+        <Button Grid.Row="0" Margin="5" Command="{Binding RefreshPageCommand}"
+                Background="Transparent" Height="40" Width="40">
+            <Image Source="../Assets/Icons/refresh.png" Height="40" Width="40"/>
+        </Button>
+        <TextBlock Grid.Row="1" Text="Bookmarks!" Foreground="#B57CFF" FontSize="35" Margin="10" 
+                   HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <ScrollViewer Grid.Row="2" Height="500">
+            <ListBox ItemsSource="{Binding Bookmarks}" Background="White"
+                     SelectionMode="Single" Name="ListBox" />
+                     <!--SelectionChanged="ListBox_OnSelectionChanged"/>-->
+        </ScrollViewer>
+        <Image Grid.Row="3" Source="../Assets/Icons/cat with butterfly.png" Height="150" Width="150" Stretch="Uniform" 
+               Margin="0 50 500 0 "/>
     </Grid>
 </UserControl>
