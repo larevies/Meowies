@@ -14,7 +14,14 @@
     <UserControl.Resources>
         <DataTemplate x:Key="My.DataTemplates.BookmarkDoc" DataType="models:MovieListDoc">
             <Grid ColumnDefinitions="55, 270" HorizontalAlignment="Center">
-               <Border Grid.Column="0" CornerRadius="5" BorderBrush="#B57CFF" BorderThickness="2"
+                <Grid.Styles>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="RenderTransform" Value="scale(1.06)"/>
+                        <Setter Property="Foreground" Value="#C69AFF"></Setter>
+                    </Style>
+                </Grid.Styles>
+                <Border Grid.Column="0" CornerRadius="5" BorderBrush="#B57CFF" BorderThickness="2"
                         HorizontalAlignment="Left">
                     <Image Source="../Assets/Icons/cat.png" Height="50" Width="50" Stretch="UniformToFill"/>
                 </Border>
@@ -38,9 +45,15 @@
                 </StackPanel>
                 </Grid>
         </DataTemplate>
-        
         <DataTemplate x:Key="My.DataTemplates.ActorDoc" DataType="models:ActorListDoc">
             <Grid ColumnDefinitions="55, 270" HorizontalAlignment="Center">
+                <Grid.Styles>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="RenderTransform" Value="scale(1.06)"/>
+                        <Setter Property="Foreground" Value="#C69AFF"></Setter>
+                    </Style>
+                </Grid.Styles>
                 <Border Grid.Column="0" CornerRadius="5" BorderBrush="#B57CFF" BorderThickness="2"
                         HorizontalAlignment="Left">
                     <Image Source="../Assets/Icons/cat.png" Height="50" Width="50" Stretch="UniformToFill"
@@ -67,6 +80,34 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="My.DataTemplates.ActorMovie" DataType="models:ActorMovie">
+            <Grid>
+                <Button Content="{Binding name}" Foreground="#B57CFF"
+                        FontSize="20" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                        Command="{Binding $parent[ListBox].((vm:SearchViewModel)DataContext).MovieSearchSwitch}" 
+                        CommandParameter="{Binding id}"
+                        Margin="0 5" Background="Transparent"/>
+                <TextBlock Text="{Binding alternativeName}"
+                           FontSize="15" TextAlignment="Center" HorizontalAlignment="Center" Foreground="#B58CFA"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="My.DataTemplates.Fact" DataType="models:Fact">
+            <Grid>
+                <TextBlock Text="{Binding value}" FontSize="20" Margin="7"
+                           Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="My.DataTemplates.Person" DataType="models:Person">
+            <Grid>
+                <Button Content="{Binding name}" Foreground="#B57CFF"
+                        FontSize="20" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                        Command="{Binding $parent[ListBox].((vm:SearchViewModel)DataContext).ActorSearchSwitch}" 
+                        CommandParameter="{Binding id}"
+                        Margin="0 5" Background="Transparent"/>
+                <TextBlock Text="{Binding enName}"
+                           FontSize="15" TextAlignment="Center" HorizontalAlignment="Center" Foreground="#B58CFA"/>
+            </Grid>
+        </DataTemplate>
     </UserControl.Resources>
 
     <UserControl.DataTemplates>
@@ -80,9 +121,31 @@
                 <ContentControl Content="{Binding}" ContentTemplate="{DynamicResource My.DataTemplates.ActorDoc}" />
             </StackPanel>
         </DataTemplate>
+        <DataTemplate DataType="models:ActorMovie">
+            <StackPanel Height="35" Margin="0 7 0 0 ">
+                <ContentControl Content="{Binding}" ContentTemplate="{DynamicResource My.DataTemplates.ActorMovie}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="models:Fact">
+            <StackPanel Margin="0 7 0 0 ">
+                <ContentControl Content="{Binding}" ContentTemplate="{DynamicResource My.DataTemplates.Fact}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="models:Person">
+            <StackPanel Margin="0 7 0 0 ">
+                <ContentControl Content="{Binding}" ContentTemplate="{DynamicResource My.DataTemplates.Person}" />
+            </StackPanel>
+        </DataTemplate>
     </UserControl.DataTemplates>
 
     <Grid Height="750" ClipToBounds="True" RowDefinitions="50, Auto">
+        <Grid.Styles>
+            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="RenderTransform" Value="scale(1.06)"/>
+                <Setter Property="Foreground" Value="#C69AFF"></Setter>
+            </Style>
+        </Grid.Styles>
         
         <Grid Grid.Row="0" IsVisible="{Binding IsSearchVisible}" Height="50"
               VerticalAlignment="Top">
@@ -101,7 +164,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1" Height="700" IsVisible="{Binding IsSearchVisible}">
+        <Grid Grid.Row="1" Height="700" IsVisible="{Binding IsStartVisible}">
             <Image Height="300" Width="300" VerticalAlignment="Bottom" HorizontalAlignment="Center"
                    Source="../Assets/Icons/play-with-pet.png" Stretch="Uniform"/>    
         </Grid>
@@ -111,12 +174,14 @@
         <Grid Grid.Row="0" IsVisible="{Binding IsGoBackVisible}" Height="45"
               VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal">
-                <Button HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="11 0"
+                <Button HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="10 0"
                         Background="Transparent" Command="{Binding GoBackCommand}">
                     <Image Source="../Assets/Icons/left-arrow.png" Width="40" Height="40" Stretch="Uniform"/>
                 </Button>
-                <TextBlock Text="Want to go back?" FontSize="20" Margin="10" Foreground="#B57CFF"
-                           VerticalAlignment="Center"/>
+                
+                <Button Height="45" VerticalContentAlignment="Center"  VerticalAlignment="Center" Margin="10 0"
+                        Background="Transparent" Command="{Binding GoBackCommand}"
+                        FontSize="20" Content="Want to go back?" Foreground="#B57CFF"/>
             </StackPanel>
         </Grid>
         
@@ -127,15 +192,15 @@
                 <ListBox Grid.Column="0" ItemsSource="{Binding Movies}" Background="White"/>
                 <ListBox Grid.Column="1" ItemsSource="{Binding Actors}" Background="White"/>
             </Grid>
-            <Image Grid.Row="2" Source="../Assets/Icons/toyger-cat.png" Height="100" Width="100" Stretch="Uniform" Margin="0 -50 600 0"/>
-            <Image Grid.Row="2" Source="../Assets/Icons/butterfly.png" Height="40" Width="40" Stretch="Uniform" Margin="0 -100 450 0"/>
+            <Image Source="../Assets/Icons/cat with butterfly.png" Grid.Row="2" Height="130" Width="130" 
+                   Stretch="Uniform" Margin="0 0 600 0"/>
         </Grid>
             
         
         
         
         
-        <Grid Grid.Row="1" Width="850" Height="800" HorizontalAlignment="Center" VerticalAlignment="Top"
+        <Grid Grid.Row="1" Width="850" Height="700" HorizontalAlignment="Center" VerticalAlignment="Top"
           ColumnDefinitions="2*, 3*, 2*" Background="Transparent" Margin="0" 
           IsVisible="{Binding IsMovieVisible}">
             <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -153,6 +218,8 @@
                             BorderThickness="2" Command="{Binding AddToBookmarksCommand}"/>
                     <TextBlock Text="{Binding Message}" Foreground="SlateGray" TextAlignment="Center"
                                HorizontalAlignment="Center"/>
+                    <Image Source="../Assets/Icons/sitting-cat.png" Height="80" Width="80"
+                           HorizontalAlignment="Center"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
@@ -184,38 +251,33 @@
                         <Run Text="{Binding Item.year}" Foreground="#B57CFF"/>
                     </TextBlock>
                 </StackPanel>
-                <ScrollViewer VerticalScrollBarVisibility="Hidden" Height="450" Margin="15" VerticalAlignment="Center"
-                              HorizontalAlignment="Center" >
+                <ScrollViewer Height="350" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Center" >
                     <TextBlock Text="{Binding Item.description}" FontSize="20"
                                Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"/>
                 </ScrollViewer>
             </StackPanel>
             <Grid Grid.Column="2" Margin="10" VerticalAlignment="Center">
+                <Grid.Styles>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="RenderTransform" Value="scale(1.06)"/>
+                        <Setter Property="Foreground" Value="#C69AFF"/>
+                    </Style>
+                </Grid.Styles>
                 <Line StartPoint="0,0" EndPoint="0,260" Stroke="#DBBFFF" StrokeThickness="4"/>
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Cast" HorizontalAlignment="Center" FontSize="20" Margin="13"
                                Foreground="#742BEB" TextAlignment="Center"/>
-                    <TextBlock Text="{Binding Item.persons[0].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding Item.persons[1].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding Item.persons[2].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding Item.persons[3].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding Item.persons[4].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding Item.persons[5].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding Item.persons[6].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <ScrollViewer Height="500">
+                        <ListBox ItemsSource="{Binding Item.persons}" Background="White"/>
+                    </ScrollViewer>
                 </StackPanel>
             </Grid>
         </Grid>
         
         
         
-        <Grid Grid.Row="1" Width="850" Height="800" HorizontalAlignment="Center" VerticalAlignment="Center"
+        <Grid Grid.Row="1" Width="850" Height="700" HorizontalAlignment="Center" VerticalAlignment="Center"
           ColumnDefinitions="2*, 3*, 2*" Background="Transparent" Margin="10" 
           IsVisible="{Binding IsActorVisible}">
             <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -225,7 +287,9 @@
                 </Border>
                 <StackPanel Margin="0 15">
                     <TextBlock Foreground="#B57CFF" FontSize="25" HorizontalAlignment="Center" Margin="5"
-                               Text="{Binding ActorItem.enName}"/>
+                               Text="{Binding ActorItem.enName}" Width="200" TextWrapping="Wrap"/>
+                    <Image Source="../Assets/Icons/sitting-cat.png" Height="80" Width="80" 
+                           HorizontalAlignment="Center" Margin="0 50 0 0"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
@@ -234,68 +298,49 @@
                            TextWrapping="Wrap" TextAlignment="Center" Margin="17"/>
                 <StackPanel Margin="17">
                     <TextBlock HorizontalAlignment="Center" FontSize="20">
-                        <Run Text="age:" Foreground="#742BEB"/>
+                        <Run Text="возраст:" Foreground="#742BEB"/>
                         <Run Text="{Binding ActorItem.age}" Foreground="#B57CFF"/>
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Center" FontSize="20">
-                        <Run Text="birthday:" Foreground="#742BEB"/>
+                        <Run Text="дата рождения:" Foreground="#742BEB"/>
                         <Run Text="{Binding ActorItem.birthday}" Foreground="#B57CFF"/>
                     </TextBlock>
                     <TextBlock  HorizontalAlignment="Center" FontSize="20">
-                        <Run Text="place of birth:" Foreground="#742BEB"/>
+                        <Run Text="место рождения:" Foreground="#742BEB"/>
                         <Run Text="{Binding ActorItem.birthPlace}" Foreground="#B57CFF"/>
                     </TextBlock>
                     <TextBlock  HorizontalAlignment="Center" FontSize="20">
-                        <Run Text="height (cm):" Foreground="#742BEB"/>
+                        <Run Text="рост (см):" Foreground="#742BEB"/>
                         <Run Text="{Binding ActorItem.growth}" Foreground="#B57CFF"/>
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Center" FontSize="20">
-                        <Run Text="profession:" Foreground="#742BEB"/>
+                        <Run Text="профессия:" Foreground="#742BEB"/>
                         <Run Text="{Binding ActorItem.profession}" Foreground="#B57CFF"/>
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Center" FontSize="20">
-                        <Run Text="sex:" Foreground="#742BEB"/>
+                        <Run Text="пол:" Foreground="#742BEB"/>
                         <Run Text="{Binding ActorItem.sex}" Foreground="#B57CFF"/>
                     </TextBlock>
                 </StackPanel>
-                <ScrollViewer VerticalScrollBarVisibility="Hidden" Height="450" Margin="15" VerticalAlignment="Center"
-                              HorizontalAlignment="Center" >
-                    <StackPanel>
-                        <TextBlock Text="{Binding ActorItem.facts[0].value}" FontSize="20"
-                                   Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"
-                                   Margin="7"/>
-                        <TextBlock Text="{Binding ActorItem.facts[0].value}" FontSize="20"
-                                   Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"
-                                   Margin="7"/>
-                        <TextBlock Text="{Binding ActorItem.facts[0].value}" FontSize="20"
-                                   Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center"
-                                   Margin="7"/>
-                    </StackPanel>
+                <ScrollViewer Height="450" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                        <ListBox ItemsSource="{Binding ActorItem.facts}" Background="White"/>
                 </ScrollViewer>
             </StackPanel>
             <Grid Grid.Column="2" Margin="10" VerticalAlignment="Center">
+                <Grid.Styles>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="RenderTransform" Value="scale(1.06)"/>
+                        <Setter Property="Foreground" Value="#C69AFF"/>
+                    </Style>
+                </Grid.Styles>
                 <Line StartPoint="0,0" EndPoint="0,260" Stroke="#DBBFFF" StrokeThickness="4"/>
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Movies" HorizontalAlignment="Center" FontSize="20" Margin="13"
                                Foreground="#742BEB" TextAlignment="Center"/>
-                    <!--<Button Content="{Binding ActorItem.movies[0].name}" Foreground="#B57CFF"
-                            FontSize="20" Margin="6" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                            Command="{Binding BookmarkSearchSwitch}" 
-                            CommandParameter="{Binding ActorItem.movies[0].id}"/>-->
-                    <TextBlock Text="{Binding ActorItem.movies[0].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding ActorItem.movies[1].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding ActorItem.movies[2].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding ActorItem.movies[3].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding ActorItem.movies[4].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding ActorItem.movies[5].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding ActorItem.movies[6].name}" Foreground="#B57CFF"
-                               FontSize="20" Margin="6" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <ScrollViewer Height="500">
+                        <ListBox ItemsSource="{Binding ActorItem.movies}" Background="White"/>
+                    </ScrollViewer>
                 </StackPanel>
             </Grid>
         </Grid>
