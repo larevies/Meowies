@@ -15,12 +15,12 @@
         <Image Grid.Row="0" Source="../Assets/boy and a bird.jpg" Width="850" Stretch="UniformToFill"/>
         <TextBlock Grid.Row="1" FontSize="40" Text="Смотрите в кинотеатрах:" Foreground="#B57CFF"
                    HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Bottom"/>
-        <TextBlock Grid.Row="2" Text="{Binding BookmarkDoc.alternativeName}" 
+        <TextBlock Grid.Row="2" Text="{Binding Bookmark.alternativeName}" 
                    Foreground="#742BEB" FontSize="40" TextAlignment="Center" HorizontalAlignment="Center"
                    VerticalAlignment="Top"/>
-        <TextBlock Grid.Row="3" FontSize="30" Text="{Binding BookmarkDoc.description}"
+        <TextBlock Grid.Row="3" FontSize="30" Text="{Binding Bookmark.description}"
                    Foreground="#B57CFF" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center"/>
-        <TextBlock Grid.Row="4" Text="{Binding BookmarkDoc.rating.kp}" FontSize="30"
+        <TextBlock Grid.Row="4" Text="{Binding Bookmark.rating.kp}" FontSize="30"
                    HorizontalAlignment="Center" Foreground="#B57CFF"/>
         <Canvas Grid.Row="5" HorizontalAlignment="Center" Margin="0 0 250 0" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal">

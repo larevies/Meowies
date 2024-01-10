@@ -89,41 +89,11 @@ public class MainWindowViewModel : ViewModelBase
     {
         try
         {
-            //SearchViewModel.IsSearchVisible = true;
-            //SearchViewModel.IsMovieVisible = false;
-            //SearchViewModel.IsActorVisible = false;
-            
-            var name = HttpUtility.UrlEncode(SearchName);
-            
-            var task = GetBmListAsync(GetMovieUrlByName(name));
-            var item = await task!;
-            foreach (var doc in item!.docs)
-            { SearchViewModel.Bookmarks.Add(doc); }
-            
-            
-            var taskActor = GetAcListAsync(GetActorUrlByName(name));
-            var itemActor = await taskActor!;
-            foreach (var doc in itemActor!.docs)
-            { SearchViewModel.Actors.Add(doc); }
-            
-            //MovieViewModel.Bookmark = item;
-            //MovieViewModel.PosterUrl = item.docs[0].poster.previewUrl;
-            //MovieViewModel.DownloadImage(MovieViewModel.PosterUrl);
-            //MovieViewModel.Message = "";
-            
-            /*var task = GetBmListAsync(MovieUrl("251733"));
-            var item = await task;
-            MovieViewModel.Bookmark = item;
-            //MovieViewModel.PosterUrl = item.docs[0].poster.previewUrl;
-            //MovieViewModel.DownloadImage(MovieViewModel.PosterUrl);
-            MovieViewModel.Message = "";*/
-            
             CurrentPage = _pages[4];
             
         }
         catch (Exception)
         {
-            MovieViewModel.Message = "Wrong";
             CurrentPage = _pages[4];
         }
     }
@@ -133,7 +103,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         try
         {
-            var rnd = new Random();
+            /*var rnd = new Random();
             int[] ids = {939785, 86621, 683999, 571892, 1211076}; 
             var index  = rnd.Next(0, 5);
             int id = ids[index];
@@ -143,11 +113,12 @@ public class MainWindowViewModel : ViewModelBase
             //MovieViewModel.PosterUrl = item.docs[0].poster.previewUrl;
             //MovieViewModel.DownloadImage(MovieViewModel.PosterUrl);
             MovieViewModel.Message = "";
+            */
             CurrentPage = _pages[2];
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            MovieViewModel.Message = "Wrong";
+            Console.Write(e.Message);
             CurrentPage = _pages[2];
         }
     }
@@ -164,7 +135,7 @@ public class MainWindowViewModel : ViewModelBase
             var id = 1071383;
             var task = GetBmAsync(GetMovieUrlByName(id.ToString()));
             var item = await task;
-            TrendingViewModel.Bookmark = item;
+            TrendingViewModel.Bookmark = item.docs[0];
             CurrentPage = _pages[3];
         }
         catch (Exception)
@@ -173,7 +144,7 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
     
-    public static async Task<BookmarkItem?>? GetBmAsync(string apiUrl)
+    public static async Task<MovieItem?>? GetBmAsync(string apiUrl)
     {
         using var client = new HttpClient();
         var response = await client.GetAsync(apiUrl);
@@ -181,14 +152,14 @@ public class MainWindowViewModel : ViewModelBase
         if (response.IsSuccessStatusCode)
         {
             var json = await response.Content.ReadAsStringAsync();
-            var bm = JsonConvert.DeserializeObject<BookmarkItem>(json);
+            var bm = JsonConvert.DeserializeObject<MovieItem>(json);
             return bm;
         }
 
         throw new Exception($"HTTP request failed with status code {response.StatusCode}");
     }
     
-    public static async Task<BookmarkList?>? GetBmListAsync(string apiUrl)
+    public static async Task<MovieList?>? GetBmListAsync(string apiUrl)
     {
         using var client = new HttpClient();
         var response = await client.GetAsync(apiUrl);
@@ -196,7 +167,7 @@ public class MainWindowViewModel : ViewModelBase
         if (response.IsSuccessStatusCode)
         {
             var json = await response.Content.ReadAsStringAsync();
-            var bmList = JsonConvert.DeserializeObject<BookmarkList>(json);
+            var bmList = JsonConvert.DeserializeObject<MovieList>(json);
             return bmList;
         }
 

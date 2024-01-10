@@ -22,7 +22,7 @@
                     <Button Background="Transparent" 
                             Content="{Binding name}" 
                             Foreground="#5822B1" Height="35"
-                            Command = "{Binding $parent[ListBox].((vm:SearchViewModel)DataContext).BookmarkSearchSwitch}"
+                            Command = "{Binding $parent[ListBox].((vm:SearchViewModel)DataContext).MovieSearchSwitch}"
                             CommandParameter="{Binding id}"
                             Width="270" VerticalAlignment="Center" FontSize="20"
                             HorizontalContentAlignment="Center" BorderThickness="0"/>
@@ -124,7 +124,7 @@
             <TextBlock Grid.Row="0" Text="{Binding SearchResults}" Foreground="#742BEB" FontSize="35" Margin="15" 
                        HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
             <Grid Grid.Row="1" ColumnDefinitions="*, *" Height="500">
-                <ListBox Grid.Column="0" ItemsSource="{Binding Bookmarks}" Background="White"/>
+                <ListBox Grid.Column="0" ItemsSource="{Binding Movies}" Background="White"/>
                 <ListBox Grid.Column="1" ItemsSource="{Binding Actors}" Background="White"/>
             </Grid>
             <Image Grid.Row="2" Source="../Assets/Icons/toyger-cat.png" Height="100" Width="100" Stretch="Uniform" Margin="0 -50 600 0"/>
