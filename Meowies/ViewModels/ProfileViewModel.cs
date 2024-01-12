@@ -60,7 +60,7 @@ public class ProfileViewModel : ViewModelBase
     private static readonly ProfileViewModelBase Welcome = new WelcomeViewModel();
     private static readonly ProfileViewModelBase SignUp = new SignUpViewModel();
     private static readonly ProfileViewModelBase SignIn = new SignInViewModel();
-    private static readonly ProfileViewModelBase ChangeProfile = new ChangeProfileViewModel();
+    private static readonly ChangeProfileViewModel ChangeProfile = new();
     
     private readonly ProfileViewModelBase[] _profilePages = 
     { 
@@ -144,9 +144,8 @@ public class ProfileViewModel : ViewModelBase
                     userBookmarks.Add(doc);
                 }
                 
-                UserName = queryable.Name;
-                ChangeProfileViewModel.UserName = UserName;
-                ChangeProfileViewModel.CurrentUser = queryable;
+                // ChangeProfile.UserName = queryable.Name;
+                ChangeProfile.CurrentUser = queryable;
                 BookmarksViewModel.Bookmarks = userBookmarks;
 
                 CurrentProfile = ChangeProfile;
@@ -160,17 +159,7 @@ public class ProfileViewModel : ViewModelBase
             }
         }
     }
-
-    private string _userName = "User";
-    public string UserName
-    {
-        get => _userName;
-        set
-        {
-            _userName = value;
-            OnPropertyChanged(nameof(UserName));
-        }
-    }
+    
     public ICommand NavigatePreviousCommand { get; }
 
     private void NavigatePrevious()
