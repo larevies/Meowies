@@ -52,7 +52,6 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     private void ChangedName()
     {
         ChangingName = false; 
-        CurrentUser.Name = NewName;
         var context = new MeowiesContext();
         User? queryable = context.Users
             .FirstOrDefault(x => x.Email == SignInViewModel
@@ -72,8 +71,15 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     public ICommand ChangedPasswordCommand { get; }
     private void ChangedPassword()
     {
-        ChangingName = false;
-        CurrentUser.Password = NewPassword;
+        ChangingPassword = false;
+        var context = new MeowiesContext();
+        User? queryable = context.Users
+            .FirstOrDefault(x => x.Email == SignInViewModel
+                .MailAddress && x.Password == SignInViewModel.Password);
+        queryable.Password = NewPassword;
+        context.SaveChanges();
+        CurrentUser.Password = queryable.Password;
+        Console.WriteLine(CurrentUser.Password);
     }
     private bool _changingName;
     public bool ChangingName { 
