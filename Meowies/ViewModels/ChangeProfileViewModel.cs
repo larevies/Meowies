@@ -50,8 +50,9 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     public ICommand ChangedNameCommand { get; }
     private void ChangedName()
     {
-        ChangingName = false;
+        ChangingName = false; 
         CurrentUser.Name = NewName;
+        _currentUser = CurrentUser;
     }
     
     public ICommand ChangedEmailCommand { get; }
