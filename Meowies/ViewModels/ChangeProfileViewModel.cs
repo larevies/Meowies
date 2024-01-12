@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows.Input;
 using Meowies.Models;
 using ReactiveUI;
@@ -52,7 +53,13 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     {
         ChangingName = false; 
         CurrentUser.Name = NewName;
-        _currentUser = CurrentUser;
+        var context = new MeowiesContext();
+        User? queryable = context.Users
+            .FirstOrDefault(x => x.Email == SignInViewModel
+                .MailAddress && x.Password == SignInViewModel.Password);
+        queryable.Name = NewName;
+        context.SaveChanges();
+        CurrentUser.Name = queryable.Name;
     }
     
     public ICommand ChangedEmailCommand { get; }
