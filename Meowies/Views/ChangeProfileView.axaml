@@ -52,7 +52,7 @@
                 
             <TextBlock Grid.Row="1" FontSize="50" HorizontalAlignment="Center">
                 <Run Text="Hi," Foreground="#B57CFF"/>
-                <Run Text="{Binding Path=CurrentUser.Name}" Foreground="#742BEB"/> 
+                <Run Text="{Binding Path=UserName}" Foreground="#742BEB"/> 
             </TextBlock>
             
             

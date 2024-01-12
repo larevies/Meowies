@@ -17,9 +17,8 @@ public class ChangeProfileViewModel : ProfileViewModelBase
         ChangedPasswordCommand = ReactiveCommand.Create(ChangedPassword);
         GoBackCommand = ReactiveCommand.Create(GoBack);
         EnterCommand = ReactiveCommand.Create(Enter);
-        
     }
-    
+
     public string Welcome { get; set; } = "Here are three things I recommend you to do:\n" +
                                           "1. Let fate decide what to watch today\n" +
                                           "2. Read facts about your favorite actor\n" +
@@ -118,7 +117,17 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     }
 
     public static User CurrentUser { get; set; } = new();
-    public static string UserName { get; set; } = "User";
+    private string _username = "Ser";
+    public string UserName {
+        get => _username;
+        set
+        {
+            _username = value;
+            OnPropertyChanged(nameof(UserName));
+            
+            Console.WriteLine(UserName);
+        }
+    }
     public override bool CanNavigateNext
     {
         get => false;
