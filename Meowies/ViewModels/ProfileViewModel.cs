@@ -12,7 +12,7 @@ public class ProfileViewModel : ViewModelBase
 {
     public ProfileViewModel()
     {
-        CurrentProfile = _profilePages[0];
+        CurrentProfile = Welcome;
         
         var canNavNext = this.WhenAnyValue(x => x.CurrentProfile.CanNavigateNext);
         var canNavPrev = this.WhenAnyValue(x => x.CurrentProfile.CanNavigatePrevious);
@@ -55,13 +55,23 @@ public class ProfileViewModel : ViewModelBase
         }
     }
 
+    #region Profile ViewModels
+    
+    private static readonly ProfileViewModelBase Welcome = new WelcomeViewModel();
+    private static readonly ProfileViewModelBase SignUp = new SignUpViewModel();
+    private static readonly ProfileViewModelBase SignIn = new SignInViewModel();
+    private static readonly ProfileViewModelBase ChangeProfile = new ChangeProfileViewModel();
+    
     private readonly ProfileViewModelBase[] _profilePages = 
     { 
-        new WelcomeViewModel(),
-        new SignUpViewModel(),
-        new SignInViewModel(),
-        new ChangeProfileViewModel()
+        Welcome,
+        SignUp,
+        SignIn,
+        ChangeProfile
     };
+    
+    #endregion
+    
     private ProfileViewModelBase _currentProfile = null!;
     public ProfileViewModelBase CurrentProfile
     {
@@ -78,17 +88,18 @@ public class ProfileViewModel : ViewModelBase
     {
         var index = _profilePages.IndexOf(CurrentProfile) + 1;
         CurrentProfile = _profilePages[index];
-        if (CurrentProfile == _profilePages[2])
+        
+        if (CurrentProfile == SignIn)
         {
             Next = "Sign in";
             Previous = "Go back";
             using var context = new MeowiesContext();
             var queryable = context.Users.FirstOrDefault(x => x.Email == SignUpViewModel.MailAddress);
             
-            if (queryable.Name != null)
+            if (queryable != null)
             {
                 SignUpViewModel.Message = "This email is taken";
-                CurrentProfile = _profilePages[1];
+                CurrentProfile = SignUp;
             }
             else
             {
@@ -96,17 +107,17 @@ public class ProfileViewModel : ViewModelBase
                 await context.SaveChangesAsync();
             }
         }
-        else if (CurrentProfile == _profilePages[0])
+        else if (CurrentProfile == Welcome)
         {
             Next = "Sign up";
             Previous = "Sign in";
         }
-        else if (CurrentProfile == _profilePages[1])
+        else if (CurrentProfile == SignUp)
         {
             Next = "Sign up";
             Previous = "Go Back";
         } 
-        else if (CurrentProfile == _profilePages[3])
+        else if (CurrentProfile == ChangeProfile)
         {
             using var context = new MeowiesContext();
             var queryable = context.Users
@@ -138,14 +149,14 @@ public class ProfileViewModel : ViewModelBase
                 ChangeProfileViewModel.CurrentUser = queryable;
                 BookmarksViewModel.Bookmarks = userBookmarks;
 
-                CurrentProfile = _profilePages[3];
+                CurrentProfile = ChangeProfile;
             }
             catch (Exception e)
             {
                 AreButtonsVisible = true;
                 Console.WriteLine(e.Message);
                 SignInViewModel.Message = "E-mail address or password do not match.\nTry again";
-                CurrentProfile = _profilePages[2];
+                CurrentProfile = SignIn;
             }
         }
     }
@@ -165,7 +176,7 @@ public class ProfileViewModel : ViewModelBase
     private void NavigatePrevious()
     {
         int index;
-        if (CurrentProfile == _profilePages[0])
+        if (CurrentProfile == Welcome)
         {
             index = _profilePages.IndexOf(CurrentProfile) + 2;
         }
@@ -175,17 +186,17 @@ public class ProfileViewModel : ViewModelBase
         }
 
         CurrentProfile = _profilePages[index];
-        if (CurrentProfile == _profilePages[2])
+        if (CurrentProfile == SignIn)
         {
             Next = "Sign in";
             Previous = "Go back";
         }
-        else if (CurrentProfile == _profilePages[0])
+        else if (CurrentProfile == Welcome)
         {
             Next = "Sign up";
             Previous = "Sign in";
         }
-        else if (CurrentProfile == _profilePages[1])
+        else if (CurrentProfile == SignUp)
         {
             Next = "Sign up";
             Previous = "Go Back";
