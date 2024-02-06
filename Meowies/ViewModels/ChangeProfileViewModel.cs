@@ -56,18 +56,47 @@ public class ChangeProfileViewModel : ProfileViewModelBase
         User? queryable = context.Users
             .FirstOrDefault(x => x.Email == SignInViewModel
                 .MailAddress && x.Password == SignInViewModel.Password);
-        queryable.Name = NewName;
+        queryable!.Name = NewName;
         context.SaveChanges();
         CurrentUser.Name = queryable.Name;
     }
     
     public ICommand ChangedEmailCommand { get; }
+
     private void ChangedEmail()
     {
-        ChangingName = false;
-        CurrentUser.Email = NewEmail;
+        try
+        {
+            ChangingEmail = false;
+            var context = new MeowiesContext();
+            User? queryable = context.Users
+                .FirstOrDefault(x => x.Email == SignInViewModel
+                    .MailAddress && x.Password == SignInViewModel.Password);
+            if (queryable!.Email == NewEmail)
+            {
+                throw new Exception("This email is literally the fucking same u bullshit!!!!");
+            }
+            if (_alreadyExists(NewEmail))
+            {
+                throw new Exception("This email already exists!!!");
+            }
+            CurrentUser.Email = queryable.Email;
+            queryable.Email = NewEmail;
+            context.SaveChanges();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
-    
+
+    private bool _alreadyExists(string email)
+    {
+        var context = new MeowiesContext();
+        if (context.Users.FirstOrDefault(x => x.Email == email) is null) return false;
+        return true;
+    }
+
     public ICommand ChangedPasswordCommand { get; }
     private void ChangedPassword()
     {
@@ -76,7 +105,7 @@ public class ChangeProfileViewModel : ProfileViewModelBase
         User? queryable = context.Users
             .FirstOrDefault(x => x.Email == SignInViewModel
                 .MailAddress && x.Password == SignInViewModel.Password);
-        queryable.Password = NewPassword;
+        queryable!.Password = NewPassword;
         context.SaveChanges();
         CurrentUser.Password = queryable.Password;
         Console.WriteLine(CurrentUser.Password);
@@ -141,17 +170,7 @@ public class ChangeProfileViewModel : ProfileViewModelBase
             OnPropertyChanged(nameof(CurrentUser));
         }
     }
-    // private string _username = "Ser";
-    // public string UserName {
-    //     get => _username;
-    //     set
-    //     {
-    //         _username = value;
-    //         OnPropertyChanged(nameof(UserName));
-    //         
-    //         Console.WriteLine(UserName);
-    //     }
-    // }
+
     public override bool CanNavigateNext
     {
         get => false;
