@@ -14,11 +14,12 @@
     </Design.DataContext>
     
 
-        <Grid Background="White" Width="700" Height="750" HorizontalAlignment="Center" VerticalAlignment="Center"
-              RowDefinitions="120,100,400">
+        <Grid Background="Transparent" Width="700" Height="750" HorizontalAlignment="Center" VerticalAlignment="Center"
+              RowDefinitions="120,100,500">
 
             <StackPanel Grid.Row="0">
-                <TextBlock FontSize="55" FontFamily="Actor" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 30 0 20">
+                <TextBlock FontSize="55" FontFamily="Actor" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Margin="0 30 0 20">
                     <Run Text="Welcome to" Foreground="#B57CFF"/>
                     <Run Text="Meowies!" Foreground="#742BEB"/>
                 </TextBlock>
@@ -34,7 +35,7 @@
                 </TextBlock>
             </StackPanel>
             
-            <Image Grid.Row="2" Source="../Assets/cats.png" Width="550" Height="550" VerticalAlignment="Top"></Image>
+            <Image Grid.Row="2" Source="../Assets/cats.png" Width="500" Height="500" VerticalAlignment="Top"></Image>
             
         </Grid>
     

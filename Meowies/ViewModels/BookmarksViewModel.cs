@@ -8,10 +8,6 @@ namespace Meowies.ViewModels;
 
 public class BookmarksViewModel : ViewModelBase
 {
-    public BookmarksViewModel()
-    {
-        RefreshPageCommand = ReactiveCommand.Create(RefreshPage);
-    }
     public static List<MovieItemDoc> Bookmarks { get; set; }
 
     private string _refresh = "";
@@ -24,15 +20,7 @@ public class BookmarksViewModel : ViewModelBase
             OnPropertyChanged(nameof(Refresh));
         }
     }
-
-    public ICommand RefreshPageCommand { get; }
-
-    private void RefreshPage()
-    {
-        Refresh = "1";
-        Refresh = "0";
-    }
-
+    
     public void Delete(MovieItemDoc a)
     {
         MeowiesContext context = new MeowiesContext();
@@ -46,9 +34,16 @@ public class BookmarksViewModel : ViewModelBase
         a.IsButtonVisible = false;
         context.Bookmarks.Remove(queryable!);
         context.SaveChanges();
-        Bookmarks.Remove(itemToDelete);
         
-        RefreshPage();
+        
+        List<MovieItemDoc> newBookmarks = Bookmarks;
+        newBookmarks.Remove(itemToDelete);
+        
+        // Bookmarks.Remove(itemToDelete);
+        Bookmarks = newBookmarks;
+        
+        // its static so it doesnt change
+        
         
     }
 }

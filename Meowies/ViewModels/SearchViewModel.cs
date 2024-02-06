@@ -17,7 +17,7 @@ public class SearchViewModel : ViewModelBase
         SearchCommandA = ReactiveCommand.Create(SearchA);
         GoBackCommand = ReactiveCommand.Create(GoBack);
         
-        var UserBookmarks = SearchResults;
+        // var UserBookmarks = SearchResults;
 
     }
     
@@ -27,6 +27,9 @@ public class SearchViewModel : ViewModelBase
     {
         try
         {
+            Movies.Clear();
+            Actors.Clear();
+            
             var name = HttpUtility.UrlEncode(SearchName);
             
             var task = JsonDeserializers.GetBmListAsync(

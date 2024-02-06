@@ -11,8 +11,8 @@
              mc:Ignorable="d">
     
     <Grid>
-        <ContentControl Content="{Binding CurrentProfile}"/>
-        <StackPanel Orientation="Horizontal" Spacing="5" Margin="25" VerticalAlignment="Bottom"
+        <ContentControl Content="{Binding CurrentProfile}" Height="750"/>
+        <StackPanel Orientation="Horizontal" Spacing="5" Margin="25" VerticalAlignment="Bottom" Height="50"
                     HorizontalAlignment="Center">
             <Grid ColumnDefinitions="*, *" IsVisible="{Binding AreButtonsVisible}">
                 <Border Grid.Column="0" BoxShadow="0 0 25 10 #F2E8FF" HorizontalAlignment="Left" Margin="0 0 30 0" 

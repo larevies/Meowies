@@ -10,4 +10,14 @@ public partial class BookmarksView : UserControl
     {
         InitializeComponent();
     }
+
+
+    /*private void ListBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        var index = ListBox.SelectedIndex;
+        if (ListBox.SelectedIndex >= 0)
+        {
+            ListBox.Items.RemoveAt(index);
+        }
+    }*/
 }

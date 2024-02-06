@@ -94,6 +94,7 @@ public class ProfileViewModel : ViewModelBase
             Next = "Sign in";
             Previous = "Go back";
             using var context = new MeowiesContext();
+            
             var queryable = context.Users.FirstOrDefault(x => x.Email == SignUpViewModel.MailAddress);
             
             if (queryable != null)
@@ -144,7 +145,6 @@ public class ProfileViewModel : ViewModelBase
                     userBookmarks.Add(doc);
                 }
                 
-                // ChangeProfile.UserName = queryable.Name;
                 ChangeProfile.CurrentUser = queryable;
                 BookmarksViewModel.Bookmarks = userBookmarks;
 
