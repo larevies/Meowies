@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using DynamicData;
@@ -146,7 +147,7 @@ public class ProfileViewModel : ViewModelBase
                 }
                 
                 ChangeProfile.CurrentUser = queryable;
-                BookmarksViewModel.Bookmarks = userBookmarks;
+                BookmarksViewModel.Bookmarks = new ObservableCollection<MovieItemDoc>(userBookmarks);
 
                 CurrentProfile = ChangeProfile;
             }

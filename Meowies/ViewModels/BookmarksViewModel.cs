@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Meowies.Models;
@@ -8,7 +9,7 @@ namespace Meowies.ViewModels;
 
 public class BookmarksViewModel : ViewModelBase
 {
-    public static List<MovieItemDoc> Bookmarks { get; set; }
+    public static ObservableCollection<MovieItemDoc> Bookmarks { get; set; }
 
     private string _refresh = "";
     public string Refresh
@@ -36,7 +37,7 @@ public class BookmarksViewModel : ViewModelBase
         context.SaveChanges();
         
         
-        List<MovieItemDoc> newBookmarks = Bookmarks;
+        ObservableCollection<MovieItemDoc> newBookmarks = Bookmarks;
         newBookmarks.Remove(itemToDelete);
         
         // Bookmarks.Remove(itemToDelete);
