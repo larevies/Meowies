@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Windows.Input;
+using Avalonia.Media.Imaging;
 using Meowies.Models;
 using ReactiveUI;
 
@@ -16,8 +17,10 @@ public class ChangeProfileViewModel : ProfileViewModelBase
         ChangedNameCommand = ReactiveCommand.Create(ChangedName);
         ChangedEmailCommand = ReactiveCommand.Create(ChangedEmail);
         ChangedPasswordCommand = ReactiveCommand.Create(ChangedPassword);
-        GoBackCommand = ReactiveCommand.Create(GoBack);
+        GoBackToWelcomeCommand = ReactiveCommand.Create(GoBackToWelcome);
+        GoBackToProfileCommand = ReactiveCommand.Create(GoBackToProfile);
         EnterCommand = ReactiveCommand.Create(Enter);
+        StartPicChangingCommand = ReactiveCommand.Create(StartPicChanging);
     }
 
     public string Welcome { get; set; } = "Here are three things I recommend you to do:\n" +
@@ -137,7 +140,7 @@ public class ChangeProfileViewModel : ProfileViewModelBase
             OnPropertyChanged(nameof(ChangingPassword));
         }
     }
-    private bool _entered;
+    private bool _entered = true;
     public bool Entered { 
         get => _entered;
         set
@@ -146,17 +149,53 @@ public class ChangeProfileViewModel : ProfileViewModelBase
             OnPropertyChanged(nameof(Entered));
         }
     }
-
-    public ICommand GoBackCommand { get; }
-    public void GoBack()
-    {
-        Entered = false;
+    private bool _profileChanging;
+    public bool ProfileChanging { 
+        get => _profileChanging;
+        set
+        {
+            _profileChanging = value;
+            OnPropertyChanged(nameof(ProfileChanging));
+        }
+    }
+    private bool _picChanging;
+    public bool PicChanging { 
+        get => _picChanging;
+        set
+        {
+            _picChanging = value;
+            OnPropertyChanged(nameof(PicChanging));
+        }
     }
 
+    private Bitmap? _pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic5.png"));
+    public Bitmap? Pic
+    {
+        get => _pic;
+        set
+        {
+            _pic = value;
+            OnPropertyChanged(nameof(Pic));
+        }
+
+    }
+    public ICommand GoBackToWelcomeCommand { get; }
+    public void GoBackToWelcome()
+    {
+        Entered = true;
+        ProfileChanging = false;
+    }
+    public ICommand GoBackToProfileCommand { get; }
+    public void GoBackToProfile()
+    {
+        ProfileChanging = true;
+        PicChanging = false;
+    }
     public ICommand EnterCommand { get; }
     private void Enter()
     {
-        Entered = true;
+        Entered = false;
+        ProfileChanging = true;
     }
 
     private User _currentUser = null!;
@@ -170,6 +209,55 @@ public class ChangeProfileViewModel : ProfileViewModelBase
             OnPropertyChanged(nameof(CurrentUser));
         }
     }
+
+    public ICommand StartPicChangingCommand { get; }
+    private void StartPicChanging()
+    {
+        ProfileChanging = false;
+        PicChanging = true;
+    }
+
+    public void SwitchPicture(int a)
+    {
+        Pic = ImageHelper.LoadFromResource(new Uri($"avares://Meowies/Assets/Userpics/userpic{a}.png"));
+        GoBackToProfile();
+                /*break;
+            case 2:
+                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic2.png"));
+                GoBack();
+                break;
+            case 3:
+                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic3.png"));
+                GoBack();
+                break;
+            case 4:
+                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic4.png"));
+                GoBack();
+                break;
+            case 5:
+                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic5.png"));
+                GoBack();
+                break;
+            case 6:
+                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic6.png"));
+                GoBack();
+                break;
+            case 7:
+                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic7.png"));
+                GoBack();
+                break;
+            case 8:
+                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic8.png"));
+                GoBack();
+                break;
+            default:
+                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic2.png"));
+                GoBack();
+                break;
+        }*/
+    }
+
+
 
     public override bool CanNavigateNext
     {
