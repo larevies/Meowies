@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Net;
 using System.Web;
@@ -60,8 +61,8 @@ public class SearchViewModel : ViewModelBase
         }
     }
     public string SearchName { get; set; } = null!;
-    private List<MovieListDoc> _movies = new(10);
-    public List<MovieListDoc> Movies
+    private ObservableCollection<MovieListDoc> _movies = new (new(10));
+    public ObservableCollection<MovieListDoc> Movies
     {
         get => _movies;
         set
@@ -70,8 +71,8 @@ public class SearchViewModel : ViewModelBase
             OnPropertyChanged(nameof(Movies));
         }
     }
-    private List<ActorListDoc> _actors = new(10);
-    public List<ActorListDoc> Actors
+    private ObservableCollection<ActorListDoc> _actors = new (new(10));
+    public ObservableCollection<ActorListDoc> Actors
     {
         get => _actors;
         set
