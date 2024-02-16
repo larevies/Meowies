@@ -27,7 +27,7 @@
                     <Style Selector="Button:pointerover /template/ ContentPresenter">
                         <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="RenderTransform" Value="scale(1.06)"/>
-                        <Setter Property="Foreground" Value="#C69AFF"></Setter>
+                        <Setter Property="Foreground" Value="Indigo"></Setter>
                     </Style>
                 </Grid.Styles>
                 <Grid>

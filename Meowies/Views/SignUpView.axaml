@@ -4,13 +4,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Meowies.ViewModels"
-             d:DesignHeight="450"
+             d:DesignHeight="800"
              d:DesignWidth="800"
              x:CompileBindings="True"
              x:DataType="vm:SignUpViewModel"
              mc:Ignorable="d">
 
-    <Grid  Width="450" RowDefinitions="260,80,100,100,100,100,50">
+    <Grid  Width="450" RowDefinitions="260,90,80,80,80,80,50">
         <TextBlock Grid.Row="0" FontSize="70" Foreground="#C69AFF" HorizontalAlignment="Center" VerticalAlignment="Bottom"
                    Margin=" 0 30 0 15">
             Happy to<LineBreak/>meet you!

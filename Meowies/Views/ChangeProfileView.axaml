@@ -31,7 +31,7 @@
                 <Image Source="../Assets/Icons/sitting-cat.png" Width="110"/>
             </StackPanel>
         </Grid>
-        <Grid RowDefinitions="45, 100, 45, 80, 80, 80, 80, 220" Height="700" VerticalAlignment="Center" Width="800"
+        <Grid RowDefinitions="45, 100, 45, 80, 80, 80, 80, 220" Height="700" VerticalAlignment="Center" Width="820"
               IsVisible="{Binding ProfileChanging}">
             <Grid.Styles>
                 <Style Selector="Button:pointerover /template/ ContentPresenter">
@@ -152,7 +152,7 @@
         
         
         <Grid RowDefinitions="45, 150, Auto" IsVisible="{Binding PicChanging}"
-              Height="700">
+              Height="700" Width="820">
             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button HorizontalAlignment="Left" Width="40" Height="40" VerticalAlignment="Center" Margin="10 0"
                         Background="Transparent" Command="{Binding GoBackToProfileCommand}">
@@ -207,6 +207,28 @@
                     <Button Command="{Binding SwitchPicture}" CommandParameter="8"
                             Background="Transparent">
                         <Image Source="../Assets/Userpics/userpic8.png" Height="100" Width="100" Stretch="UniformToFill"
+                               Margin="10"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="{Binding SwitchPicture}" CommandParameter="9"
+                            Background="Transparent">
+                        <Image Source="../Assets/Userpics/userpic9.png" Height="100" Width="100" Stretch="UniformToFill"
+                               Margin="10"/>
+                    </Button>
+                    <Button Command="{Binding SwitchPicture}" CommandParameter="10"
+                            Background="Transparent">
+                        <Image Source="../Assets/Userpics/userpic10.png" Height="100" Width="100" Stretch="UniformToFill"
+                               Margin="10"/>
+                    </Button>
+                    <Button Command="{Binding SwitchPicture}" CommandParameter="11"
+                            Background="Transparent">
+                        <Image Source="../Assets/Userpics/userpic11.png" Height="100" Width="100" Stretch="UniformToFill"
+                               Margin="10"/>
+                    </Button>
+                    <Button Command="{Binding SwitchPicture}" CommandParameter="12"
+                            Background="Transparent">
+                        <Image Source="../Assets/Userpics/userpic12.png" Height="100" Width="100" Stretch="UniformToFill"
                                Margin="10"/>
                     </Button>
                 </StackPanel>

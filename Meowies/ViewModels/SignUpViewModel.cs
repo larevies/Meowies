@@ -56,13 +56,14 @@ public class SignUpViewModel : ProfileViewModelBase
     }
 
     public override bool CanNavigatePrevious => true;
-
+    private static readonly Random Rnd = new();
     public static User NewUser =>
         new()
         {
             Name = Name,
             Birthday = Birthday.ToString(CultureInfo.CurrentCulture),
             Password = Password,
-            Email = MailAddress
+            Email = MailAddress,
+            ProfilePicture = Rnd.Next(1, 13)
         };
 }

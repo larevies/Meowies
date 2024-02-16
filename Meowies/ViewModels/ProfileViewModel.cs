@@ -150,6 +150,8 @@ public class ProfileViewModel : ViewModelBase
                 BookmarksViewModel.Bookmarks = new ObservableCollection<MovieItemDoc>(userBookmarks);
 
                 CurrentProfile = ChangeProfile;
+                ChangeProfile.Pic = ImageHelper.LoadFromResource(
+                    new Uri($"avares://Meowies/Assets/Userpics/userpic{ChangeProfile.CurrentUser.ProfilePicture}.png"));
             }
             catch (Exception e)
             {

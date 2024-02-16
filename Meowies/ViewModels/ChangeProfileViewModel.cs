@@ -168,7 +168,7 @@ public class ChangeProfileViewModel : ProfileViewModelBase
         }
     }
 
-    private Bitmap? _pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic5.png"));
+    private Bitmap? _pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic2.png"));
     public Bitmap? Pic
     {
         get => _pic;
@@ -220,41 +220,13 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     public void SwitchPicture(int a)
     {
         Pic = ImageHelper.LoadFromResource(new Uri($"avares://Meowies/Assets/Userpics/userpic{a}.png"));
+        using var context = new MeowiesContext();
+        User? queryable = context.Users
+            .FirstOrDefault(x => x.Email == SignInViewModel
+                .MailAddress && x.Password == SignInViewModel.Password);
+        queryable!.ProfilePicture = a;
+        context.SaveChanges();
         GoBackToProfile();
-                /*break;
-            case 2:
-                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic2.png"));
-                GoBack();
-                break;
-            case 3:
-                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic3.png"));
-                GoBack();
-                break;
-            case 4:
-                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic4.png"));
-                GoBack();
-                break;
-            case 5:
-                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic5.png"));
-                GoBack();
-                break;
-            case 6:
-                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic6.png"));
-                GoBack();
-                break;
-            case 7:
-                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic7.png"));
-                GoBack();
-                break;
-            case 8:
-                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic8.png"));
-                GoBack();
-                break;
-            default:
-                Pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic2.png"));
-                GoBack();
-                break;
-        }*/
     }
 
 
