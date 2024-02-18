@@ -3,7 +3,6 @@
         xmlns:vm="using:Meowies.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
         mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="900"
         x:Class="Meowies.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -72,8 +71,10 @@
             </Grid>
                 
             <Line StartPoint="0,60" EndPoint="1000,60" Stroke="#DBBFFF" StrokeThickness="4" ClipToBounds="True"/>
-            <TransitioningContentControl Content="{Binding CurrentPage}" 
-                                         Width="850" Height="800"/>
+            <ScrollViewer Width="850" Height="800" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                <TransitioningContentControl Content="{Binding CurrentPage}"/>
+            </ScrollViewer>
+            
         </Grid>
         </Grid>
         

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Web;
@@ -17,9 +18,6 @@ public class SearchViewModel : ViewModelBase
         AddToBookmarksCommand = ReactiveCommand.Create(AddToBookmarks);
         SearchCommandA = ReactiveCommand.Create(SearchA);
         GoBackCommand = ReactiveCommand.Create(GoBack);
-        
-        // var UserBookmarks = SearchResults;
-
     }
     
     public string SearchResults { get; set; } = "Search results!";
@@ -37,14 +35,26 @@ public class SearchViewModel : ViewModelBase
                 Getters.GetMovieUrlByName(name));
             var item = await task!;
             foreach (var doc in item!.docs!)
-            { Movies.Add(doc); }
+            {
+                if (doc.name == "")
+                {
+                    doc.name = "name is missing";
+                }
+                Movies.Add(doc); 
+            }
             
             
             var taskActor = JsonDeserializers.GetAcListAsync(
                 Getters.GetActorUrlByName(name));
             var itemActor = await taskActor!;
             foreach (var doc in itemActor!.docs!)
-            { Actors.Add(doc); }
+            {
+                if (doc.name == "")
+                {
+                    doc.name = "name is missing";
+                }
+                Actors.Add(doc);
+            }
             
             IsSearchVisible = true;
             IsStartVisible = false;
@@ -162,18 +172,31 @@ public class SearchViewModel : ViewModelBase
     {
         try
         {
-            IsSearchVisible = false;
-            IsStartVisible = false;
-            IsResultVisible = false;
-            IsActorVisible = false;
-            IsMovieVisible = true;
-            IsGoBackVisible = true;
-            Message = "";
+            var userAge = DateTime.Parse(SignInViewModel.CurrentUser.Birthday, CultureInfo.CurrentCulture);
+            var now = DateTime.Now;
+            var sub = now - userAge;
+            var years = sub.Days / 385;
+            
             var task = JsonDeserializers.GetBmAsync(
                 Getters.GetMovieUrlById(id.ToString()));
             var item = await task!;
-            Item = item!.docs[0];
-            DownloadImage(Item.poster.url);
+            
+            if (item!.docs[0].ageRating > years)
+            {
+                Console.WriteLine($"only {years} years. haha minor");
+            }
+            else
+            {
+                Item = item.docs[0];
+                DownloadImage(Item.poster.url);
+                IsSearchVisible = false;
+                IsStartVisible = false;
+                IsResultVisible = false;
+                IsActorVisible = false;
+                IsMovieVisible = true;
+                IsGoBackVisible = true;
+                Message = "";
+            }
         }
         catch (Exception e)
         {

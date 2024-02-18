@@ -11,7 +11,9 @@
              mc:Ignorable="d">
     
     <Grid>
-        <ContentControl Content="{Binding CurrentProfile}" Height="750"/>
+        <ScrollViewer Height="750" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+            <ContentControl Content="{Binding CurrentProfile}"/>
+        </ScrollViewer>
         <StackPanel Orientation="Horizontal" Spacing="5" Margin="25" VerticalAlignment="Bottom" Height="50"
                     HorizontalAlignment="Center">
             <Grid ColumnDefinitions="*, *" IsVisible="{Binding AreButtonsVisible}">

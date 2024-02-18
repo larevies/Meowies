@@ -11,9 +11,10 @@ public class BirthPlace
 public class ActorItemDoc
 {
     public int id { get; set; }
-    public int? age { get; set; }
+    public int? age { get; set;  }
     public List<BirthPlace>? birthPlace { get; set; }
-    public DateTime? birthday { get; set; }
+
+    public DateTime? birthday { get; set;  }
     public int? countAwards { get; set; }
     public string? enName { get; set; }
     public List<Fact>? facts { get; set; }
