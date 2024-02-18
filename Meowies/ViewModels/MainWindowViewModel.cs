@@ -1,12 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
 using System.Windows.Input;
-using Meowies.Commands;
 using Meowies.Models;
-using Newtonsoft.Json;
 using ReactiveUI;
 
 namespace Meowies.ViewModels;

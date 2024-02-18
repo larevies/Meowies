@@ -3,6 +3,7 @@
         xmlns:vm="using:Meowies.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
         mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="900"
         x:Class="Meowies.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -19,6 +20,7 @@
             </LinearGradientBrush>
         </Border.Background>
         <Grid>
+            
             <Image Source="../Assets/paws.png" Height="500" Width="500" Margin="0 400 1100 0"/>
             <Image Source="../Assets/paws.png" Height="500" Width="500" Margin="1300 0 0 200"/>
             

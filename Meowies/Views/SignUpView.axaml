@@ -10,16 +10,16 @@
              x:DataType="vm:SignUpViewModel"
              mc:Ignorable="d">
 
-    <Grid  Width="450" RowDefinitions="260,90,80,80,80,80,50">
-        <TextBlock Grid.Row="0" FontSize="70" Foreground="#C69AFF" HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                   Margin=" 0 30 0 15">
+    <Grid Width="450" RowDefinitions="220,70,80,80,80,80,50,30">
+        <TextBlock Grid.Row="0" FontSize="70" Foreground="#C69AFF" HorizontalAlignment="Center" VerticalAlignment="Top"
+                   Margin=" 0 30 0 0">
             Happy to<LineBreak/>meet you!
         </TextBlock>
         <TextBlock Grid.Row="1" FontSize="25"
                    FontWeight="SemiBold"
                    TextAlignment="Center"
                    TextWrapping="Wrap"
-                   Margin="0 15">
+                   Margin="0 10">
             <Run Text="Please," Foreground="#742BEB"></Run>
             <Run Text="fill in the following gaps" Foreground="#C69AFF"></Run>
         </TextBlock>
@@ -61,7 +61,19 @@
                      CornerRadius="20"
                      Foreground="#742BEB"/>
         </StackPanel>
-        <TextBlock Grid.Row="6" 
+        <ScrollViewer Grid.Row="6" Width = "450" Height = "50">
+            <TextBlock TextWrapping="Wrap"
+                       TextAlignment="Center"
+                       Width="400">
+                <Run Text="Note, that by pressing 'Sign up' you consent to the " 
+                     Foreground="#C69AFF"/>
+                <Run Text="processing of personal data:" 
+                     Foreground="#742BEB"/>
+                <Run Text="{Binding Consent}"
+                     Foreground="#C69AFF"/>
+            </TextBlock>
+        </ScrollViewer>
+        <TextBlock Grid.Row="7" 
                    FontSize="20"
                    Text="{Binding Message}" 
                    Foreground="#AD1D13" 
