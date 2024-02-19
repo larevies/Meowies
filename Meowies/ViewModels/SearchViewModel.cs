@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Windows.Input;
@@ -170,38 +171,62 @@ public class SearchViewModel : ViewModelBase
     
     public async void MovieSearchSwitch(int id)
     {
+        var years = 0;
         try
         {
             var userAge = DateTime.Parse(SignInViewModel.CurrentUser.Birthday, CultureInfo.CurrentCulture);
             var now = DateTime.Now;
             var sub = now - userAge;
-            var years = sub.Days / 385;
-            
-            var task = JsonDeserializers.GetBmAsync(
-                Getters.GetMovieUrlById(id.ToString()));
-            var item = await task!;
-            
-            if (item!.docs[0].ageRating > years)
-            {
-                Console.WriteLine($"only {years} years. haha minor");
-            }
-            else
-            {
-                Item = item.docs[0];
-                DownloadImage(Item.poster.url);
-                IsSearchVisible = false;
-                IsStartVisible = false;
-                IsResultVisible = false;
-                IsActorVisible = false;
-                IsMovieVisible = true;
-                IsGoBackVisible = true;
-                Message = "";
-            }
+            years = sub.Days / 385;
         }
         catch (Exception e)
         {
             Console.WriteLine("Can't go there.");
             Console.WriteLine(e.Message);
+            
+        }
+        finally
+        {
+            try
+            {
+                var task = JsonDeserializers.GetBmAsync(
+                    Getters.GetMovieUrlById(id.ToString()));
+                var item = await task!;
+
+                if (item!.docs[0].ageRating > years)
+                {
+                    Console.WriteLine($"only {years} years. haha minor");
+                }
+                else
+                {
+                    Item = item.docs[0];
+                    DownloadImage(Item.poster.url);
+                    IsSearchVisible = false;
+                    IsStartVisible = false;
+                    IsResultVisible = false;
+                    IsActorVisible = false;
+                    IsMovieVisible = true;
+                    IsGoBackVisible = true;
+                    
+                    using var context = new MeowiesContext();
+                    context.Attach(SignInViewModel.CurrentUser); 
+                    var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
+                                                                 o.MovieId == Item.id);
+                    if (queryable == null)
+                    {
+                        Bookmarked = "Bookmark me!";
+                    }
+                    else
+                    {
+                        Bookmarked = "Bookmarked";
+                    }
+                    Message = "";
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     } 
     public async void ActorSearchSwitch(int id)
@@ -252,7 +277,7 @@ public class SearchViewModel : ViewModelBase
         }
     }
     
-    private string _bookmarked = "Bookmark me";
+    private string _bookmarked = "Bookmark me!";
     public string Bookmarked
     {
         get => _bookmarked;
@@ -270,18 +295,33 @@ public class SearchViewModel : ViewModelBase
         {
             using var context = new MeowiesContext();
             context.Attach(SignInViewModel.CurrentUser);
-            var newBookmark = new Bookmark()
+
+            if (Bookmarked == "Bookmark me!")
             {
-                User = SignInViewModel.CurrentUser,
-                MovieId = Item.id
-            };
-            context.Bookmarks.Add(newBookmark);
-            context.SaveChanges();
-            BookmarksViewModel.Bookmarks.Add(Item);
-            Bookmarked = "Bookmarked";
+                var newBookmark = new Bookmark()
+                {
+                    User = SignInViewModel.CurrentUser,
+                    MovieId = Item.id
+                };
+                context.Bookmarks.Add(newBookmark);
+                context.SaveChanges();
+                BookmarksViewModel.Bookmarks.Add(Item);
+                Bookmarked = "Bookmarked";
+            } 
+            else if (Bookmarked == "Bookmarked")
+            {
+                Message = "Removed";
+                var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
+                                                                              o.MovieId == Item.id);
+                context.Remove(queryable);
+                context.SaveChanges();
+                BookmarksViewModel.Bookmarks.Remove(Item);
+                Bookmarked = "Bookmark me!";
+            }
         }
-        catch(Exception)
+        catch(Exception e)
         {
+            Console.WriteLine(e.Message);
             Message = "you are not logged in.\nlog in to save movies!";
         }
     }

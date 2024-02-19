@@ -22,6 +22,7 @@ public class MovieItemDoc
     public List<Person> persons { get; set; }
     public string alternativeName { get; set; }
     public string enName { get; set; }
+    public string name { get; set; }
     public int? ageRating { get; set; }
     public bool IsButtonVisible { get; set; } = true;
 

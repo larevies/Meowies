@@ -232,7 +232,7 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
-                <TextBlock Text="{Binding Item.alternativeName}" 
+                <TextBlock Text="{Binding Item.name}" 
                            VerticalAlignment="Center" Foreground="#4F13B1" HorizontalAlignment="Center" FontSize="40" 
                            TextWrapping="Wrap" TextAlignment="Center" Margin="17"/>
                 <StackPanel Margin="17">

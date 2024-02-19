@@ -28,7 +28,7 @@
                 <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
                     <TextBlock Text="{Binding alternativeName}" Foreground="#A57CFF"
                                FontSize="15" VerticalAlignment="Center" Margin="9 9 9 5"/>
-                    <TextBlock Text="{Binding alternativeName}" Foreground="#5822B1"
+                    <TextBlock Text="{Binding name}" Foreground="#5822B1"
                                FontSize="20" VerticalAlignment="Center" Margin="9 9 9 5"/>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock Foreground="#B57CFF" Margin="9" FontSize="20">
