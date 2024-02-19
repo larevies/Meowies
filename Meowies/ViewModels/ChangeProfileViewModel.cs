@@ -21,6 +21,7 @@ public class ChangeProfileViewModel : ProfileViewModelBase
         GoBackToProfileCommand = ReactiveCommand.Create(GoBackToProfile);
         EnterCommand = ReactiveCommand.Create(Enter);
         StartPicChangingCommand = ReactiveCommand.Create(StartPicChanging);
+        StartPasswordChangingCommand = ReactiveCommand.Create(StartPasswordChanging);
     }
 
     public string Welcome { get; set; } = "Here are three things I recommend you to do:\n" +
@@ -49,6 +50,8 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     }
     public string NewName { get; set; } = null!;
     public string NewEmail { get; set; } = null!;
+    public string OldPassword { get; set; } = null!;
+    public string OldConfirmed { get; set; } = null!;
     public string NewPassword { get; set; } = null!;
     
     public ICommand ChangedNameCommand { get; }
@@ -167,6 +170,15 @@ public class ChangeProfileViewModel : ProfileViewModelBase
             OnPropertyChanged(nameof(PicChanging));
         }
     }
+    private bool _passwordChanging;
+    public bool PasswordChanging { 
+        get => _passwordChanging;
+        set
+        {
+            _passwordChanging = value;
+            OnPropertyChanged(nameof(PasswordChanging));
+        }
+    }
 
     private Bitmap? _pic = ImageHelper.LoadFromResource(new Uri("avares://Meowies/Assets/Userpics/userpic2.png"));
     public Bitmap? Pic
@@ -190,6 +202,7 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     {
         ProfileChanging = true;
         PicChanging = false;
+        PasswordChanging = false;
     }
     public ICommand EnterCommand { get; }
     private void Enter()
@@ -215,6 +228,13 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     {
         ProfileChanging = false;
         PicChanging = true;
+    }
+
+    public ICommand StartPasswordChangingCommand { get; }
+    private void StartPasswordChanging()
+    {
+        ProfileChanging = false;
+        PasswordChanging = true;
     }
 
     public void SwitchPicture(int a)

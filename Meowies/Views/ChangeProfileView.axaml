@@ -31,6 +31,11 @@
                 <Image Source="../Assets/Icons/sitting-cat.png" Width="110"/>
             </StackPanel>
         </Grid>
+        
+        
+        
+        
+        
         <Grid RowDefinitions="45, 100, 45, 80, 80, 80, 80, 220" Height="700" VerticalAlignment="Center" Width="820"
               IsVisible="{Binding ProfileChanging}">
             <Grid.Styles>
@@ -54,18 +59,12 @@
                            Source="{Binding Pic}"/>
                 </Button>
             </StackPanel>
-                
             <TextBlock Grid.Row="1" FontSize="50" HorizontalAlignment="Center">
                 <Run Text="Hi," Foreground="#B57CFF"/>
                 <Run Text="{Binding Path=CurrentUser.Name}" Foreground="#742BEB"/> 
             </TextBlock>
-            
-            
             <TextBlock Grid.Row="2" FontSize="25" Text="Wanted to change something?" Foreground="#B57CFF" 
                        HorizontalAlignment="Center"/>
-            
-            
-            
             <Border Grid.Row="3" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
                     Width="400" Height="45" HorizontalAlignment="Center" IsVisible="{Binding !ChangingName}">
                 <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
@@ -86,9 +85,6 @@
                             CornerRadius="25" Background="Transparent" Command="{Binding ChangedNameCommand}"/>
                 </StackPanel>
             </Border>
-            
-            
-            
             <Border Grid.Row="4" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
                     Width="400" Height="45" HorizontalAlignment="Center" IsVisible="{Binding !ChangingEmail}">
                 <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
@@ -109,33 +105,24 @@
                             CornerRadius="25" Background="Transparent" Command="{Binding ChangedEmailCommand}"/>
                 </StackPanel>
             </Border>
-            
-            
-            
             <Border Grid.Row="5" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
                     Width="400" Height="45" HorizontalAlignment="Center"
                     IsVisible="{Binding !ChangingPassword}">
                 <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
                         HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Change password"
-                        CornerRadius="25" Background="Transparent" Command="{Binding ChangePasswordCommand}"
+                        CornerRadius="25" Background="Transparent" Command="{Binding StartPasswordChangingCommand}"
                         />
             </Border>
             <Border Grid.Row="5" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
                     IsVisible="{Binding ChangingPassword}"
                     Width="400" Height="45" HorizontalAlignment="Center" >
                 <StackPanel Orientation="Horizontal">
-                    <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
-                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="New password"
-                             CornerRadius="25" Background="Transparent" Text="{Binding NewPassword}"
-                             BorderBrush="Transparent"/>
-                    <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="18" Height="45" Margin="5"
-                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Apply"
-                            CornerRadius="25" Background="Transparent" Command="{Binding ChangedPasswordCommand}"/>
+                    <Button Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" Height="45"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="New password"
+                             CornerRadius="25" Background="Transparent" BorderBrush="Transparent"
+                             Command="{Binding StartPasswordChangingCommand}"/>
                 </StackPanel>
             </Border>
-            
-            
-            
             <Border Grid.Row="6" CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
                     Width="400" Height="45" HorizontalAlignment="Center">
                 <TextBlock Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
@@ -151,7 +138,62 @@
         
         
         
-        <Grid RowDefinitions="45, 150, Auto" IsVisible="{Binding PicChanging}"
+        <Grid RowDefinitions="45, 100, 45, Auto, Auto" Height="700" VerticalAlignment="Center" Width="820"
+              IsVisible="{Binding PasswordChanging}">
+            <Grid.Styles>
+                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="RenderTransform" Value="scale(1.06)"/>
+                    <Setter Property="Foreground" Value="#742BEB"></Setter>
+                </Style>
+            </Grid.Styles>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button HorizontalAlignment="Left" Width="40" Height="40" VerticalAlignment="Center" Margin="10 0"
+                        Background="Transparent" Command="{Binding GoBackToProfileCommand}">
+                    <Image Source="../Assets/Icons/left-arrow.png" Width="40" Height="40" Stretch="Uniform"/>
+                </Button>
+                <Button Height="45" VerticalContentAlignment="Center"  VerticalAlignment="Center" Margin="10 0"
+                        Background="Transparent" Command="{Binding GoBackToProfileCommand}"
+                        FontSize="20" Content="Return" Foreground="#B57CFF"/>
+            </StackPanel>
+            <TextBlock Grid.Row="1" FontSize="50" HorizontalAlignment="Center">
+                <Run Text="Hi," Foreground="#B57CFF"/>
+                <Run Text="{Binding Path=CurrentUser.Name}" Foreground="#742BEB"/> 
+            </TextBlock>
+            <TextBlock Grid.Row="2" FontSize="25" Text="Wish to change your password?" Foreground="#B57CFF" 
+                       HorizontalAlignment="Center" Margin="0 0 0 25"/>
+            <StackPanel Grid.Row="3" Orientation="Vertical" Spacing="30">
+                <Border CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
+                        Width="400" Height="45" HorizontalAlignment="Center">
+                    <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="Enter old password"
+                             CornerRadius="25" Background="Transparent" Text="{Binding OldPassword}"
+                             BorderBrush="Transparent"/>
+                </Border>
+                <Border CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
+                        Width="400" Height="45" HorizontalAlignment="Center">
+                    <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="Confirm old password"
+                             CornerRadius="25" Background="Transparent" Text="{Binding OldConfirmed}"
+                             BorderBrush="Transparent"/>
+                </Border>
+                <Border CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
+                        Width="400" Height="45" HorizontalAlignment="Center">
+                    <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="New password"
+                             CornerRadius="25" Background="Transparent" Text="{Binding NewPassword}"
+                             BorderBrush="Transparent"/>
+                </Border>
+            </StackPanel>
+            <Button Grid.Row="4" Foreground="#742BEB" HorizontalAlignment="Center" FontSize="18" Height="45" 
+                    Margin="0 30 0 0"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Apply"
+                    Background="Transparent"/>
+        </Grid>
+        
+        
+        
+        <Grid Grid.Row="0" RowDefinitions="45, 150, Auto" IsVisible="{Binding PicChanging}"
               Height="700" Width="820">
             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button HorizontalAlignment="Left" Width="40" Height="40" VerticalAlignment="Center" Margin="10 0"
