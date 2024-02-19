@@ -1,7 +1,5 @@
 using System;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Windows.Input;
 using Meowies.Models;
@@ -57,47 +55,15 @@ public class MovieViewModel : ViewModelBase
              */
             
             var rnd = new Random();
-            var years = 0;
-            try
-            {
-                var userAge = DateTime.Parse(SignInViewModel.CurrentUser.Birthday, CultureInfo.CurrentCulture);
-                var now = DateTime.Now;
-                var sub = now - userAge;
-                years = sub.Days / 385;
-                int[] authorized = {46483, 2360, 279102, 45319, 89514, 512883, 706655, 493208, 458, 42326, 256124, 707,
-                    95231, 61249, 7908, 251733, 505898, 401152, 683999, 571892, 939785, 86621, 1143242, 535341, 4646634, 
-                    586397, 342, 9691, 819101, 1047883, 2717, 394, 775276, 280172, 775273, 645118, 920265, 6006, 837530,
-                    1015471, 401152, 540, 591929, 679486, 251733, 409424, 447301, 263531, 61237, 476, 538225, 505851};
-                var rand = rnd.Next(0, authorized.Length);
-                var id = authorized[rand];
-                Message = "";
-                var task = JsonDeserializers.GetBmAsync
-                    (Getters.GetMovieUrlById(id.ToString()));
-                var item = await task!;
-                if (item!.docs[0].ageRating > years)
-                {
-                    FindAMovie();
-                }
-                else
-                {
-                    Item = item!.docs[0];
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Can't go there.");
-                Console.WriteLine(e.Message);
-                int[] unauthorized = {46483, 2360, 279102, 45319, 89514, 512883, 706655, 493208, 458, 42326, 256124, 707,
-                    95231, 61249, 7908};
-                var rand = rnd.Next(0, unauthorized.Length);
-                var id = unauthorized[rand];
-                Message = "";
-                var task = JsonDeserializers.GetBmAsync
-                    (Getters.GetMovieUrlById(id.ToString()));
-                var item = await task!;
-                Item = item!.docs[0];
-            
-            }
+            int[] b = {251733, 505898, 401152, 683999, 571892, 939785, 86621, 1143242, 535341, 4646634, 
+                586397, 342, 9691, 819101, 1047883, 2717, 394};
+            var rand = rnd.Next(0, b.Length);
+            var id = b[rand];
+            Message = "";
+            var task = JsonDeserializers.GetBmAsync
+                (Getters.GetMovieUrlById(id.ToString()));
+            var item = await task!;
+            Item = item!.docs[0];
             
             /****
              * next code CAUSES problems KILLS our api tokens

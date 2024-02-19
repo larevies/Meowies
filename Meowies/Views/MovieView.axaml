@@ -31,7 +31,7 @@
     </UserControl.DataTemplates>
     
     
-    <Grid Height="750" ClipToBounds="True" RowDefinitions="60, Auto" Width="800">
+    <Grid Height="750" ClipToBounds="True" RowDefinitions="50, Auto">
         <Grid Grid.Row="0" IsVisible="{Binding IsMovieVisible}" Height="45"
               VerticalAlignment="Top">
             <Grid.Styles>
@@ -42,11 +42,11 @@
                 </Style>
             </Grid.Styles>
             <StackPanel Orientation="Horizontal">
-                <Button HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="12 20 12 10"
+                <Button HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="12 5"
                         Background="Transparent" Command="{Binding FindAMovieCommand}">
                     <Image Source="../Assets/Icons/stars.png" Width="40" Height="40" Stretch="Uniform"/>
                 </Button>
-                <Button Height="45" VerticalContentAlignment="Center"  VerticalAlignment="Center" Margin="10 20 12 10"
+                <Button Height="45" VerticalContentAlignment="Center"  VerticalAlignment="Center" Margin="10 5"
                         Background="Transparent" Command="{Binding FindAMovieCommand}"
                         FontSize="20" Content="Find more" Foreground="#B57CFF"/>
             </StackPanel>
