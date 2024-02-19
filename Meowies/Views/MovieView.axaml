@@ -15,10 +15,10 @@
     <UserControl.Resources>
         <DataTemplate x:Key="My.DataTemplates.Person" DataType="models:Person">
             <Grid>
-                <TextBlock Text="{Binding enName}" Margin="0 0 0 12" 
-                           FontSize="15" TextAlignment="Center" HorizontalAlignment="Center" Foreground="#B5ACFF"/>
-                <TextBlock Text="{Binding name}" Foreground="#B57CFF" Margin="0 12 0 0"
+                <TextBlock Text="{Binding name}" Foreground="#B57CFF" Margin="0 5"
                            FontSize="20" HorizontalAlignment="Center" Background="Transparent"/>
+                <TextBlock Text="{Binding enName}"
+                           FontSize="15" TextAlignment="Center" HorizontalAlignment="Center" Foreground="#B58CFA"/>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
@@ -96,7 +96,7 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
-                <TextBlock Text="{Binding Item.name}" 
+                <TextBlock Text="{Binding Item.alternativeName}" 
                            VerticalAlignment="Center" Foreground="#4F13B1" HorizontalAlignment="Center" FontSize="40" 
                            TextWrapping="Wrap" TextAlignment="Center" Margin="17"/>
                 <StackPanel Margin="17">

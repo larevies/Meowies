@@ -37,7 +37,7 @@ public class MovieViewModel : ViewModelBase
         }
     } 
 
-    private string _bookmarked = "Bookmark me!";
+    private string _bookmarked = "Bookmark me";
     public string Bookmarked
     {
         get => _bookmarked;
@@ -91,34 +91,12 @@ public class MovieViewModel : ViewModelBase
                     95231, 61249, 7908};
                 var rand = rnd.Next(0, unauthorized.Length);
                 var id = unauthorized[rand];
-
-                try
-                {
-                    using var context = new MeowiesContext();
-                    context.Attach(SignInViewModel.CurrentUser);
-                    var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
-                                                                 o.MovieId == Item.id);
-                    if (queryable == null)
-                    {
-                        Bookmarked = "Bookmark me!";
-                    }
-                    else
-                    {
-                        Bookmarked = "Bookmarked";
-                    }
-                }
-                catch (Exception a)
-                {
-                    Console.WriteLine(a.Message);
-                }
-                finally
-                {
-                    Message = "";
-                    var task = JsonDeserializers.GetBmAsync
-                        (Getters.GetMovieUrlById(id.ToString()));
-                    var item = await task!;
-                    Item = item!.docs[0];
-                }
+                Message = "";
+                var task = JsonDeserializers.GetBmAsync
+                    (Getters.GetMovieUrlById(id.ToString()));
+                var item = await task!;
+                Item = item!.docs[0];
+            
             }
             
             /****
@@ -152,6 +130,8 @@ public class MovieViewModel : ViewModelBase
         {
             Console.WriteLine("Can't go there.");
             Console.WriteLine(e.Message);
+            //FindAMovie();
+            
         }
         IsMovieVisible = true;
     }
@@ -163,33 +143,17 @@ public class MovieViewModel : ViewModelBase
         {
             using var context = new MeowiesContext();
             context.Attach(SignInViewModel.CurrentUser);
-
-            if (Bookmarked == "Bookmark me!")
+            var newBookmark = new Bookmark
             {
-                var newBookmark = new Bookmark()
-                {
-                    User = SignInViewModel.CurrentUser,
-                    MovieId = Item.id
-                };
-                context.Bookmarks.Add(newBookmark);
-                context.SaveChanges();
-                BookmarksViewModel.Bookmarks.Add(Item);
-                Bookmarked = "Bookmarked";
-            } 
-            else if (Bookmarked == "Bookmarked")
-            {
-                Message = "Removed";
-                var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
-                                                             o.MovieId == Item.id);
-                context.Remove(queryable);
-                context.SaveChanges();
-                BookmarksViewModel.Bookmarks.Remove(Item);
-                Bookmarked = "Bookmark me!";
-            }
+                User = SignInViewModel.CurrentUser,
+                MovieId = Item.id
+            };
+            context.Bookmarks.Add(newBookmark);
+            context.SaveChanges();
+            Bookmarked = "Bookmarked";
         }
-        catch(Exception e)
+        catch(Exception)
         {
-            Console.WriteLine(e.Message);
             Message = "you are not logged in.\nlog in to save movies!";
         }
     }
