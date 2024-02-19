@@ -168,26 +168,27 @@
                     <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="Enter old password"
                              CornerRadius="25" Background="Transparent" Text="{Binding OldPassword}"
-                             BorderBrush="Transparent"/>
-                </Border>
-                <Border CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
-                        Width="400" Height="45" HorizontalAlignment="Center">
-                    <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
-                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="Confirm old password"
-                             CornerRadius="25" Background="Transparent" Text="{Binding OldConfirmed}"
-                             BorderBrush="Transparent"/>
+                             BorderBrush="Transparent" />
                 </Border>
                 <Border CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
                         Width="400" Height="45" HorizontalAlignment="Center">
                     <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="New password"
                              CornerRadius="25" Background="Transparent" Text="{Binding NewPassword}"
-                             BorderBrush="Transparent"/>
+                             BorderBrush="Transparent" />
+                </Border>
+                <Border CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
+                        Width="400" Height="45" HorizontalAlignment="Center">
+                    <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="Confirm new password"
+                             CornerRadius="25" Background="Transparent" Text="{Binding NewConfirmedPassword}"
+                             BorderBrush="Transparent" />
                 </Border>
             </StackPanel>
             <Button Grid.Row="4" Foreground="#742BEB" HorizontalAlignment="Center" FontSize="18" Height="45" 
                     Margin="0 30 0 0"
                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Apply"
+                    Command="{Binding ChangedPasswordCommand}"
                     Background="Transparent"/>
         </Grid>
         

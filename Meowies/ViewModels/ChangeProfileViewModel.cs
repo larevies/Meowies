@@ -13,7 +13,6 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     {
         ChangeNameCommand = ReactiveCommand.Create(ChangeName);
         ChangeEmailCommand = ReactiveCommand.Create(ChangeEmail);
-        ChangePasswordCommand = ReactiveCommand.Create(ChangePassword);
         ChangedNameCommand = ReactiveCommand.Create(ChangedName);
         ChangedEmailCommand = ReactiveCommand.Create(ChangedEmail);
         ChangedPasswordCommand = ReactiveCommand.Create(ChangedPassword);
@@ -42,17 +41,39 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     {
         ChangingEmail = true;
     }
-    
-    public ICommand ChangePasswordCommand { get; }
-    private void ChangePassword()
-    {
-        ChangingPassword = true;
-    }
     public string NewName { get; set; } = null!;
     public string NewEmail { get; set; } = null!;
-    public string OldPassword { get; set; } = null!;
-    public string OldConfirmed { get; set; } = null!;
-    public string NewPassword { get; set; } = null!;
+    private string _oldPassword = null!;
+
+    public string OldPassword
+    {
+        get => _oldPassword;
+        set
+        {
+            _oldPassword = value;
+            OnPropertyChanged(nameof(OldPassword));
+        }
+    }
+    private string _newPassword = null!;
+    public string NewPassword
+    {
+        get => _newPassword;
+        set
+        {
+            _newPassword = value;
+            OnPropertyChanged(nameof(NewPassword));
+        }
+    }
+    private string _newConfirmedPassword = null!;
+    public string NewConfirmedPassword
+    {
+        get => _newConfirmedPassword;
+        set
+        {
+            _newConfirmedPassword = value;
+            OnPropertyChanged(nameof(NewConfirmedPassword));
+        }
+    }
     
     public ICommand ChangedNameCommand { get; }
     private void ChangedName()
@@ -80,7 +101,7 @@ public class ChangeProfileViewModel : ProfileViewModelBase
                     .MailAddress && x.Password == SignInViewModel.Password);
             if (queryable!.Email == NewEmail)
             {
-                throw new Exception("This email is literally the fucking same u bullshit!!!!");
+                throw new Exception("This email is the same!");
             }
             if (_alreadyExists(NewEmail))
             {
@@ -111,10 +132,35 @@ public class ChangeProfileViewModel : ProfileViewModelBase
         User? queryable = context.Users
             .FirstOrDefault(x => x.Email == SignInViewModel
                 .MailAddress && x.Password == SignInViewModel.Password);
-        queryable!.Password = NewPassword;
+        if (OldPassword != queryable!.Password)
+        {
+            Console.WriteLine("Passwords don't match!\n" +
+                              "Old password: " + queryable.Password + "\n" +
+                              "Input password: " + OldPassword);
+            return;
+        }
+        Console.WriteLine("Passwords matched!\n" +
+                          "Old password: " + queryable.Password + "\n" +
+                          "Input password: " + OldPassword);
+
+        if (NewPassword != NewConfirmedPassword)
+        {
+            Console.WriteLine("Passwords don't match!\n" +
+                              "New password: " + NewPassword + "\n" +
+                              "New confirmed password: " + NewConfirmedPassword);
+        }
+        Console.WriteLine("Passwords matched!\n" +
+                          "New password: " + NewPassword + "\n" +
+                          "New confirmed password: " + NewConfirmedPassword);
+        
+        queryable.Password = NewPassword;
         context.SaveChanges();
         CurrentUser.Password = queryable.Password;
         Console.WriteLine(CurrentUser.Password);
+        OldPassword = null!;
+        NewPassword = null!;
+        NewConfirmedPassword = null!;
+
     }
     private bool _changingName;
     public bool ChangingName { 
