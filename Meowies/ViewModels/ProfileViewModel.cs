@@ -98,27 +98,9 @@ public class ProfileViewModel : ViewModelBase
             
             var queryable = context.Users.FirstOrDefault(x => x.Email == SignUpViewModel.MailAddress);
             
-            EmailChecker emailChecker = new EmailChecker();
-            PasswordChecker passwordChecker = new PasswordChecker();
-
             if (queryable != null)
             {
                 SignUpViewModel.Message = "This email is taken";
-                CurrentProfile = SignUp;
-            }
-            else if (string.IsNullOrEmpty(queryable!.Name))
-            {
-                SignUpViewModel.Message = "Name isn't valid!";
-                CurrentProfile = SignUp;
-            }
-            else if (!emailChecker.IsValid(queryable.Email))
-            {
-                SignUpViewModel.Message = "Email isn't valid!";
-                CurrentProfile = SignUp;
-            }
-            else if (!passwordChecker.IsValid(queryable.Password))
-            {
-                SignUpViewModel.Message = "Password isn't valid!";
                 CurrentProfile = SignUp;
             }
             else
@@ -168,8 +150,6 @@ public class ProfileViewModel : ViewModelBase
                 BookmarksViewModel.Bookmarks = new ObservableCollection<MovieItemDoc>(userBookmarks);
 
                 CurrentProfile = ChangeProfile;
-                ChangeProfile.Pic = ImageHelper.LoadFromResource(
-                    new Uri($"avares://Meowies/Assets/Userpics/userpic{ChangeProfile.CurrentUser.ProfilePicture}.png"));
             }
             catch (Exception e)
             {
