@@ -263,7 +263,7 @@ public class SearchViewModel : ViewModelBase
             IsGoBackVisible = false;
             IsResultVisible = false;
             Message = "";
-            Bookmarked = "Bookmark me";
+            Bookmarked = "Bookmark me!";
             Movies = new();
             Actors = new();
             Item = new();
