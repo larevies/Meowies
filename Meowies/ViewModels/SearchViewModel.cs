@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Web;
 using System.Windows.Input;
@@ -208,19 +206,6 @@ public class SearchViewModel : ViewModelBase
                     IsMovieVisible = true;
                     IsGoBackVisible = true;
                     
-                    /*using var context = new MeowiesContext();
-                    context.Attach(SignInViewModel.CurrentUser); 
-                    var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
-                                                                 o.MovieId == Item.id);
-                    if (queryable == null)
-                    {
-                        Bookmarked = "Bookmark me!";
-                    }
-                    else
-                    {
-                        Bookmarked = "Bookmarked";
-                    }*/
-                    
                     int intId = Convert.ToInt32(SignInViewModel.CurrentUser.Id.ToString());
                     var newBookmark = new Bookmark()
                     {
@@ -229,14 +214,7 @@ public class SearchViewModel : ViewModelBase
                     };
                     var idString = await MeowiesApiRequests.FindBookmark(newBookmark);
                     var idB = Convert.ToInt32(idString);
-                    if (idB > 0)
-                    {
-                        Bookmarked = "Bookmarked";
-                    }
-                    else
-                    {
-                        Bookmarked = "Bookmark me!";
-                    }
+                    Bookmarked = idB > 0 ? "Bookmarked" : "Bookmark me!";
                     
                     Message = "";
                 }
@@ -311,19 +289,8 @@ public class SearchViewModel : ViewModelBase
     {
         try
         {
-            
-            //using var context = new MeowiesContext();
-            //context.Attach(SignInViewModel.CurrentUser);
-            
             if (Bookmarked == "Bookmark me!")
             {
-                //var newBookmark = new Bookmark()
-                //{
-                //    User = SignInViewModel.CurrentUser,
-                //    MovieId = Item.id
-                //};
-                //context.Bookmarks.Add(newBookmark);
-                //context.SaveChanges();
                 int intId = Convert.ToInt32(SignInViewModel.CurrentUser.Id.ToString());
                 var newBookmark = new Bookmark()
                 {
@@ -331,16 +298,12 @@ public class SearchViewModel : ViewModelBase
                     MovieId = Item.id
                 };
                 await MeowiesApiRequests.PostBookmarkToDb(newBookmark);
-                BookmarksViewModel.Bookmarks.Add(Item);
+                BookmarksViewModel.Bookmarks!.Add(Item);
                 Bookmarked = "Bookmarked";
             } 
             else if (Bookmarked == "Bookmarked")
             {
                 Message = "Removed";
-                //var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
-                //                                                              o.MovieId == Item.id);
-                //context.Remove(queryable);
-                //context.SaveChanges();
                 int intId = Convert.ToInt32(SignInViewModel.CurrentUser.Id.ToString());
                 var newBookmark = new Bookmark()
                 {
@@ -350,7 +313,7 @@ public class SearchViewModel : ViewModelBase
                 var idString = await MeowiesApiRequests.FindBookmark(newBookmark);
                 var id = Convert.ToInt32(idString);
                 await MeowiesApiRequests.RemoveFromBookmarks(id);
-                BookmarksViewModel.Bookmarks.Remove(Item);
+                BookmarksViewModel.Bookmarks!.Remove(Item);
                 Bookmarked = "Bookmark me!";
             }
         }

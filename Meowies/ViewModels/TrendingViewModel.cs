@@ -1,5 +1,3 @@
-using System;
-using System.ComponentModel;
 using Meowies.Models;
 
 namespace Meowies.ViewModels;

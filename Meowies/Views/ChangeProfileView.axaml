@@ -131,6 +131,9 @@
                 </TextBlock>
             </Border>
             
+            <TextBlock Grid.Row="6" Margin="0 70 0 0" Text="{Binding EmailMessage}"
+                       Foreground="DarkBlue" TextAlignment="Center"/>
+            
             <Image Grid.Row="7" Source="../Assets/Icons/playing cat.png" Width="200" Height="200" HorizontalAlignment="Left"
                    VerticalAlignment="Bottom" Margin="40 0"/>
         </Grid>
@@ -168,22 +171,24 @@
                     <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="Enter old password"
                              CornerRadius="25" Background="Transparent" Text="{Binding OldPassword}"
-                             BorderBrush="Transparent" />
+                             BorderBrush="Transparent" PasswordChar="*"/>
                 </Border>
                 <Border CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
                         Width="400" Height="45" HorizontalAlignment="Center">
                     <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="New password"
                              CornerRadius="25" Background="Transparent" Text="{Binding NewPassword}"
-                             BorderBrush="Transparent" />
+                             BorderBrush="Transparent" PasswordChar="*"/>
                 </Border>
                 <Border CornerRadius="25" BorderBrush="#C69AFF" BorderThickness="2"
                         Width="400" Height="45" HorizontalAlignment="Center">
                     <TextBox Foreground="#742BEB" HorizontalAlignment="Center" FontSize="20" Width="400" 
                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Watermark="Confirm new password"
                              CornerRadius="25" Background="Transparent" Text="{Binding NewConfirmedPassword}"
-                             BorderBrush="Transparent" />
+                             BorderBrush="Transparent" PasswordChar="*"/>
                 </Border>
+                <TextBlock Text="{Binding Message}" Background="Transparent" TextAlignment="Center" 
+                           HorizontalAlignment="Center" Margin="0 -20 0 0" Foreground="DarkBlue"/>
             </StackPanel>
             <Button Grid.Row="4" Foreground="#742BEB" HorizontalAlignment="Center" FontSize="18" Height="45" 
                     Margin="0 30 0 0"

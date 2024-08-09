@@ -3,23 +3,10 @@
              x:Class="Meowies.App"
              xmlns:local="using:Meowies"
              RequestedThemeVariant="Light">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
+    
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-    
-    <!--<Application.Resources>
-        <DataTemplate DataType="{x:Type viewmodels:SearchViewModel}">
-            <views:SearchView />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:BookmarksViewModel}">
-            <views:BookmarksView />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:ChangeProfileViewModel}">
-            <views:ChangeProfileView />
-        </DataTemplate>
-    </Application.Resources>-->
   
     <Application.Styles>
         <FluentTheme />

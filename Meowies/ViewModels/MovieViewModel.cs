@@ -1,7 +1,6 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Windows.Input;
 using Meowies.Models;
@@ -52,12 +51,7 @@ public class MovieViewModel : ViewModelBase
     {
         try
         {
-            /***
-             * next movies don't cause troubles
-             */
-            
             var rnd = new Random();
-            //var years = 0;
             try
             {
                 var userAge = DateTime.Parse(SignInViewModel.CurrentUser.Birthday, CultureInfo.CurrentCulture);
@@ -95,10 +89,6 @@ public class MovieViewModel : ViewModelBase
 
                 try
                 {
-                    //using var context = new MeowiesContext();
-                    //context.Attach(SignInViewModel.CurrentUser);
-                    //var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
-                    //o.MovieId == Item.id);
                     
                     int intId = Convert.ToInt32(SignInViewModel.CurrentUser.Id.ToString());
                     var newBookmark = new Bookmark()
@@ -109,14 +99,7 @@ public class MovieViewModel : ViewModelBase
                     var idString = await MeowiesApiRequests.FindBookmark(newBookmark);
                     var idB = Convert.ToInt32(idString);
                     
-                    if (idB > 0)
-                    {
-                        Bookmarked = "Bookmarked";
-                    }
-                    else
-                    {
-                        Bookmarked = "Bookmark me!";
-                    }
+                    Bookmarked = idB > 0 ? "Bookmarked" : "Bookmark me!";
                 }
                 catch (Exception a)
                 {
@@ -134,10 +117,9 @@ public class MovieViewModel : ViewModelBase
             }
             
             /****
-             * next code CAUSES problems KILLS our api tokens
-             */
+            next code CAUSES problems KILLS our api tokens
             
-            /*var task = JSONDeserializers.GetRndAsync(ApiQueries.RandomUrl);
+            var task = JSONDeserializers.GetRndAsync(ApiQueries.RandomUrl);
             var item = await task!;
             MovieItemDoc a = new()
             {
@@ -182,7 +164,7 @@ public class MovieViewModel : ViewModelBase
                     MovieId = Item.id
                 };
                 await MeowiesApiRequests.PostBookmarkToDb(newBookmark);
-                BookmarksViewModel.Bookmarks.Add(Item);
+                BookmarksViewModel.Bookmarks!.Add(Item);
                 Message = "";
                 Bookmarked = "Bookmarked";
             } 
@@ -198,7 +180,7 @@ public class MovieViewModel : ViewModelBase
                 var idString = await MeowiesApiRequests.FindBookmark(newBookmark);
                 var id = Convert.ToInt32(idString);
                 await MeowiesApiRequests.RemoveFromBookmarks(id);
-                BookmarksViewModel.Bookmarks.Remove(Item);
+                BookmarksViewModel.Bookmarks!.Remove(Item);
                 Bookmarked = "Bookmark me!";
             }
         }
@@ -219,7 +201,7 @@ public class MovieViewModel : ViewModelBase
         }
     }
     
-    private Avalonia.Media.Imaging.Bitmap _poster;
+    private Avalonia.Media.Imaging.Bitmap _poster = null!;
     public Avalonia.Media.Imaging.Bitmap Poster
     {
         get => _poster;

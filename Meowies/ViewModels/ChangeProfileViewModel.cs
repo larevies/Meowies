@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Avalonia.Media.Imaging;
 using Meowies.Models;
@@ -30,6 +30,28 @@ public class ChangeProfileViewModel : ProfileViewModelBase
                                           "Don't feel like it? Maybe you want to change\n" +
                                           "something in your profile?";
 
+    private string _message = "";
+    public string Message
+    {
+        get => _message;
+        set
+        {
+            _message = value;
+            OnPropertyChanged(nameof(Message));
+        }
+    }
+    
+    private string _emailMessage = "";
+    public string EmailMessage
+    {
+        get => _emailMessage;
+        set
+        {
+            _emailMessage = value;
+            OnPropertyChanged(nameof(EmailMessage));
+        }
+    }
+    
     public ICommand ChangeNameCommand { get; }
     private void ChangeName()
     {
@@ -76,87 +98,60 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     }
     
     public ICommand ChangedNameCommand { get; }
-    private void ChangedName()
+    private async void ChangedName()
     {
-        ChangingName = false; 
-        var context = new MeowiesContext();
-        User? queryable = context.Users
-            .FirstOrDefault(x => x.Email == SignInViewModel
-                .MailAddress && x.Password == SignInViewModel.Password);
-        queryable!.Name = NewName;
-        context.SaveChanges();
-        CurrentUser.Name = queryable.Name;
+        ChangingName = false;
+        await MeowiesApiRequests.ChangeName(CurrentUser.Email, NewName);
+        CurrentUser.Name = NewName;
+        EmailMessage = "Success!";
+        NewName = null!;
     }
     
     public ICommand ChangedEmailCommand { get; }
 
-    private void ChangedEmail()
+    private async void ChangedEmail()
     {
         try
         {
+            
             ChangingEmail = false;
-            var context = new MeowiesContext();
-            User? queryable = context.Users
-                .FirstOrDefault(x => x.Email == SignInViewModel
-                    .MailAddress && x.Password == SignInViewModel.Password);
-            if (queryable!.Email == NewEmail)
-            {
-                throw new Exception("This email is the same!");
-            }
-            if (_alreadyExists(NewEmail))
-            {
-                throw new Exception("This email already exists!!!");
-            }
-            CurrentUser.Email = queryable.Email;
-            queryable.Email = NewEmail;
-            context.SaveChanges();
+            await MeowiesApiRequests.GetUserFromDb(NewEmail);
+            EmailMessage = "This email is taken!";
+            
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            Regex regex = new Regex(@"^[-\w.]+@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,4}$");
+            if (regex.IsMatch(NewEmail)) {
+                await MeowiesApiRequests.ChangeEmail(CurrentUser.Email, NewEmail);
+                CurrentUser.Email = NewEmail;
+                EmailMessage = "Success!";
+                Console.WriteLine(e.Message);
+            }
+            else
+            {
+                EmailMessage = "Email isn't valid.";
+            }
         }
-    }
-
-    private bool _alreadyExists(string email)
-    {
-        var context = new MeowiesContext();
-        if (context.Users.FirstOrDefault(x => x.Email == email) is null) return false;
-        return true;
+        NewEmail = null!;
     }
 
     public ICommand ChangedPasswordCommand { get; }
-    private void ChangedPassword()
+    private async void ChangedPassword()
     {
         ChangingPassword = false;
-        var context = new MeowiesContext();
-        User? queryable = context.Users
-            .FirstOrDefault(x => x.Email == SignInViewModel
-                .MailAddress && x.Password == SignInViewModel.Password);
-        if (OldPassword != queryable!.Password)
-        {
-            Console.WriteLine("Passwords don't match!\n" +
-                              "Old password: " + queryable.Password + "\n" +
-                              "Input password: " + OldPassword);
-            return;
-        }
-        Console.WriteLine("Passwords matched!\n" +
-                          "Old password: " + queryable.Password + "\n" +
-                          "Input password: " + OldPassword);
-
-        if (NewPassword != NewConfirmedPassword)
-        {
-            Console.WriteLine("Passwords don't match!\n" +
-                              "New password: " + NewPassword + "\n" +
-                              "New confirmed password: " + NewConfirmedPassword);
-        }
-        Console.WriteLine("Passwords matched!\n" +
-                          "New password: " + NewPassword + "\n" +
-                          "New confirmed password: " + NewConfirmedPassword);
         
-        queryable.Password = NewPassword;
-        context.SaveChanges();
-        CurrentUser.Password = queryable.Password;
-        Console.WriteLine(CurrentUser.Password);
+        if (CurrentUser.Password == OldPassword && NewPassword == NewConfirmedPassword)
+        {
+            Message = "Success!";
+            await MeowiesApiRequests.ChangePassword(CurrentUser.Email, NewPassword);
+            CurrentUser.Password = NewPassword;
+        }
+        else
+        {
+            Message = "Passwords do not match";
+        }
+        
         OldPassword = null!;
         NewPassword = null!;
         NewConfirmedPassword = null!;
@@ -238,13 +233,15 @@ public class ChangeProfileViewModel : ProfileViewModelBase
 
     }
     public ICommand GoBackToWelcomeCommand { get; }
-    public void GoBackToWelcome()
+
+    private void GoBackToWelcome()
     {
         Entered = true;
         ProfileChanging = false;
     }
     public ICommand GoBackToProfileCommand { get; }
-    public void GoBackToProfile()
+
+    private void GoBackToProfile()
     {
         ProfileChanging = true;
         PicChanging = false;
@@ -286,12 +283,6 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     public async void SwitchPicture(int a)
     {
         Pic = ImageHelper.LoadFromResource(new Uri($"avares://Meowies/Assets/Userpics/userpic{a}.png"));
-        /*using var context = new MeowiesContext();
-        User? queryable = context.Users
-            .FirstOrDefault(x => x.Email == SignInViewModel
-                .MailAddress && x.Password == SignInViewModel.Password);
-        queryable!.ProfilePicture = a;
-        context.SaveChanges();*/
         await MeowiesApiRequests.ChangeProfPic(SignInViewModel.CurrentUser.Email, a);
         GoBackToProfile();
     }
@@ -301,11 +292,4 @@ public class ChangeProfileViewModel : ProfileViewModelBase
     {
         Pic = ImageHelper.LoadFromResource(new Uri($"avares://Meowies/Assets/Userpics/userpic{a}.png"));
     }
-
-    /*public override bool CanNavigateNext
-    {
-        get => false;
-        protected set => throw new NotSupportedException();
-    }
-    public override bool CanNavigatePrevious => false;*/
 }
