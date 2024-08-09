@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Data;
 using System.Windows.Input;
 using DynamicData;
+using System.Text.RegularExpressions;
 using Meowies.Models;
 using ReactiveUI;
 
@@ -15,11 +17,11 @@ public class ProfileViewModel : ViewModelBase
     {
         CurrentProfile = Welcome;
         
-        var canNavNext = this.WhenAnyValue(x => x.CurrentProfile.CanNavigateNext);
-        var canNavPrev = this.WhenAnyValue(x => x.CurrentProfile.CanNavigatePrevious);
-        
-        NavigateNextCommand = ReactiveCommand.Create(NavigateNext, canNavNext);
-        NavigatePreviousCommand = ReactiveCommand.Create(NavigatePrevious, canNavPrev);
+        //var canNavNext = this.WhenAnyValue(x => x.CurrentProfile.CanNavigateNext);
+        //var canNavPrev = this.WhenAnyValue(x => x.CurrentProfile.CanNavigatePrevious);
+
+        NavigateNextCommand = ReactiveCommand.Create(NavigateNext);//, canNavNext);
+        NavigatePreviousCommand = ReactiveCommand.Create(NavigatePrevious);//, canNavPrev);
     }
     
     private string _next = "Sign up";
@@ -94,11 +96,11 @@ public class ProfileViewModel : ViewModelBase
         {
             Next = "Sign in";
             Previous = "Go back";
-            using var context = new MeowiesContext();
+            //using var context = new MeowiesContext();
             
-            var queryable = context.Users.FirstOrDefault(x => x.Email == SignUpViewModel.MailAddress);
+            //var queryable = context.Users.FirstOrDefault(x => x.Email == SignUpViewModel.MailAddress);
             
-            if (queryable != null)
+            /*if (queryable != null)
             {
                 SignUpViewModel.Message = "This email is taken";
                 CurrentProfile = SignUp;
@@ -107,6 +109,21 @@ public class ProfileViewModel : ViewModelBase
             {
                 context.Users.Add(SignUpViewModel.NewUser);
                 await context.SaveChangesAsync();
+            }*/
+            try
+            {
+                Regex rgx = new Regex(@"^[-\w.]+@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,4}$");
+                if (!rgx.IsMatch(SignUpViewModel.NewUser.Email))
+                {
+                    throw new InvalidExpressionException("Invalid email address");
+                }
+                await MeowiesApiRequests.PostUserToDb(SignUpViewModel.NewUser);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                SignUpViewModel.Message = "This email is taken or isn't valid.";
+                CurrentProfile = SignUp;
             }
         }
         else if (CurrentProfile == Welcome)
@@ -121,7 +138,7 @@ public class ProfileViewModel : ViewModelBase
         } 
         else if (CurrentProfile == ChangeProfile)
         {
-            using var context = new MeowiesContext();
+            /*using var context = new MeowiesContext();
             var queryable = context.Users
                 .FirstOrDefault(x => x.Email == SignInViewModel
                     .MailAddress && x.Password == SignInViewModel.Password);
@@ -156,6 +173,41 @@ public class ProfileViewModel : ViewModelBase
                 AreButtonsVisible = true;
                 Console.WriteLine(e.Message);
                 SignInViewModel.Message = "E-mail address or password do not match.\nTry again";
+                CurrentProfile = SignIn;
+            }*/
+            try
+            {
+                var task = MeowiesApiRequests.Authorize(SignInViewModel.MailAddress, SignInViewModel.Password);
+                var user = await task!;
+                ChangeProfile.CurrentUser = user!;
+                SignInViewModel.CurrentUser = user!;
+                
+                ChangeProfile.StartSwitchPicture(user!.ProfilePicture);
+                
+                var intId = Convert.ToInt32(user.Id.ToString());
+                var taskB = MeowiesApiRequests.GetBookmarksForUser(intId);
+                var bookmarks = await taskB!;
+                
+                List<MovieItemDoc> userBookmarks = new(bookmarks!.Count);
+                
+                foreach (var taskM in bookmarks.Select(bookmark => JsonDeserializers.GetBmAsync(
+                             Getters.GetMovieUrlById(
+                                 bookmark.MovieId.ToString()))))
+                {
+                    var movie = await taskM!;
+                    var doc = movie!.docs[0];
+                    userBookmarks.Add(doc);
+                }
+                
+                BookmarksViewModel.Bookmarks = new ObservableCollection<MovieItemDoc>(userBookmarks);
+                AreButtonsVisible = false;
+                CurrentProfile = ChangeProfile;
+            }
+            catch (Exception e)
+            {
+                AreButtonsVisible = true;
+                Console.WriteLine(e.Message);
+                SignInViewModel.Message = "E-mail address or password do not match. Try again";
                 CurrentProfile = SignIn;
             }
         }

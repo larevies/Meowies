@@ -283,24 +283,29 @@ public class ChangeProfileViewModel : ProfileViewModelBase
         PasswordChanging = true;
     }
 
-    public void SwitchPicture(int a)
+    public async void SwitchPicture(int a)
     {
         Pic = ImageHelper.LoadFromResource(new Uri($"avares://Meowies/Assets/Userpics/userpic{a}.png"));
-        using var context = new MeowiesContext();
+        /*using var context = new MeowiesContext();
         User? queryable = context.Users
             .FirstOrDefault(x => x.Email == SignInViewModel
                 .MailAddress && x.Password == SignInViewModel.Password);
         queryable!.ProfilePicture = a;
-        context.SaveChanges();
+        context.SaveChanges();*/
+        await MeowiesApiRequests.ChangeProfPic(SignInViewModel.CurrentUser.Email, a);
         GoBackToProfile();
     }
 
+    
+    public void StartSwitchPicture(int a)
+    {
+        Pic = ImageHelper.LoadFromResource(new Uri($"avares://Meowies/Assets/Userpics/userpic{a}.png"));
+    }
 
-
-    public override bool CanNavigateNext
+    /*public override bool CanNavigateNext
     {
         get => false;
         protected set => throw new NotSupportedException();
     }
-    public override bool CanNavigatePrevious => false;
+    public override bool CanNavigatePrevious => false;*/
 }

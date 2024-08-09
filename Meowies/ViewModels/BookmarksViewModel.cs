@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using Meowies.Models;
 using ReactiveUI;
+using System;
 
 namespace Meowies.ViewModels;
 
@@ -22,9 +23,9 @@ public class BookmarksViewModel : ViewModelBase
         }
     }
     
-    public void Delete(MovieItemDoc a)
+    public async void Delete(MovieItemDoc a)
     {
-        MeowiesContext context = new MeowiesContext();
+        /*MeowiesContext context = new MeowiesContext();
         
         var queryable = context.Bookmarks
             .FirstOrDefault(x => x.MovieId == a.id);
@@ -34,16 +35,26 @@ public class BookmarksViewModel : ViewModelBase
         
         a.IsButtonVisible = false;
         context.Bookmarks.Remove(queryable!);
-        context.SaveChanges();
+        context.SaveChanges();*/
         
+        int intId = Convert.ToInt32(SignInViewModel.CurrentUser.Id.ToString());
+        var newBookmark = new Bookmark()
+        {
+            UserId = intId,
+            MovieId = a.id
+        };
+        var idString = await MeowiesApiRequests.FindBookmark(newBookmark);
+        var id = Convert.ToInt32(idString);
+        await MeowiesApiRequests.RemoveFromBookmarks(id);
+        
+        var itemToDelete = Bookmarks.Single
+            (x => x.id == a.id);
+        a.IsButtonVisible = false;
         
         ObservableCollection<MovieItemDoc> newBookmarks = Bookmarks;
         newBookmarks.Remove(itemToDelete);
         
-        // Bookmarks.Remove(itemToDelete);
         Bookmarks = newBookmarks;
-        
-        // its static so it doesnt change
         
         
     }

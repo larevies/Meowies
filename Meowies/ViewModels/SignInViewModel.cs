@@ -16,7 +16,7 @@ public class SignInViewModel : ProfileViewModelBase
     public static string Message { get; set; } = "";
     [Required] [EmailAddress] public static string MailAddress { get; set; } = null!;
     [Required] public static string Password { get; set; } = null!;
-
+/*
     private void UpdateCanNavigateNext()
     {
         CanNavigateNext = 
@@ -36,6 +36,6 @@ public class SignInViewModel : ProfileViewModelBase
         }
     }
 
-    public override bool CanNavigatePrevious => true;
+    public override bool CanNavigatePrevious => true;*/
     public static User CurrentUser { get; set; } = null!;
 }

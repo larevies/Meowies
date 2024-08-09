@@ -208,7 +208,7 @@ public class SearchViewModel : ViewModelBase
                     IsMovieVisible = true;
                     IsGoBackVisible = true;
                     
-                    using var context = new MeowiesContext();
+                    /*using var context = new MeowiesContext();
                     context.Attach(SignInViewModel.CurrentUser); 
                     var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
                                                                  o.MovieId == Item.id);
@@ -219,7 +219,25 @@ public class SearchViewModel : ViewModelBase
                     else
                     {
                         Bookmarked = "Bookmarked";
+                    }*/
+                    
+                    int intId = Convert.ToInt32(SignInViewModel.CurrentUser.Id.ToString());
+                    var newBookmark = new Bookmark()
+                    {
+                        UserId = intId,
+                        MovieId = Item.id
+                    };
+                    var idString = await MeowiesApiRequests.FindBookmark(newBookmark);
+                    var idB = Convert.ToInt32(idString);
+                    if (idB > 0)
+                    {
+                        Bookmarked = "Bookmarked";
                     }
+                    else
+                    {
+                        Bookmarked = "Bookmark me!";
+                    }
+                    
                     Message = "";
                 }
             }
@@ -289,32 +307,49 @@ public class SearchViewModel : ViewModelBase
     }
 
     public ICommand AddToBookmarksCommand { get; }
-    private void AddToBookmarks()
+    private async void AddToBookmarks()
     {
         try
         {
-            using var context = new MeowiesContext();
-            context.Attach(SignInViewModel.CurrentUser);
-
+            
+            //using var context = new MeowiesContext();
+            //context.Attach(SignInViewModel.CurrentUser);
+            
             if (Bookmarked == "Bookmark me!")
             {
+                //var newBookmark = new Bookmark()
+                //{
+                //    User = SignInViewModel.CurrentUser,
+                //    MovieId = Item.id
+                //};
+                //context.Bookmarks.Add(newBookmark);
+                //context.SaveChanges();
+                int intId = Convert.ToInt32(SignInViewModel.CurrentUser.Id.ToString());
                 var newBookmark = new Bookmark()
                 {
-                    User = SignInViewModel.CurrentUser,
+                    UserId = intId,
                     MovieId = Item.id
                 };
-                context.Bookmarks.Add(newBookmark);
-                context.SaveChanges();
+                await MeowiesApiRequests.PostBookmarkToDb(newBookmark);
                 BookmarksViewModel.Bookmarks.Add(Item);
                 Bookmarked = "Bookmarked";
             } 
             else if (Bookmarked == "Bookmarked")
             {
                 Message = "Removed";
-                var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
-                                                                              o.MovieId == Item.id);
-                context.Remove(queryable);
-                context.SaveChanges();
+                //var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
+                //                                                              o.MovieId == Item.id);
+                //context.Remove(queryable);
+                //context.SaveChanges();
+                int intId = Convert.ToInt32(SignInViewModel.CurrentUser.Id.ToString());
+                var newBookmark = new Bookmark()
+                {
+                    UserId = intId,
+                    MovieId = Item.id
+                };
+                var idString = await MeowiesApiRequests.FindBookmark(newBookmark);
+                var id = Convert.ToInt32(idString);
+                await MeowiesApiRequests.RemoveFromBookmarks(id);
                 BookmarksViewModel.Bookmarks.Remove(Item);
                 Bookmarked = "Bookmark me!";
             }

@@ -10,8 +10,8 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         
-        var context = new MeowiesContext();
-        context.Database.EnsureCreated();
+        //var context = new MeowiesContext();
+        //context.Database.EnsureCreated();
         
         _currentPage = _pages[0];
 

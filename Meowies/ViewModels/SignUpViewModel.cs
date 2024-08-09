@@ -32,7 +32,7 @@ public class SignUpViewModel : ProfileViewModelBase
     //[Required]
     public static DateTime Birthday { get; set; } = DateTime.Today;
 
-    private void UpdateCanNavigateNext()
+    /*private void UpdateCanNavigateNext()
     {
         if (!string.IsNullOrEmpty(MailAddress) 
             && MailAddress.Contains("@")
@@ -54,7 +54,7 @@ public class SignUpViewModel : ProfileViewModelBase
         }
     }
 
-    public override bool CanNavigatePrevious => true;
+    public override bool CanNavigatePrevious => true;*/
     private static readonly Random Rnd = new();
     public static User NewUser =>
         new()

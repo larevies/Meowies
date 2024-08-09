@@ -43,11 +43,11 @@
             </Grid.Styles>
             <StackPanel Orientation="Horizontal">
                 <Button HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Margin="12 20 12 10"
-                        Background="Transparent" Command="{Binding FindAMovieCommand}">
+                        Background="Transparent" Command="{Binding RandomMovieCommand}">
                     <Image Source="../Assets/Icons/stars.png" Width="40" Height="40" Stretch="Uniform"/>
                 </Button>
                 <Button Height="45" VerticalContentAlignment="Center"  VerticalAlignment="Center" Margin="10 20 12 10"
-                        Background="Transparent" Command="{Binding FindAMovieCommand}"
+                        Background="Transparent" Command="{Binding RandomMovieCommand}"
                         FontSize="20" Content="Find more" Foreground="#B57CFF"/>
             </StackPanel>
         </Grid>
@@ -67,7 +67,7 @@
                     <Button Content="Find out" FontSize="60" Background="Transparent" Foreground="#B57CFF"
                             HorizontalContentAlignment="Center" HorizontalAlignment="Center"
                             VerticalContentAlignment="Center" VerticalAlignment="Center"
-                            Command="{Binding FindAMovieCommand}"/>
+                            Command="{Binding RandomMovieCommand}"/>
                 </StackPanel>
                 <Image Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center"
                        Source="../Assets/many-cats.png" Width="550"/>

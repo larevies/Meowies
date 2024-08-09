@@ -14,7 +14,7 @@ public class MovieViewModel : ViewModelBase
     public MovieViewModel()
     {
         AddToBookmarksCommand = ReactiveCommand.Create(AddToBookmarks);
-        FindAMovieCommand = ReactiveCommand.Create(FindAMovie);
+        RandomMovieCommand = ReactiveCommand.Create(RandomMovie);
     }
     
     private MovieItemDoc _item = new();
@@ -47,8 +47,8 @@ public class MovieViewModel : ViewModelBase
             OnPropertyChanged(nameof(Bookmarked));
         }
     }
-    public ICommand FindAMovieCommand { get; }
-    private async void FindAMovie()
+    public ICommand RandomMovieCommand { get; }
+    private async void RandomMovie()
     {
         try
         {
@@ -57,13 +57,13 @@ public class MovieViewModel : ViewModelBase
              */
             
             var rnd = new Random();
-            var years = 0;
+            //var years = 0;
             try
             {
                 var userAge = DateTime.Parse(SignInViewModel.CurrentUser.Birthday, CultureInfo.CurrentCulture);
                 var now = DateTime.Now;
                 var sub = now - userAge;
-                years = sub.Days / 385;
+                var years = sub.Days / 385;
                 int[] authorized = {46483, 2360, 279102, 45319, 89514, 512883, 706655, 493208, 458, 42326, 256124, 707,
                     95231, 61249, 7908, 251733, 505898, 401152, 683999, 571892, 939785, 86621, 1143242, 535341, 4646634, 
                     586397, 342, 9691, 819101, 1047883, 2717, 394, 775276, 280172, 775273, 645118, 920265, 6006, 837530,
@@ -76,11 +76,12 @@ public class MovieViewModel : ViewModelBase
                 var item = await task!;
                 if (item!.docs[0].ageRating > years)
                 {
-                    FindAMovie();
+                    RandomMovie();
                 }
                 else
                 {
-                    Item = item!.docs[0];
+                    Item = item.docs[0];
+                    DownloadImage(Item.poster.url);
                 }
             }
             catch (Exception e)
@@ -94,17 +95,27 @@ public class MovieViewModel : ViewModelBase
 
                 try
                 {
-                    using var context = new MeowiesContext();
-                    context.Attach(SignInViewModel.CurrentUser);
-                    var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
-                                                                 o.MovieId == Item.id);
-                    if (queryable == null)
+                    //using var context = new MeowiesContext();
+                    //context.Attach(SignInViewModel.CurrentUser);
+                    //var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
+                    //o.MovieId == Item.id);
+                    
+                    int intId = Convert.ToInt32(SignInViewModel.CurrentUser.Id.ToString());
+                    var newBookmark = new Bookmark()
                     {
-                        Bookmarked = "Bookmark me!";
+                        UserId = intId,
+                        MovieId = Item.id
+                    };
+                    var idString = await MeowiesApiRequests.FindBookmark(newBookmark);
+                    var idB = Convert.ToInt32(idString);
+                    
+                    if (idB > 0)
+                    {
+                        Bookmarked = "Bookmarked";
                     }
                     else
                     {
-                        Bookmarked = "Bookmarked";
+                        Bookmarked = "Bookmark me!";
                     }
                 }
                 catch (Exception a)
@@ -118,6 +129,7 @@ public class MovieViewModel : ViewModelBase
                         (Getters.GetMovieUrlById(id.ToString()));
                     var item = await task!;
                     Item = item!.docs[0];
+                    DownloadImage(Item.poster.url);
                 }
             }
             
@@ -157,32 +169,35 @@ public class MovieViewModel : ViewModelBase
     }
     public ICommand AddToBookmarksCommand { get; }
 
-    private void AddToBookmarks()
+    private async void AddToBookmarks()
     {
         try
         {
-            using var context = new MeowiesContext();
-            context.Attach(SignInViewModel.CurrentUser);
-
             if (Bookmarked == "Bookmark me!")
             {
+                int intId = Convert.ToInt32(SignInViewModel.CurrentUser.Id.ToString());
                 var newBookmark = new Bookmark()
                 {
-                    User = SignInViewModel.CurrentUser,
+                    UserId = intId,
                     MovieId = Item.id
                 };
-                context.Bookmarks.Add(newBookmark);
-                context.SaveChanges();
+                await MeowiesApiRequests.PostBookmarkToDb(newBookmark);
                 BookmarksViewModel.Bookmarks.Add(Item);
+                Message = "";
                 Bookmarked = "Bookmarked";
             } 
             else if (Bookmarked == "Bookmarked")
             {
                 Message = "Removed";
-                var queryable = context.Bookmarks.First(o => o.User == SignInViewModel.CurrentUser &&
-                                                             o.MovieId == Item.id);
-                context.Remove(queryable);
-                context.SaveChanges();
+                int intId = Convert.ToInt32(SignInViewModel.CurrentUser.Id.ToString());
+                var newBookmark = new Bookmark()
+                {
+                    UserId = intId,
+                    MovieId = Item.id
+                };
+                var idString = await MeowiesApiRequests.FindBookmark(newBookmark);
+                var id = Convert.ToInt32(idString);
+                await MeowiesApiRequests.RemoveFromBookmarks(id);
                 BookmarksViewModel.Bookmarks.Remove(Item);
                 Bookmarked = "Bookmark me!";
             }

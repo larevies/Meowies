@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Meowies")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b88f4aace551790df8c2839b8d6e6be3516e926")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e6be5192132773bdcf34fd99ce84c21621157a82")]
 [assembly: System.Reflection.AssemblyProductAttribute("Meowies")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Meowies")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
